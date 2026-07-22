@@ -1,0 +1,1 @@
+See the [online help](https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/entity-registration/registration-submodules/change-host) for information about Registration Change Host.

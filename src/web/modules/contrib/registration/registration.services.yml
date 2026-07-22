@@ -1,0 +1,145 @@
+parameters:
+  registration.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  cache_context.host_entity:
+    class: Drupal\registration\Cache\Context\HostEntityCacheContext
+    tags:
+      - { name: cache.context}
+
+  registration.cron.expire_held_registrations:
+    class: Drupal\registration\Cron\ExpireHeldRegistrations
+  Drupal\registration\Cron\ExpireHeldRegistrations: '@registration.cron.expire_held_registrations'
+
+  registration.cron.send_reminders:
+    class: Drupal\registration\Cron\SendReminders
+  Drupal\registration\Cron\SendReminders: '@registration.cron.send_reminders'
+
+  registration.cron.set_and_forget:
+    class: Drupal\registration\Cron\SetAndForget
+    deprecated: The "%service_id%" service is deprecated in registration:3.4.0 and is removed from registration:4.0.0. See https://www.drupal.org/node/3506953
+  Drupal\registration\Cron\SetAndForget: '@registration.cron.set_and_forget'
+
+  # This service cannot be autowired until the core field manager is.
+  registration.field_manager:
+    class: Drupal\registration\RegistrationFieldManager
+    autowire: false
+    arguments: [
+      '@entity_type.manager',
+      '@entity_type.bundle.info',
+      '@entity_display.repository',
+      '@typed_data_manager',
+      '@language_manager',
+      '@keyvalue',
+      '@module_handler',
+      '@cache.discovery',
+      '@entity.last_installed_schema.repository',
+    ]
+  Drupal\registration\RegistrationFieldManagerInterface: '@registration.field_manager'
+
+  registration.logger:
+    parent: logger.channel_base
+    arguments: [
+      'registration',
+    ]
+
+  registration.collection_access_checker:
+    class: Drupal\registration\Access\RegistrationCollectionAccessCheck
+    tags:
+      - { name: access_check, applies_to: _registration_collection_access }
+
+  registration.manage_registrations_access_checker:
+    class: Drupal\registration\Access\ManageRegistrationsAccessCheck
+    tags:
+      - { name: access_check, applies_to: _manage_registrations_access_check }
+
+  registration.register_access_checker:
+    class: Drupal\registration\Access\RegisterAccessCheck
+    tags:
+      - { name: access_check, applies_to: _register_access_check }
+
+  registration.route_subscriber:
+    class: Drupal\registration\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration.notifier:
+    class: Drupal\registration\Notify\RegistrationMailer
+  Drupal\registration\Notify\RegistrationMailerInterface: '@registration.notifier'
+
+  registration.manager:
+    class: Drupal\registration\RegistrationManager
+  Drupal\registration\RegistrationManagerInterface: '@registration.manager'
+
+  registration.user_registrations_access_checker:
+    class: Drupal\registration\Access\UserRegistrationsAccessCheck
+    tags:
+      - { name: access_check, applies_to: _user_registrations_access_check }
+
+  registration.exception_subscriber:
+    class: Drupal\registration\EventSubscriber\ExceptionSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration.timestamp_event_subscriber:
+    class: Drupal\registration\EventSubscriber\TimestampEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration.validation.constraint:
+    class: Drupal\registration\Validation\RegistrationConstraintManager
+    parent: default_plugin_manager
+    tags:
+      - { name: plugin_manager_cache_clear }
+
+  cache.registration_validator:
+    class: Drupal\Core\Cache\MemoryCache\MemoryCache
+    tags:
+      - { name: cache.bin }
+    factory: ['@cache_factory', 'get']
+    arguments: [registration_validator]
+
+  variation_cache.registration_validator:
+    class: Drupal\Core\Cache\VariationCacheInterface
+    factory: ['@variation_cache_factory', 'get']
+    arguments: [registration_validator]
+
+  registration.validator:
+    class: Drupal\registration\RegistrationValidator
+  Drupal\registration\RegistrationValidatorInterface: '@registration.validator'
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration\Hook\RegistrationCronHooks:
+    class: Drupal\registration\Hook\RegistrationCronHooks
+
+  Drupal\registration\Hook\RegistrationEntityHooks:
+    class: Drupal\registration\Hook\RegistrationEntityHooks
+
+  Drupal\registration\Hook\RegistrationFieldHooks:
+    class: Drupal\registration\Hook\RegistrationFieldHooks
+
+  Drupal\registration\Hook\RegistrationFormHooks:
+    class: Drupal\registration\Hook\RegistrationFormHooks
+
+  Drupal\registration\Hook\RegistrationHelpHooks:
+    class: Drupal\registration\Hook\RegistrationHelpHooks
+
+  Drupal\registration\Hook\RegistrationMailHooks:
+    class: Drupal\registration\Hook\RegistrationMailHooks
+
+  Drupal\registration\Hook\RegistrationMigrationHooks:
+    class: Drupal\registration\Hook\RegistrationMigrationHooks
+
+  Drupal\registration\Hook\RegistrationThemeHooks:
+    class: Drupal\registration\Hook\RegistrationThemeHooks
+
+  Drupal\registration\Hook\RegistrationTokensHooks:
+    class: Drupal\registration\Hook\RegistrationTokensHooks
+
+  Drupal\registration\Hook\RegistrationViewsHooks:
+    class: Drupal\registration\Hook\RegistrationViewsHooks

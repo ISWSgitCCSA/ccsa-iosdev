@@ -1,0 +1,26 @@
+parameters:
+  registration_admin_overrides.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_admin_overrides.event_subscriber:
+    class: \Drupal\registration_admin_overrides\EventSubscriber\RegistrationEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_admin_overrides.validation_event_subscriber:
+    class: \Drupal\registration_admin_overrides\EventSubscriber\RegistrationValidationEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_admin_overrides.override_checker:
+    class: Drupal\registration_admin_overrides\RegistrationOverrideChecker
+  Drupal\registration_admin_overrides\RegistrationOverrideCheckerInterface: '@registration_admin_overrides.override_checker'
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_admin_overrides\Hook\RegistrationAdminOverridesHooks:
+    class: Drupal\registration_admin_overrides\Hook\RegistrationAdminOverridesHooks

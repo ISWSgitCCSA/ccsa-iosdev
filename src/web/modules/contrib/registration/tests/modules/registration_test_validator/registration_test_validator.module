@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Test module for registration validation.
+ */
+
+use Drupal\Core\Hook\Attribute\LegacyHook;
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+#[LegacyHook]
+function registration_test_validator_entity_type_alter(array &$entity_types) {
+  $entity_types['node']->addConstraint('Constraint4');
+}

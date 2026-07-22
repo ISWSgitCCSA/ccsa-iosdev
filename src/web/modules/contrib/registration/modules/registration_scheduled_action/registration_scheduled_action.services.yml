@@ -1,0 +1,22 @@
+parameters:
+  registration_scheduled_action.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_scheduled_action.cron.schedule:
+    class: Drupal\registration_scheduled_action\Cron\RegistrationSchedule
+  Drupal\registration_scheduled_action\Cron\RegistrationSchedule: '@registration_scheduled_action.cron.schedule'
+
+  registration_scheduled_action.logger:
+    parent: logger.channel_base
+    arguments: [
+      'registration_scheduled_action',
+    ]
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_scheduled_action\Hook\RegistrationScheduledActionHooks:
+    class: Drupal\registration_scheduled_action\Hook\RegistrationScheduledActionHooks

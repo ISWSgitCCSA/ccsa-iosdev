@@ -1,0 +1,19 @@
+parameters:
+  registration_purger.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  logger.channel.registration_purger:
+    parent: logger.channel_base
+    arguments: ['registration_purger']
+  registration_purger.purger:
+    class: Drupal\registration_purger\RegistrationPurger
+  Drupal\registration_purger\RegistrationPurgerInterface: '@registration_purger.purger'
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_purger\Hook\RegistrationPurgerHooks:
+    class: Drupal\registration_purger\Hook\RegistrationPurgerHooks

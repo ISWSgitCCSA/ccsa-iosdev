@@ -1,0 +1,20 @@
+parameters:
+  registration_change_host.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_change_host.manager:
+    class: Drupal\registration_change_host\RegistrationChangeHostManager
+  Drupal\registration_change_host\RegistrationChangeHostManagerInterface: '@registration_change_host.manager'
+
+  registration_change_host.logger:
+    parent: logger.channel_base
+    arguments: ['registration_change_host']
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_change_host\Hook\RegistrationChangeHostHooks:
+    class: Drupal\registration_change_host\Hook\RegistrationChangeHostHooks

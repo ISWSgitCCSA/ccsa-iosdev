@@ -1,0 +1,26 @@
+parameters:
+  registration_workflow.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_workflow.event_subscriber:
+    class: \Drupal\registration_workflow\EventSubscriber\RegistrationEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_workflow.state_transition_access_checker:
+    class: Drupal\registration_workflow\Access\StateTransitionAccessCheck
+    tags:
+      - { name: access_check, applies_to: _state_transition_access_check }
+
+  registration_workflow.validation:
+    class: Drupal\registration_workflow\StateTransitionValidation
+  Drupal\registration_workflow\StateTransitionValidationInterface: '@registration_workflow.validation'
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_workflow\Hook\RegistrationWorkflowHooks:
+    class: Drupal\registration_workflow\Hook\RegistrationWorkflowHooks

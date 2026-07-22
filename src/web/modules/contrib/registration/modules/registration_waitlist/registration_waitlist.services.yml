@@ -1,0 +1,47 @@
+parameters:
+  registration_waitlist.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_waitlist.registration_event_subscriber:
+    class: \Drupal\registration_waitlist\EventSubscriber\RegistrationEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_waitlist.registration_form_event_subscriber:
+    class: Drupal\registration_waitlist\EventSubscriber\RegistrationFormEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_waitlist.registration_settings_event_subscriber:
+    class: Drupal\registration_waitlist\EventSubscriber\RegistrationSettingsEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_waitlist.registration_validation_event_subscriber:
+    class: Drupal\registration_waitlist\EventSubscriber\RegistrationValidationEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_waitlist.manager:
+    class: Drupal\registration_waitlist\RegistrationWaitListManager
+  Drupal\registration_waitlist\RegistrationWaitListManagerInterface: '@registration_waitlist.manager'
+
+  registration_waitlist.logger:
+    parent: logger.channel_base
+    arguments: [
+      'registration_waitlist',
+    ]
+
+  registration_waitlist.twig_extension:
+    class: Drupal\registration_waitlist\TwigExtension\RegistrationWaitListTwigExtension
+    tags:
+      - { name: twig.extension }
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_waitlist\Hook\RegistrationWaitlistHooks:
+    class: Drupal\registration_waitlist\Hook\RegistrationWaitlistHooks

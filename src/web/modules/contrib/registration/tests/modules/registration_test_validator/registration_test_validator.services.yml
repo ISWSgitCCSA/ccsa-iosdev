@@ -1,0 +1,11 @@
+parameters:
+  registration_test_validator.skip_procedural_hook_scan: true
+
+services:
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_test_validator\Hook\RegistrationTestValidatorHooks:
+    class: Drupal\registration_test_validator\Hook\RegistrationTestValidatorHooks
+    autowire: true

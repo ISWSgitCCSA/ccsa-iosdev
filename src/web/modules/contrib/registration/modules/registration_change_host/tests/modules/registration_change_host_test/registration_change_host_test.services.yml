@@ -1,0 +1,17 @@
+parameters:
+  registration_change_host_test.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_change_host_test.event_subscriber:
+    class: \Drupal\registration_change_host_test\EventSubscriber\RegistrationChangeHostTestSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_change_host_test\Hook\RegistrationChangeHostTestHooks:
+    class: Drupal\registration_change_host_test\Hook\RegistrationChangeHostTestHooks

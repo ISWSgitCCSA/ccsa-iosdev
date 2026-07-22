@@ -1,0 +1,22 @@
+parameters:
+  registration_cancel_by.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_cancel_by.cancel_by_access_checker:
+    class: Drupal\registration_cancel_by\Access\CancelByAccessCheck
+    tags:
+      - { name: access_check, applies_to: _cancel_by_access_check }
+
+  registration_cancel_by.route_subscriber:
+    class: Drupal\registration_cancel_by\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_cancel_by\Hook\RegistrationCancelByHooks:
+    class: Drupal\registration_cancel_by\Hook\RegistrationCancelByHooks

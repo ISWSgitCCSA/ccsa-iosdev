@@ -1,0 +1,11 @@
+parameters:
+  registration_test_block.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_test_block.user_route_context:
+    class: Drupal\registration_test_block\ContextProvider\UserRouteContext
+    tags:
+      - { name: 'context_provider' }

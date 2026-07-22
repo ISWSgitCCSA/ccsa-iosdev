@@ -1,0 +1,23 @@
+parameters:
+  registration_confirmation.skip_procedural_hook_scan: true
+
+services:
+  _defaults:
+    autowire: true
+
+  registration_confirmation.event_subscriber:
+    class: \Drupal\registration_confirmation\EventSubscriber\RegistrationEventSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  registration_confirmation.logger:
+    parent: logger.channel_base
+    arguments: [
+      'registration_confirmation',
+    ]
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_confirmation\Hook\RegistrationConfirmationHooks:
+    class: Drupal\registration_confirmation\Hook\RegistrationConfirmationHooks

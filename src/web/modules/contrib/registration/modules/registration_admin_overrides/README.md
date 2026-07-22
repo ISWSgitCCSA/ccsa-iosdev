@@ -1,0 +1,1 @@
+See the [online help](https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/entity-registration/registration-submodules/administrative-overrides) for information about Registration Administrative Overrides.

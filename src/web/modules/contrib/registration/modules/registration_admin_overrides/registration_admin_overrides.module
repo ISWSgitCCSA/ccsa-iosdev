@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Allows administrators to override some validation for registrations.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\registration_admin_overrides\Hook\RegistrationAdminOverridesHooks;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_admin_overrides_form_registration_type_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  \Drupal::service(RegistrationAdminOverridesHooks::class)->formRegistrationTypeFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements submit handler for hook_form_BASE_FORM_ID_alter().
+ */
+function registration_admin_overrides_form_registration_type_submit(array &$form, FormStateInterface $form_state): void {
+  $registration_type = $form_state->getFormObject()->getEntity();
+  $overridable_settings = \Drupal::service('registration_admin_overrides.override_checker')->getOverridableSettings($registration_type);
+  foreach ($overridable_settings as $setting => $label) {
+    $registration_type->setThirdPartySetting('registration_admin_overrides', $setting, $form_state->getValue([
+      'registration_admin_overrides',
+      $setting,
+    ]));
+  }
+  $registration_type->save();
+}

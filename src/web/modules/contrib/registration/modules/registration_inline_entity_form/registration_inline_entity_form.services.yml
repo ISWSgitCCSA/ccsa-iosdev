@@ -1,0 +1,11 @@
+parameters:
+  registration_inline_entity_form.skip_procedural_hook_scan: true
+
+services:
+
+  # @todo Remove this file when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_inline_entity_form\Hook\RegistrationInlineEntityFormHooks:
+    class: Drupal\registration_inline_entity_form\Hook\RegistrationInlineEntityFormHooks
+    autowire: true

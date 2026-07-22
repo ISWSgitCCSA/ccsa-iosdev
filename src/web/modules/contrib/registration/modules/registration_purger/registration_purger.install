@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Registration Purger module.
+ */
+
+/**
+ * Adds purger settings.
+ */
+function registration_purger_update_10001() {
+  \Drupal::service('config.factory')
+    ->getEditable('registration_purger.settings')
+    ->set('purge_registration_settings_on_delete', TRUE)
+    ->set('purge_registration_on_delete', TRUE)
+    ->set('purge_registration_settings_on_update', FALSE)
+    ->set('purge_registration_on_update', FALSE)
+    ->save();
+}

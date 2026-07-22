@@ -1,0 +1,11 @@
+name: Registration Test Open and Close
+type: module
+description: 'Test module for Registration Settings open and close events.'
+package: Testing
+dependencies:
+  - registration:registration
+
+# Information added by Drupal.org packaging script on 2026-02-25
+version: '3.4.9'
+project: 'registration'
+datestamp: 1772051410

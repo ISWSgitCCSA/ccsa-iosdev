@@ -1,0 +1,12 @@
+parameters:
+  registration_test_event.skip_procedural_hook_scan: true
+
+services:
+  registration_test_event.data_alter_event_subscriber:
+    class: \Drupal\registration_test_event\EventSubscriber\RegistrationDataAlterEventSubscriber
+    tags:
+      - { name: event_subscriber }
+  registration_test_event.event_subscriber:
+    class: \Drupal\registration_test_event\EventSubscriber\RegistrationEventSubscriber
+    tags:
+      - { name: event_subscriber }

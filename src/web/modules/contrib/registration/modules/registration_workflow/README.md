@@ -1,0 +1,1 @@
+See the [online help](https://www.drupal.org/docs/extending-drupal/contributed-modules/contributed-module-documentation/entity-registration/registration-submodules/workflow) for information about Registration Workflow.

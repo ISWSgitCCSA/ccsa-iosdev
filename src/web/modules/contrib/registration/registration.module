@@ -1,0 +1,213 @@
+<?php
+
+/**
+ * @file
+ * Provides user registration for events.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\Core\Hook\Attribute\LegacyModuleImplementsAlter;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\registration\Hook\RegistrationCronHooks;
+use Drupal\registration\Hook\RegistrationEntityHooks;
+use Drupal\registration\Hook\RegistrationFieldHooks;
+use Drupal\registration\Hook\RegistrationFormHooks;
+use Drupal\registration\Hook\RegistrationHelpHooks;
+use Drupal\registration\Hook\RegistrationMailHooks;
+use Drupal\registration\Hook\RegistrationMigrationHooks;
+use Drupal\registration\Hook\RegistrationThemeHooks;
+
+/**
+ * Implements hook_help().
+ */
+#[LegacyHook]
+function registration_help($route_name, RouteMatchInterface $route_match): string {
+  return \Drupal::service(RegistrationHelpHooks::class)->help($route_name, $route_match);
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * @see \Drupal\registration\Cron\ExpireHeldRegistrations
+ * @see \Drupal\registration\Cron\SendReminders
+ * @see \Drupal\registration\Cron\SetAndForget
+ */
+#[LegacyHook]
+function registration_cron(): void {
+  \Drupal::service(RegistrationCronHooks::class)->cron();
+}
+
+/**
+ * Implements hook_entity_access().
+ */
+#[LegacyHook]
+function registration_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  return \Drupal::service(RegistrationEntityHooks::class)->entityAccess($entity, $operation, $account);
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+#[LegacyHook]
+function registration_entity_delete(EntityInterface $entity): void {
+  \Drupal::service(RegistrationEntityHooks::class)->entityDelete($entity);
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+#[LegacyHook]
+function registration_entity_insert(EntityInterface $entity): void {
+  \Drupal::service(RegistrationEntityHooks::class)->entityInsert($entity);
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+#[LegacyHook]
+function registration_entity_operation(EntityInterface $entity): array {
+  return \Drupal::service(RegistrationEntityHooks::class)->entityOperation($entity);
+}
+
+/**
+ * Implements hook_entity_operation_alter().
+ */
+#[LegacyHook]
+function registration_entity_operation_alter(array &$operations, EntityInterface $entity): void {
+  \Drupal::service(RegistrationEntityHooks::class)->entityOperationAlter($operations, $entity);
+}
+
+/**
+ * Implements hook_entity_presave().
+ */
+#[LegacyHook]
+function registration_entity_presave(EntityInterface $entity): void {
+  \Drupal::service(RegistrationEntityHooks::class)->entityPresave($entity);
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+#[LegacyHook]
+function registration_entity_type_alter(array &$entity_types): void {
+  \Drupal::service(RegistrationEntityHooks::class)->entityTypeAlter($entity_types);
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+#[LegacyHook]
+function registration_entity_type_build(array &$entity_types): void {
+  \Drupal::service(RegistrationEntityHooks::class)->entityTypeBuild($entity_types);
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+#[LegacyHook]
+function registration_entity_update(EntityInterface $entity): void {
+  \Drupal::service(RegistrationEntityHooks::class)->entityUpdate($entity);
+}
+
+/**
+ * Implements hook_field_info_entity_type_ui_definitions_alter().
+ */
+#[LegacyHook]
+function registration_field_info_entity_type_ui_definitions_alter(array &$ui_definitions, string $entity_type_id): void {
+  \Drupal::service(RegistrationFieldHooks::class)->fieldInfoEntityTypeUiDefinitionsAlter($ui_definitions, $entity_type_id);
+}
+
+/**
+ * Implements hook_field_widget_complete_WIDGET_TYPE_form_alter().
+ */
+#[LegacyHook]
+function registration_field_widget_complete_datetime_default_form_alter(&$field_widget_complete_form, FormStateInterface $form_state, $context): void {
+  \Drupal::service(RegistrationFieldHooks::class)->fieldWidgetCompleteDatetimeDefaultFormAlter($field_widget_complete_form, $form_state, $context);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, $form_id): void {
+  \Drupal::service(RegistrationFormHooks::class)->formViewsExposedFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_form_workflow_delete_form_alter(array &$form, FormStateInterface $form_state, $form_id): void {
+  \Drupal::service(RegistrationFormHooks::class)->formWorkflowDeleteFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_form_workflow_state_delete_form_alter(array &$form, FormStateInterface $form_state, $form_id): void {
+  \Drupal::service(RegistrationFormHooks::class)->formWorkflowStateDeleteFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements hook_mail().
+ */
+#[LegacyHook]
+function registration_mail($key, &$message, $params): void {
+  \Drupal::service(RegistrationMailHooks::class)->mail($key, $message, $params);
+}
+
+/**
+ * Implements hook_migration_plugins_alter().
+ */
+#[LegacyHook]
+function registration_migration_plugins_alter(array &$migrations): void {
+  \Drupal::service(RegistrationMigrationHooks::class)->migrationPluginsAlter($migrations);
+}
+
+/**
+ * Implements hook_theme().
+ */
+#[LegacyHook]
+function registration_theme(): array {
+  return \Drupal::service(RegistrationThemeHooks::class)->theme();
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * In order to ensure backwards compatibility for the change of handler id
+ * from host_entity to registration_host_entity, our alter hook needs to be
+ * last.
+ *
+ * @todo Remove before registration:4.0.0.
+ */
+#[LegacyModuleImplementsAlter]
+function registration_module_implements_alter(&$implementations, $hook): void {
+  if ($hook == 'entity_type_alter' && isset($implementations['registration'])) {
+    $group = $implementations['registration'];
+    unset($implementations['registration']);
+    $implementations['registration'] = $group;
+  }
+}
+
+/**
+ * Prepares variables for a registration.
+ *
+ * Default template: registration.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing rendered fields.
+ *   - attributes: HTML attributes for the containing element.
+ *
+ * @deprecated in registration:3.4.5 and is removed from registration:4.0.0. Use \Drupal::service(RegistrationThemeHooks::class)->preprocessRegistration($variables) instead.
+ * @see https://www.drupal.org/node/3504125
+ */
+function template_preprocess_registration(array &$variables): void {
+  @trigger_error(__FUNCTION__ . ' is deprecated in registration:3.4.5 and is removed from registration:4.0.0. Use \Drupal::service(RegistrationThemeHooks::class)->preprocessRegistration($variables) instead. See https://www.drupal.org/node/3504125', E_USER_DEPRECATED);
+  \Drupal::service(RegistrationThemeHooks::class)->preprocessRegistration($variables);
+}

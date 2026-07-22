@@ -1,0 +1,11 @@
+parameters:
+  registration_waitlist_test.skip_procedural_hook_scan: true
+
+services:
+
+  # @todo Remove the following when the module only supports Drupal 11.3+,
+  # since hook services are then automatically registered.
+  # @see https://www.drupal.org/node/3442349
+  Drupal\registration_waitlist_test\Hook\RegistrationWaitlistTestHooks:
+    class: Drupal\registration_waitlist_test\Hook\RegistrationWaitlistTestHooks
+    autowire: true

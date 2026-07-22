@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Provides scheduled action support for registrations.
+ */
+
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\registration_scheduled_action\Hook\RegistrationScheduledActionHooks;
+
+/**
+ * Implements hook_cron().
+ */
+#[LegacyHook]
+function registration_scheduled_action_cron(): void {
+  \Drupal::service(RegistrationScheduledActionHooks::class)->cron();
+}

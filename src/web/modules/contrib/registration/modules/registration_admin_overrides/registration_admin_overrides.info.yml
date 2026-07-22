@@ -1,0 +1,12 @@
+name: Registration Administrative Overrides
+type: module
+description: 'Allows administrators to override some validation for registrations.'
+package: Registration
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - registration:registration
+
+# Information added by Drupal.org packaging script on 2026-02-25
+version: '3.4.9'
+project: 'registration'
+datestamp: 1772051410

@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Provides permissions and operations for workflow transitions.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\registration_workflow\Hook\RegistrationWorkflowHooks;
+
+/**
+ * Implements hook_entity_operation().
+ */
+#[LegacyHook]
+function registration_workflow_entity_operation(EntityInterface $entity): array {
+  return \Drupal::service(RegistrationWorkflowHooks::class)->entityOperation($entity);
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+#[LegacyHook]
+function registration_workflow_entity_update(EntityInterface $entity): void {
+  \Drupal::service(RegistrationWorkflowHooks::class)->entityUpdate($entity);
+}
+
+/**
+ * Implements hook_preprocess_registration().
+ */
+#[LegacyHook]
+function registration_workflow_preprocess_registration(array &$variables): void {
+  \Drupal::service(RegistrationWorkflowHooks::class)->preprocessRegistration($variables);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_workflow_form_registration_admin_settings_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  \Drupal::service(RegistrationWorkflowHooks::class)->formRegistrationAdminSettingsAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements submit handler for hook_form_FORM_ID_alter().
+ */
+function registration_workflow_form_registration_admin_settings_submit(&$form, FormStateInterface $form_state) {
+  $config = \Drupal::service('config.factory')->getEditable('registration_workflow.settings');
+  $config
+    ->set('require_update_access', $form_state->getValue('require_update_access'))
+    ->set('prevent_complete_own', $form_state->getValue('prevent_complete_own'))
+    ->save();
+}

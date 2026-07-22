@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Provides a confirmation message for registrations.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\registration_confirmation\Hook\RegistrationConfirmationHooks;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_confirmation_form_registration_type_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  \Drupal::service(RegistrationConfirmationHooks::class)->formRegistrationTypeFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements submit handler for hook_form_BASE_FORM_ID_alter().
+ */
+function registration_confirmation_form_registration_type_submit(&$form, FormStateInterface $form_state): void {
+  $registration_type = $form_state->getFormObject()->getEntity();
+  $registration_type->setThirdPartySetting('registration_confirmation', 'enable', $form_state->getValue([
+    'registration_confirmation',
+    'enable',
+  ]));
+  $registration_type->setThirdPartySetting('registration_confirmation', 'subject', $form_state->getValue([
+    'registration_confirmation',
+    'subject',
+  ]));
+  $registration_type->setThirdPartySetting('registration_confirmation', 'message', $form_state->getValue([
+    'registration_confirmation',
+    'message',
+  ]));
+  $registration_type->save();
+}

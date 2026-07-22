@@ -1,0 +1,102 @@
+<?php
+
+/**
+ * @file
+ * Contains registration_change_host.module.
+ */
+
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\registration\Entity\RegistrationInterface;
+use Drupal\registration_change_host\Hook\RegistrationChangeHostHooks;
+
+/**
+ * Implements hook_entity_type_build().
+ */
+#[LegacyHook]
+function registration_change_host_entity_type_build(array &$entity_types): void {
+  \Drupal::service(RegistrationChangeHostHooks::class)->entityTypeBuild($entity_types);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_access().
+ */
+#[LegacyHook]
+function registration_change_host_registration_access(RegistrationInterface $entity, string $op, AccountInterface $account): AccessResultInterface {
+  return \Drupal::service(RegistrationChangeHostHooks::class)->registrationAccess($entity, $op, $account);
+}
+
+/**
+ * Implements hook_theme().
+ */
+#[LegacyHook]
+function registration_change_host_theme(): array {
+  return \Drupal::service(RegistrationChangeHostHooks::class)->theme();
+}
+
+/**
+ * Prepares variables for the list of available hosts.
+ *
+ * Default template: registration-change-host-list.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - hosts: An array of hosts with the label, description, and other keys.
+ *
+ * @deprecated in registration:3.4.5 and is removed from registration:4.0.0. Use \Drupal::service(RegistrationChangeHostHooks::class)->preprocessRegistrationChangeHostList($variables) instead.
+ * @see https://www.drupal.org/node/3504125
+ */
+function template_preprocess_registration_change_host_list(array &$variables): void {
+  @trigger_error(__FUNCTION__ . ' is deprecated in registration:3.4.5 and is removed from registration:4.0.0. Use \Drupal::service(RegistrationChangeHostHooks::class)->preprocessRegistrationChangeHostList($variables) instead. See https://www.drupal.org/node/3504125', E_USER_DEPRECATED);
+  \Drupal::service(RegistrationChangeHostHooks::class)->preprocessRegistrationChangeHostList($variables);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_change_host_form_registration_type_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  \Drupal::service(RegistrationChangeHostHooks::class)->formRegistrationTypeFormAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements submit handler for hook_form_BASE_FORM_ID_alter().
+ */
+function registration_change_host_form_registration_type_submit(array &$form, FormStateInterface $form_state): void {
+  $registration_type = $form_state->getFormObject()->getEntity();
+  $registration_type->setThirdPartySetting('registration_change_host', 'allow_data_loss', $form_state->getValue([
+    'registration_change_host',
+    'allow_data_loss',
+  ]));
+  $registration_type->save();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+#[LegacyHook]
+function registration_change_host_form_registration_admin_settings_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  \Drupal::service(RegistrationChangeHostHooks::class)->formRegistrationAdminSettingsAlter($form, $form_state, $form_id);
+}
+
+/**
+ * Implements submit handler for hook_form_FORM_ID_alter().
+ */
+function registration_change_host_form_registration_admin_settings_submit(array &$form, FormStateInterface $form_state): void {
+  $config = \Drupal::service('config.factory')->getEditable('registration_change_host.settings');
+  $task_changed = ($config->get('task_title') != $form_state->getValue('task_title'));
+  $config
+    ->set('workflow', $form_state->getValue('workflow'))
+    ->set('task_title', $form_state->getValue('task_title'))
+    ->set('form_title', $form_state->getValue('form_title'))
+    ->set('page_title', $form_state->getValue('page_title'))
+    ->set('confirm_form_title', $form_state->getValue('confirm_form_title'))
+    ->save();
+
+  // Clear the local task cache if the title of the local task changed.
+  if ($task_changed) {
+    \Drupal::service('plugin.manager.menu.local_task')->clearCachedDefinitions();
+  }
+}
