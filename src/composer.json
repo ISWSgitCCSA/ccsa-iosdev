@@ -17,6 +17,7 @@
     "require": {
         "composer/installers": "^2.3",
         "drupal/admin_toolbar": "^3.6",
+        "drupal/bootstrap5": "^4.0",
         "drupal/commerce": "^3.0",
         "drupal/commerce_stripe": "^2.2",
         "drupal/config_split": "^2.0",
