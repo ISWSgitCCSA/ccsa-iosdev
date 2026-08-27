@@ -1,0 +1,5 @@
+# Drupal public/runtime files
+/src/web/sites/default/files/css/
+/src/web/sites/default/files/js/
+/src/web/sites/default/files/php/
+/src/web/sites/default/files/styles/
