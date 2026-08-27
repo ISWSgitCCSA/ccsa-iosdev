@@ -3,3 +3,7 @@
 /src/web/sites/default/files/js/
 /src/web/sites/default/files/php/
 /src/web/sites/default/files/styles/
+
+# Editor backup files
+*~
+\#*\#
