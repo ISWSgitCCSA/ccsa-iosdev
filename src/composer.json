@@ -27,6 +27,7 @@
         "drupal/core-recommended": "^11.3",
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/media_folders": "^1.0",
+        "drupal/metatag": "^2.2",
         "drupal/registration": "^3.4",
         "drupal/symfony_mailer_log": "^1.2",
         "drupal/webform": "^6.3@beta",
