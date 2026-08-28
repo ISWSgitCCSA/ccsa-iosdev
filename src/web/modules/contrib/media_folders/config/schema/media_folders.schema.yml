@@ -1,0 +1,59 @@
+media_folders.settings:
+  type: config_object
+  label: 'Media folders settings'
+  constraints:
+    FullyValidatable: ~
+  mapping:
+    default_view: 
+      type: string
+      label: 'Default View Mode'
+    default_order: 
+      type: string
+      label: 'Default Order'
+    disable_ckeditor: 
+      type: integer
+      label: 'Disable ckeditor plugin'
+    show_thumbnails: 
+      type: integer
+      label: 'Show image thumbnails'
+    pager_limit: 
+      type: integer
+      label: 'Pager limit'
+    bundles:
+      type: sequence
+      label: 'Bundles'
+      sequence:
+        type: mapping
+        mapping:
+          extension:
+            type: string
+            label: 'Extension'
+          bundle:
+            type: string
+            label: 'Bundle'
+    form_mode: 
+      type: sequence
+      label: 'Media edit form modes'
+      sequence:
+        type: string
+
+action.configuration.media_add_to_folder_action:media:
+  type: action_configuration_default
+  label: 'Configuration for the add to folder action'
+
+field.widget.settings.media_folders_widget:
+  type: mapping
+  label: 'Media Folders widget settings'
+  mapping:
+    view_type:
+      type: string
+      label: 'View Mode'
+    view_order:
+      type: string
+      label: 'View Order'
+    show_navigation:
+      type: integer
+      label: 'Show navigation'
+    show_search:
+      type: integer
+      label: 'Show search'

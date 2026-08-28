@@ -1,0 +1,13 @@
+{% if folders|length > 0 %}
+  <ul>
+    {% for term in folders %}
+    <li class="{{ term.class }}">
+      <span></span>
+      <div class="{{ term.folder_class }}" data-id="{{ term.id }}">{{ term.link }}</div>
+      {% if term.children %}
+        {% include '@media_folders/media-folders-navbar.html.twig' with { 'folders': term.children } only %}
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+{% endif %}

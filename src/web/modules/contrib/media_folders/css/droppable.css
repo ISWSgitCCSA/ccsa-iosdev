@@ -1,0 +1,95 @@
+#explorer #navbar > ul li > div.droppable > a::before,
+#board .folder.folder-folder.droppable.move-droppable a.folder-icon .icon::before {
+  mask-image: url(fa.svg#folder-plus-view) !important;
+  background: var(--gin-color-primary-hover, #0444c4);
+}
+
+#explorer #navbar > ul li > div.droppable.not-droppable > a::before,
+#board .folder.folder-folder.droppable.selected.move-droppable a.folder-icon .icon::before,
+#board .folder.folder-folder.droppable.not-droppable.move-droppable a.folder-icon .icon::before {
+  mask-image: url(fa.svg#folder-cross-view) !important;
+}
+
+#board .folder.folder-folder.droppable.move-droppable a.folder-icon .icon::before {
+  mask-position: 2px 2px;
+}
+
+#explorer #navbar > ul li > div.ui-droppable-hover,
+#board .folder.folder-folder.droppable.move-droppable.ui-droppable-hover {
+  border-radius: 0;
+  outline: 0 none;
+  background: #ccd7f8;
+}
+
+#explorer #navbar > ul li > div.not-droppable.ui-droppable-hover,
+#board .folder.folder-folder.droppable.not-droppable.move-droppable.ui-droppable-hover {
+  background: transparent;
+}
+
+#explorer #navbar > ul li > div.ui-droppable-hover > a::before {
+  cursor: grab !important;
+  background: var(--gin-color-primary-hover, #0444c4);
+}
+
+#board .folder.folder-folder.droppable.move-droppable a.folder-icon .icon::after {
+  display: none;
+}
+
+body .folder:has(a.ui-dragging),
+body .folder.ui-dragging {
+  /* opacity: 0.7 !important; */
+  border: 0 none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body .folder a.ui-dragging,
+body .folder.ui-dragging a {
+  opacity: 0.5 !important;
+  border: 0 none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* body .folder.folder-folder.ui-draggable-dragging a {
+  opacity: 0.2 !important;
+  border: 0 none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+body .folder.folder-file.ui-draggable-dragging a {
+  transform: scale(0.5, 0.5);
+  opacity: 0.7;
+}
+
+.folder.ui-draggable-dragging a:link span.title,
+.folder.ui-draggable-dragging a:link span.size,
+.folder.ui-draggable-dragging a:visited span.size,
+.folder.ui-draggable-dragging a:link span.type,
+.folder.ui-draggable-dragging a:visited span.type {
+  display: none !important;
+} */
+
+#media-folders #board.search-results .folder.folder-folder.droppable,
+#media-folders.list #board .folder.folder-folder.droppable {
+  min-height: 38px;
+}
+
+#navbar .navbar-folder .folder-icon.sortable-ghost,
+#navbar .navbar-folder .folder.sortable-ghost,
+#board > a.sortable-chosen.sortable-ghost,
+#board .folder .sortable-ghost {
+  display: none !important;
+}
+
+#board .folder a.sortable-ghost:only-of-type {
+  display: block !important;
+}
+
+#media-folders #board.search-results .folder a.sortable-ghost:only-of-type,
+#media-folders.list #board .folder a.sortable-ghost:only-of-type {
+  display: flex !important;
+}

@@ -1,0 +1,9 @@
+uuid: 0dc3d297-c6c6-4af4-a24c-f4e908604fe7
+langcode: en
+status: true
+dependencies: {  }
+name: 'Media Folder'
+vid: media_folders_folder
+description: ''
+hierarchy: 1
+weight: 0

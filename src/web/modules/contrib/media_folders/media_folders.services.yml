@@ -1,0 +1,9 @@
+services:
+  media_folders.ui_builder:
+    class: Drupal\media_folders\MediaFoldersUiBuilder
+    arguments: ['@entity_type.manager', '@request_stack', '@current_user', '@config.factory', '@file_url_generator', '@renderer', '@redirect.destination', '@form_builder', '@current_route_match', '@cache.default', '@entity_type.bundle.info', '@entity_field.manager']
+  Drupal\media_folders\MediaFoldersUiBuilder: '@media_folders.ui_builder'
+  media_folders.ui_actions:
+    class: Drupal\media_folders\MediaFoldersUiActions
+    arguments: ['@entity_type.manager', '@config.factory', '@entity_type.bundle.info', '@file.repository', '@file.validator', '@transliteration', '@language_manager', '@file_system', '@token', '@media_folders.ui_builder', '@entity_field.manager']
+  Drupal\media_folders\MediaFoldersUiActions: '@media_folders.ui_actions'

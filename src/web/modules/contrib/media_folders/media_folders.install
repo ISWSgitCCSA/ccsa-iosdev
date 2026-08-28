@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Install file for media_folders.
+ */
+
+use Symfony\Component\Yaml\Yaml;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+
+/**
+ * @file
+ * Module install file for media_folders.
+ */
+
+/**
+ * Implements hook_requirements().
+ *
+ * @inheritdoc
+ */
+function media_folders_requirements($phase) {
+  $requirements = [];
+
+  if ($phase == 'runtime' && empty(\Drupal::config('media_folders.settings')->get('bundles'))) {
+    $bundles_by_extensions = _media_folders_get_bundles_by_extension();
+    if (!empty($bundles_by_extensions) && count(max($bundles_by_extensions)) > 1) {
+      $link = Link::fromTextAndUrl(t('settings page'), Url  ::fromRoute('media_folders.configuration'));
+      $requirements['media_folders_runtime'] = [
+        'title' => t('Media Folders'),
+        'description' => t('There are media bundles that accept the same file extensions, please handle this in the @link', ['@link' => $link->toString()]),
+        'severity' => REQUIREMENT_WARNING,
+      ];
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * @inheritdoc
+ */
+function media_folders_uninstall() {
+  $vocab = Vocabulary::load('media_folders_folder');
+  if ($vocab) {
+    $vocab->delete();
+  }
+}
+
+/**
+ * Import "media_add_to_folder_action" action.
+ */
+function media_folders_update_8100() {
+  $config_id = 'system.action.media_add_to_folder_action';
+  $config_path = \Drupal::service('extension.list.module')->getPath('media_folders') . '/config/optional/system.action.media_add_to_folder_action.yml';
+  $data = Yaml::parseFile($config_path);
+  \Drupal::configFactory()->getEditable($config_id)->setData($data)->save(TRUE);
+}
+
+/**
+ * Set default value to pager limit setting.
+ */
+function media_folders_update_8101() {
+  \Drupal::configFactory()->getEditable('media_folders.settings')->set('pager_limit', 1000)->save(TRUE);
+}

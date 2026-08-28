@@ -1,0 +1,16 @@
+name: Media Folders
+type: module
+description: 'This module provides a better UI for managing and selecting Media entities in a folder structure.'
+core_version_requirement: ^10.3 || ^11
+package: 'Media'
+dependencies:
+  - drupal:taxonomy
+  - drupal:media_library
+  - drupal:user
+
+configure: media_folders.configuration
+
+# Information added by Drupal.org packaging script on 2026-07-21
+version: '1.0.8'
+project: 'media_folders'
+datestamp: 1784645288

@@ -1,0 +1,51 @@
+body .ui-dialog .ui-widget-content.ui-dialog-content {
+  padding: 15px;
+}
+
+#media-folders.ckeditor-widget {
+  min-width: 900px;
+  margin: 0;
+  padding: 0 0 0;
+}
+
+#media-folders.ckeditor-widget .top-bar {
+  margin-bottom: 10px;
+  padding: 10px 10px 15px 10px;
+}
+
+#media-folders.ckeditor-widget #explorer {
+  margin: 0 5px 0;
+}
+
+#media-folders.ckeditor-widget #board {
+  grid-template-columns: repeat(6, 16.65%);
+  padding-top: 10px !important;
+}
+
+#media-folders.ckeditor-widget #explorer #navbar {
+  width: 25%;
+  padding: 10px 10px 0;
+}
+
+#media-folders.ckeditor-widget #folders-details {
+  justify-content: center;
+  padding: 7px;
+}
+
+#media-folders.ckeditor-widget #folders-details .details {
+  display: none;
+}
+
+#media-folders.ckeditor-widget #media-folders .top-bar .buttons .dropbutton.dropbutton--single {
+  padding: 6px 15px 6px 15px;
+}
+
+#media-folders.ckeditor-widget .top-bar .buttons .dropbutton .dropbutton-action > a[href*="/widget/add-file"]::before,
+#media-folders.ckeditor-widget .top-bar .buttons .dropbutton .dropbutton-action.upload > a::before {
+  mask-image: url("fa.svg#upload-view");
+}
+
+#media-folders.ckeditor-widget #preview .preview-contents div {
+  font-size: 12px !important;
+  line-height: 15px !important;
+}

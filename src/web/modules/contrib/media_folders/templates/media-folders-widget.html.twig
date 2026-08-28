@@ -1,0 +1,46 @@
+<div id="media-folders" class="{{ class }}">
+  <div id="folders-messages"></div>
+  <div class="top-bar">
+    <div class="folder-navigation">
+      <div class="up-button">
+        {{ up_button }}
+      </div>
+      <div class="folder-breadcrumb">
+        <div class="folder-breadcrumb-inner">
+          {{ breadcrumb }}
+        </div>
+      </div>
+    </div>
+    <div class="folder-form">
+      {{ form }} 
+    </div>
+    <div class="folder-actions">
+      <div class="buttons">
+        {{ upload_form }}
+      </div>
+    </div>
+  </div>
+  <div id="explorer">
+    <div id="navbar">
+      <div class="navbar-header">{{ 'Folders'|t }}</div>
+      {{ navbar }}
+    </div>
+    <div id="board" class="{{ board_class }}" data-id="{{ fid }}">
+      {{ folders }}
+      <div class="droppable-message">{{ 'Drop your file here!'|t }}</div>
+    </div>
+    <div id="preview">
+      <div class="preview-contents"></div>
+    </div>
+  </div>
+  <div id="folders-help">
+    <ul class="help">
+      <li>{{ 'Drag and drop to move files and folders'|t }}</li>
+      <li>{{ 'Drag files to upload'|t }}</li>
+      <li>{{ 'Right click on files or folders to open options'|t }}</li>
+    </ul>
+  </div>
+  <div id="folders-details">
+    <span class="details"><input type="submit" value="{{ 'Insert selected'|t }}" /></span>
+  </div>
+</div>

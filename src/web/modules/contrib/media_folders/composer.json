@@ -1,0 +1,17 @@
+{
+    "name": "drupal/media_folders",
+    "type": "drupal-module",
+    "description": "Media Folders",
+    "keywords": ["Drupal"],
+    "license": "GPL-2.0+",
+    "homepage": "https://www.drupal.org/project/media_folders",
+    "minimum-stability": "dev",
+    "support": {
+      "issues": "https://www.drupal.org/project/issues/media_folders",
+      "source": "http://cgit.drupalcode.org/media_folders"
+    },
+    "require": {
+      "drupal/core": "^10.3 || ^11"
+    }
+  }
+  

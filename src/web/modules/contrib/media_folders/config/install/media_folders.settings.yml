@@ -1,0 +1,11 @@
+default_view: thumbs
+default_order: date-desc
+disable_ckeditor: 0
+show_thumbnails: 0
+pager_limit: 500
+form_mode: 
+  audio: default
+  document: default
+  image: default
+  video: default
+  remove_video: default

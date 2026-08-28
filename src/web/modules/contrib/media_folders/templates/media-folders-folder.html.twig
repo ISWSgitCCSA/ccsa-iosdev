@@ -1,0 +1,22 @@
+<div class="folder {{ wrapper_classes }}" data-id="{{ fid }}" data-uuid="{{ uuid }}">
+  <a title="{{ desc|striptags }}" href="{{ link }}" class="{{ classes }}" {{ attr }}>
+    <span class="icon">{{ icon }}</span>
+    <span class="title">{{ title }}</span>
+
+    {% if ftype %}
+      <span class="type">{{ ftype }}</span>
+    {% endif %}
+
+    {% if size %}
+      <span class="size">{% if weight > 0 %}{{ weight|date("Y-m-d H:i:s") }}{% else %}{{ 'Date'|t }}{% endif %}</span>
+    {% endif %}
+
+    {% if size %}
+      <span class="size">{{ size }}</span>
+    {% endif %}
+
+  </a>
+  {% if actions %}
+    <span class="actions context-menu"><span class="close"></span>{{ actions }}</span>
+  {% endif %}
+</div>

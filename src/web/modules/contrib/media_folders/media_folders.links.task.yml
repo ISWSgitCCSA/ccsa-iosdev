@@ -1,0 +1,13 @@
+media_folders.collection:
+  title: Media folders
+  route_name: media_folders.collection
+  base_route: system.admin_content
+  weight: 10
+
+media_folders.collection.folder:
+  title: 'Folder'
+  parent_id: media_folders.collection
+  route_name: media_folders.collection.folder
+  route_parameters:
+    folder: 0
+  weight: 20

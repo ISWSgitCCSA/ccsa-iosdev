@@ -1,0 +1,78 @@
+common:
+  version: VERSION
+  js:
+    js/common.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+    - core/drupal.message
+
+context_menus:
+  version: VERSION
+  css:
+    theme:
+      css/context_menus.css: {}
+  js:
+    js/context_menus.js: {}
+  dependencies:
+    - media_folders/common
+
+file_upload:
+  version: VERSION
+  css:
+    theme:
+      css/file_upload.css: {}
+  js:
+    js/file_upload.js: {}
+  dependencies:
+    - media_folders/common
+
+droppable:
+  version: VERSION
+  css:
+    theme:
+      css/droppable.css: {}
+  js:
+    js/droppable.js: {}
+  dependencies:
+    - core/sortable
+    - media_folders/file_upload
+
+folders:
+  version: VERSION
+  css:
+    theme:
+      css/folders.css: {}
+  js:
+    js/folders.js: {}
+  dependencies:
+    - media_folders/context_menus
+    - media_folders/file_upload
+    - media_folders/droppable
+
+widget:
+  version: VERSION
+  css:
+    theme:
+      css/folders.css: {}
+      css/widget.css: {}
+  js:
+    js/widget.js: {}
+  dependencies:
+    - media_folders/context_menus
+    - media_folders/file_upload
+    - media_folders/droppable
+    - core/drupal.dialog.ajax
+    - core/sortable
+
+ckeditor:
+  version: VERSION
+  css:
+    theme:
+      css/folders.css: {}
+      css/ckeditor.css: {}
+  js:
+    js/ckeditor.js: {}
+  dependencies:
+    - media_folders/common

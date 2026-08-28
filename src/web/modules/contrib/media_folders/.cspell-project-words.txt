@@ -1,0 +1,13 @@
+# List of words excluded from cspell validation for the project.
+
+msword
+officedocument
+opendocument
+openxmlformats
+presentationml
+spreadsheetml
+wordprocessingml
+dialogopen
+javali
+jmauricio
+joão

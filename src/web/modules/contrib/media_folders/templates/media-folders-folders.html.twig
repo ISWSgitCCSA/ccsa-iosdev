@@ -1,0 +1,7 @@
+{% if folders|length > 1 %}
+  {% for folder in folders %}
+    {{ folder }}
+  {% endfor %}
+{% else %}
+  <div class="empty">{{ 'Empty Folder'|t }}</div>
+{% endif %}

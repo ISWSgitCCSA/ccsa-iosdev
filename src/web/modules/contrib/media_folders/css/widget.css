@@ -1,0 +1,164 @@
+body .ui-dialog .ui-widget-content.ui-dialog-content {
+  padding: 15px;
+}
+
+#media-folders {
+  margin: 0;
+  padding: 0 0 0;
+}
+
+#media-folders .top-bar {
+  margin-bottom: 10px;
+  padding: 10px 10px 15px 10px;
+}
+
+#explorer {
+  margin: 0 5px 0;
+}
+
+#board {
+  grid-template-columns: repeat(6, 16.65%);
+  padding-top: 10px !important;
+}
+
+#explorer #navbar {
+  width: 25%;
+  padding: 10px 10px 0;
+}
+
+.field--widget-media-folders-widget {
+  position: relative;
+}
+
+.js-media-folders-widget-toggle-weight {
+  position: absolute !important;
+  top: 0.75rem !important;
+  right: 1rem !important;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+}
+
+.js-media-folders-item .media-folders-item__remove.button {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+  margin: 0.3125rem;
+  padding: 0;
+  transition: 0.2s border-color;
+  color: transparent;
+  border-color: var(--gin-border-color, #d4d4d8) !important;
+  background-size: 0.75rem;
+  text-shadow: none;
+  font-size: 0;
+}
+
+.js-media-folders-item .media-folders-item__remove.button:hover,
+.js-media-folders-item .media-folders-item__remove.button:focus,
+.js-media-folders-item .media-folders-item__remove.button:active,
+.js-media-folders-item .media-folders-item__remove.button:not(:hover, :checked) {
+  border-color: transparent !important;
+}
+
+.js-media-folders-item .media-folders-item__remove.button:hover,
+.js-media-folders-item .media-folders-item__remove.button:focus,
+.js-media-folders-item .media-folders-item__remove.button:active {
+  box-shadow:
+    0 0 0 1px var(--gin-color-focus-border, rgb(0, 0, 0, 0.2)),
+    0 0 0 4px var(--gin-color-focus, rgb(0, 125, 250, 0.6)) !important;
+}
+
+.js-media-folders-item .media-folders-item__remove.button,
+.js-media-folders-item .media-folders-item__remove.button:hover,
+.js-media-folders-item .media-folders-item__remove.button:focus,
+.js-media-folders-item .media-folders-item__remove.button:active {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin: var(--gin-spacing-xs, 0.5rem);
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgb(0, 0, 0, 0.15);
+}
+
+.js-media-folders-item .media-folders-item__remove.button {
+  background-image: url("fa.svg#close-view");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0.75rem 0.75rem;
+}
+
+.js-media-folders-widget .js-media-folders-selection {
+  display: flex;
+  gap: 2%;
+  flex-wrap: wrap;
+}
+
+.js-media-folders-widget .js-media-folders-selection .js-media-folders-item {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  box-sizing: border-box;
+  max-width: 23%;
+  padding-block-start: var(--gin-spacing-xs, 0.5rem);
+  padding-block-end: var(--gin-spacing-xs, 0.5rem);
+  cursor: grabbing !important;
+  word-break: break-all;
+  color: var(--gin-color-text-light, #545560);
+  border: 1px solid;
+  border-color: var(--gin-border-color, #d4d4d8);
+  border-radius: var(--gin-border-m, 0.5rem);
+  background: transparent;
+  box-shadow: none;
+  padding-inline: var(--gin-spacing-xs, 0.5rem);
+}
+
+.js-media-folders-widget .js-media-folders-selection .field--name-field-file {
+  padding-right: 30px;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+#folders-details {
+  justify-content: center;
+  padding: 7px;
+}
+
+#folders-details .details {
+  display: none;
+}
+
+#folders-details .details input {
+  margin: 10px 0;
+  padding: 12px 20px;
+  color: var(--gin-color-button-text, #fff);
+  border: 0 none;
+  border-radius: 40px;
+  background: var(--gin-color-primary, rgb(5, 80, 230));
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1;
+}
+
+#media-folders .top-bar .buttons .dropbutton.dropbutton--single {
+  padding: 6px 15px 6px 15px;
+}
+
+#media-folders .top-bar .buttons .dropbutton .dropbutton-action > a[href*="/add-file"]::before,
+#media-folders .top-bar .buttons .dropbutton .dropbutton-action.upload > a::before {
+  mask-image: url("fa.svg#upload-view");
+}
+
+#media-folders .top-bar .buttons .dropbutton .dropbutton-action > a[href*="/add-folder"]::before,
+#media-folders .top-bar .buttons .dropbutton .dropbutton-action.new-folder > a::before {
+  mask-image: url("fa.svg#folder-plus-view");
+}
+
+#preview .preview-contents div {
+  font-size: 12px !important;
+  line-height: 15px !important;
+}

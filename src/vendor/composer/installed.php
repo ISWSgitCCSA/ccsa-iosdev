@@ -3,7 +3,7 @@
         'name' => 'drupal/recommended-project',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'e3f1824e252bc280830866cb8823f9a0dabbb2ee',
+        'reference' => '92318a8d15133d7c8216e5cbd35919758a31934f',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -496,6 +496,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/media_folders' => array(
+            'pretty_version' => '1.0.8',
+            'version' => '1.0.8.0',
+            'reference' => '1.0.8',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/media_folders',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/profile' => array(
             'pretty_version' => '1.14.0',
             'version' => '1.14.0.0',
@@ -517,7 +526,7 @@
         'drupal/recommended-project' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'e3f1824e252bc280830866cb8823f9a0dabbb2ee',
+            'reference' => '92318a8d15133d7c8216e5cbd35919758a31934f',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

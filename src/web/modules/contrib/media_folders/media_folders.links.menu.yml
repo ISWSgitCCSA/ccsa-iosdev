@@ -1,0 +1,14 @@
+media_folders.collection:
+  title: 'Media folders'
+  parent: system.admin_content
+  route_name: media_folders.collection
+  
+media_folders.configuration:
+  title: 'Media folders settings'
+  parent: system.admin_config_media
+  route_name: media_folders.configuration
+
+media_folders.sync:
+  title: 'Media folders sync'
+  parent: media_folders.configuration
+  route_name: media_folders.sync

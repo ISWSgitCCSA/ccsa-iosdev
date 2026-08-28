@@ -1,0 +1,285 @@
+media_folders.collection:
+  path: '/admin/content/media-folders'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorer'
+    _title: 'Media Folders'
+  requirements:
+    _permission: 'access media overview'
+
+media_folders.collection.ajax:
+  path: '/admin/content/media-folders/ajax'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerAjax'
+    _title: 'Media Folders'
+  requirements:
+    _permission: 'access media overview'
+
+media_folders.collection.folder:
+  path: '/admin/content/media-folders/{folder}'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorer'
+    _title_callback: '\Drupal\media_folders\Controller\MediaFoldersController::getTitle'
+  requirements:
+    _permission: 'access media overview'
+    folder: \d+
+  options:
+    parameters:
+      folder:
+        type: entity:taxonomy_term
+
+media_folders.collection.folder.ajax:
+  path: '/admin/content/media-folders/{folder}/ajax'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerAjax'
+    _title_callback: '\Drupal\media_folders\Controller\MediaFoldersController::getTitle'
+  requirements:
+    _permission: 'access media overview'
+    folder: \d+
+  options:
+    parameters:
+      folder:
+        type: entity:taxonomy_term
+
+media_folders.collection.folder.search.ajax:
+  path: '/admin/content/media-folders/{folder}/search/ajax'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerSearchAjax'
+    _title: 'Search results'
+  requirements:
+    _permission: 'access media overview'
+    folder: \d+
+
+media_folders.collection.folder.load_more.ajax:
+  path: '/admin/content/media-folders/{folder}/load-more/ajax'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerLoadMoreAjax'
+    _title: 'Load More'
+  requirements:
+    _permission: 'access media overview'
+    folder: \d+
+
+media_folders.collection.widget.ajax:
+  path: '/admin/content/media-folders/widget/{entity_type_id}/{bundle}/{widget_id}/ajax'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerWidgetAjax'
+    _title: 'Media Folders'
+  requirements:
+    _permission: 'access media overview'
+  options:
+    _admin_route: TRUE
+
+media_folders.folder.widget.ajax:
+  path: '/admin/content/media-folders/{folder}/widget/{entity_type_id}/{bundle}/{widget_id}/ajax'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerWidgetAjax'
+    _title: 'Media Folders'
+  requirements:
+    _permission: 'access media overview'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+    parameters:
+      folder:
+        type: entity:taxonomy_term
+
+media_folders.collection.editor:
+  path: '/admin/content/media-folders/editor'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerEditor'
+    _title: 'Media Folders'
+  requirements:
+    _permission: 'access media overview'
+  options:
+    _admin_route: TRUE
+
+media_folders.collection.editor.root.ajax:
+  path: '/admin/content/media-folders/editor/ajax'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerEditorAjax'
+    _title: 'Media Folders'
+  requirements:
+    _permission: 'access media overview'
+  options:
+    _admin_route: TRUE
+
+media_folders.folder.editor.ajax:
+  path: '/admin/content/media-folders/{folder}/editor/ajax'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::fileExplorerEditorAjax'
+    _title: 'Media Folders'
+  requirements:
+    _permission: 'access media overview'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+    parameters:
+      folder:
+        type: entity:taxonomy_term
+
+media_folders.add_file:
+  path: '/admin/content/media-folders/{folder}/add-file'
+  defaults:
+    _form: '\Drupal\media_folders\Form\AddFileForm'
+    _title: 'Upload files'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasMediaCreateAccess'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+
+media_folders.widget.add_file:
+  path: '/admin/content/media-folders/{folder}/widget/{entity_type_id}/{bundle}/{widget_id}/add-file'
+  defaults:
+    _form: '\Drupal\media_folders\Form\AddWidgetFileForm'
+    _title: 'Upload files'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasMediaCreateAccess'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+
+media_folders.widget.add_folder:
+  path: '/admin/content/media-folders/{folder}/widget/{entity_type_id}/{bundle}/{widget_id}/add-folder'
+  defaults:
+    _form: '\Drupal\media_folders\Form\AddWidgetFolderForm'
+    _title: 'New folder'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasTermCreatePermission'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+
+media_folders.add_root_folder:
+  path: '/admin/content/media-folders/root/add-folder'
+  defaults:
+    _form: '\Drupal\media_folders\Form\AddFolderForm'
+    _title: 'New folder'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasTermCreatePermission'
+  options:
+    _admin_route: TRUE
+
+media_folders.add_folder:
+  path: '/admin/content/media-folders/{folder}/add-folder'
+  defaults:
+    _form: '\Drupal\media_folders\Form\AddFolderForm'
+    _title: 'New folder'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasTermCreatePermission'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+    parameters:
+      folder:
+        type: entity:taxonomy_term
+
+media_folders.edit_folder:
+  path: '/admin/content/media-folders/{folder}/edit-folder'
+  defaults:
+    _form: '\Drupal\media_folders\Form\EditFolderForm'
+    _title: 'Edit folder'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasTermEditPermission'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+    parameters:
+      folder:
+        type: entity:taxonomy_term
+
+media_folders.delete_folder:
+  path: '/admin/content/media-folders/{folder}/delete-folder'
+  defaults:
+    _form: '\Drupal\media_folders\Form\DeleteFolderForm'
+    _title: 'Delete folder'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasTermDeletePermission'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+    parameters:
+      folder:
+        type: entity:taxonomy_term
+
+media_folders.media_detail.ajax:
+  path: '/admin/content/media-folders/{media}/preview/ajax'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::ajaxMediaDetail'
+    _title: 'Media detail'
+  requirements:
+    _permission: 'access media overview'
+    media: \d+
+  options:
+    _admin_route: TRUE
+    parameters:
+      media:
+        type: entity:media
+
+media_folders.upload_file.ajax:
+  path: '/admin/content/media-folders/{folder}/upload-file/ajax'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::ajaxUploadFile'
+    _title: 'Upload Files'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasMediaCreateAccess'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+
+media_folders.move_into.ajax:
+  path: '/admin/content/media-folders/{folder}/move-into/ajax'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\MediaFoldersController::ajaxMoveInto'
+    _title: 'Move Into'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::hasMediaCreateAccess'
+    folder: \d+
+  options:
+    _admin_route: TRUE
+
+media_folders.cookies:
+  path: '/admin/content/media-folders-cookie/{name}/{value}'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\CookieController::setCookie'
+    _title: 'Set Cookie'
+  requirements:
+    _permission: 'access media overview'
+
+media_folders.cookies.ajax:
+  path: '/admin/content/media-folders-cookie/{name}/{value}/ajax'
+  defaults:
+    _controller: '\Drupal\media_folders\Controller\CookieController::setCookieAjax'
+    _title: 'Set Cookie'
+  requirements:
+    _permission: 'access media overview'
+
+media_folders.update_multiple_action:
+  path: '/admin/content/media-folders/update-multiple'
+  defaults:
+    _form: '\Drupal\media_folders\Form\UpdateMultipleActionForm'
+    _title: 'Add media to folder'
+  requirements:
+    _custom_access: '\Drupal\media_folders\Controller\MediaFoldersController::canEditMedia'
+
+media_folders.sync:
+  path: '/admin/config/media-folders/sync'
+  defaults:
+    _form: 'Drupal\media_folders\Form\MediaFoldersSyncForm'
+    _title: 'Media folders Sync'
+  requirements:
+    _permission: 'administer modules'
+
+media_folders.configuration:
+  path: '/admin/config/media-folders'
+  defaults:
+    _form: 'Drupal\media_folders\Form\MediaFoldersConfigForm'
+    _title: 'Media folders settings'
+  requirements:
+    _permission: 'access media folders configuration'
