@@ -1,0 +1,20 @@
+uuid: 9e8b8c5e-948c-4e4a-8c96-055ae3d04205
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.speaker_type
+  module:
+    - path
+id: taxonomy_term.speaker_type.path
+field_name: path
+entity_type: taxonomy_term
+bundle: speaker_type
+label: 'URL alias'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

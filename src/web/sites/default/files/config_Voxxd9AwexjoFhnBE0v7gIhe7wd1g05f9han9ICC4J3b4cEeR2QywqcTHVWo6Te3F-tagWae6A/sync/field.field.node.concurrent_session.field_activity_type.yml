@@ -1,0 +1,29 @@
+uuid: c7fba20e-8a5d-47c1-b30b-8fff4af14ace
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_activity_type
+    - node.type.concurrent_session
+    - taxonomy.vocabulary.activity_type
+id: node.concurrent_session.field_activity_type
+field_name: field_activity_type
+entity_type: node
+bundle: concurrent_session
+label: 'Activity Type'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      activity_type: activity_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

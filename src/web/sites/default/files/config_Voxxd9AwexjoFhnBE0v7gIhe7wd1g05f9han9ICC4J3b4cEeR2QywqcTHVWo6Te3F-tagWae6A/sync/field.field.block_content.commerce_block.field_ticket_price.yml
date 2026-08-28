@@ -1,0 +1,23 @@
+uuid: 9bd6c819-82f3-4aeb-9ca5-fee2f183d41e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.commerce_block
+    - field.storage.block_content.field_ticket_price
+  module:
+    - commerce_price
+id: block_content.commerce_block.field_ticket_price
+field_name: field_ticket_price
+entity_type: block_content
+bundle: commerce_block
+label: 'Ticket Price'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  available_currencies: {  }
+  allow_negative: false
+field_type: commerce_price

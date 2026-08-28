@@ -1,0 +1,22 @@
+uuid: 42d54819-60fb-4b04-bbea-cb3aeac41fc2
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - ios
+_core:
+  default_config_hash: AqZb-DHsyNmvhcWgDh2Lth2P7Rn0WabuNQNWXmZI7Ig
+id: ios_help
+theme: ios
+region: content
+weight: -3
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

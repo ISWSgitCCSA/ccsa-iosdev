@@ -1,0 +1,8 @@
+uuid: 83f7d437-e257-4ef9-ad5e-a7641f5fdbb9
+langcode: en
+status: true
+dependencies: {  }
+id: commerce_block
+label: 'Commerce Block'
+revision: false
+description: null

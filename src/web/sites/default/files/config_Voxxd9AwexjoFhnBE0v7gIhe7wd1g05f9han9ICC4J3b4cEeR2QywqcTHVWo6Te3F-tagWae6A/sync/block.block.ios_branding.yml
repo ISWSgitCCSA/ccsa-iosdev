@@ -1,0 +1,25 @@
+uuid: dcff6c3d-cd00-4fea-a733-f4bb7530374d
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - ios
+_core:
+  default_config_hash: rQUCNWs2IeXQhI6Q1g1QcukjWaAu0ab-lNbtoLrZVnE
+id: ios_branding
+theme: ios
+region: nav_branding
+weight: -6
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

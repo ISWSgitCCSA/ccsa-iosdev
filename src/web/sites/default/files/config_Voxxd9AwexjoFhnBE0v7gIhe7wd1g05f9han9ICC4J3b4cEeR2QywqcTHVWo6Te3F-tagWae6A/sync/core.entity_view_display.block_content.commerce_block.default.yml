@@ -1,0 +1,25 @@
+uuid: 013a73ec-e445-4ec6-8ae6-c58649c49a9a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.commerce_block
+    - field.field.block_content.commerce_block.field_ticket_price
+  module:
+    - commerce_price
+id: block_content.commerce_block.default
+targetEntityType: block_content
+bundle: commerce_block
+mode: default
+content:
+  field_ticket_price:
+    type: commerce_price_default
+    label: above
+    settings:
+      strip_trailing_zeroes: false
+      currency_display: symbol
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  langcode: true

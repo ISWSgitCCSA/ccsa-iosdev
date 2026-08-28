@@ -1,0 +1,22 @@
+uuid: 9ce34d86-d363-44fb-b7ed-7fd5ea862408
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_secondary_body
+    - node.type.activity
+  module:
+    - text
+id: node.activity.field_secondary_body
+field_name: field_secondary_body
+entity_type: node
+bundle: activity
+label: 'Secondary Body'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

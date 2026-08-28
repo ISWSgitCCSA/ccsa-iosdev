@@ -1,0 +1,28 @@
+uuid: 4015a3e7-a790-4633-a7e6-2b59e1fca571
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_banner_image
+    - media.type.image
+    - node.type.speaker
+id: node.speaker.field_banner_image
+field_name: field_banner_image
+entity_type: node
+bundle: speaker
+label: 'Banner Image'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

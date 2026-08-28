@@ -1,0 +1,22 @@
+uuid: f5fc9704-b636-4166-a233-f65289407590
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.concurrent_session
+id: node.concurrent_session.status
+field_name: status
+entity_type: node
+bundle: concurrent_session
+label: Published
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

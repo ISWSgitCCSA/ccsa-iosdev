@@ -1,0 +1,22 @@
+uuid: 89c8cbc8-2f19-484b-b5e9-df74ef60f0e9
+langcode: en
+status: true
+dependencies:
+  theme:
+    - ios
+_core:
+  default_config_hash: O2Ny17vK6zbhhP4b0vRP0BUyhCNrf89qa_mdXJ47JGE
+id: ios_local_tasks
+theme: ios
+region: content
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Tabs
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

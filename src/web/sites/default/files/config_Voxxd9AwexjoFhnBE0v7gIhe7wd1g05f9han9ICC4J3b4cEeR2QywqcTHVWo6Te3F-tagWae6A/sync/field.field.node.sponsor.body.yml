@@ -1,0 +1,24 @@
+uuid: 4a83eb53-1674-4ca8-a50e-8aa4ffc9a327
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.sponsor
+  module:
+    - text
+id: node.sponsor.body
+field_name: body
+entity_type: node
+bundle: sponsor
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

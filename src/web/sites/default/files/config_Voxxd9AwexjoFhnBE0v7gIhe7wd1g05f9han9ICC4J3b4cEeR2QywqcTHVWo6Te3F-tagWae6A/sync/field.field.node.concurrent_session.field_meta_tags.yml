@@ -1,0 +1,21 @@
+uuid: 3a30b521-4017-4d84-8703-f927e75a9ba5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meta_tags
+    - node.type.concurrent_session
+  module:
+    - metatag
+id: node.concurrent_session.field_meta_tags
+field_name: field_meta_tags
+entity_type: node
+bundle: concurrent_session
+label: 'Meta Tags'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: metatag

@@ -1,0 +1,9 @@
+uuid: 2d8e3684-91a6-43e6-88d6-5d06bafb7041
+langcode: en
+status: true
+dependencies: {  }
+name: 'Speaker Type'
+vid: speaker_type
+description: null
+weight: 0
+new_revision: false

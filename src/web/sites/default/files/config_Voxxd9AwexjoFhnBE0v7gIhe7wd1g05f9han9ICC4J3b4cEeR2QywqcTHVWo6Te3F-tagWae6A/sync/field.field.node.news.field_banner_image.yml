@@ -1,0 +1,28 @@
+uuid: 0c22e0a6-5d66-4209-8163-77d6745bb0a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_banner_image
+    - media.type.image
+    - node.type.news
+id: node.news.field_banner_image
+field_name: field_banner_image
+entity_type: node
+bundle: news
+label: 'Banner Image'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

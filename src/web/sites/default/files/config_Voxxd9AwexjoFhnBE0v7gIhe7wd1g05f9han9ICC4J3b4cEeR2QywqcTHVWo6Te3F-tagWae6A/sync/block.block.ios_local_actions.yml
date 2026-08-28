@@ -1,0 +1,20 @@
+uuid: 803169c3-c2ef-4295-bcd6-5d7dd935962b
+langcode: en
+status: true
+dependencies:
+  theme:
+    - ios
+_core:
+  default_config_hash: TXhpYVX1gdRn1gz4CIsWTuED1e1qWNm15P5jlCw5Zeo
+id: ios_local_actions
+theme: ios
+region: content
+weight: -2
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

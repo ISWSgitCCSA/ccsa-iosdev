@@ -1,0 +1,20 @@
+uuid: c75ba212-ea70-4c5f-9b79-966b74f81ef0
+langcode: en
+status: true
+dependencies:
+  theme:
+    - ios
+_core:
+  default_config_hash: zJscjFS4dp6bMBAtKL1hBFC0x4ae309SNCwvQNNz8zQ
+id: ios_page_title
+theme: ios
+region: content
+weight: -6
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

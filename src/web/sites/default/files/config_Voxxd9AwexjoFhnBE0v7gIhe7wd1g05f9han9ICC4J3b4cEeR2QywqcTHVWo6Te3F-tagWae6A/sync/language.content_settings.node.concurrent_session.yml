@@ -1,0 +1,18 @@
+uuid: 413442cd-3d3a-4ee9-843c-ae0fb9e83957
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.concurrent_session
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: node.concurrent_session
+target_entity_type_id: node
+target_bundle: concurrent_session
+default_langcode: site_default
+language_alterable: true

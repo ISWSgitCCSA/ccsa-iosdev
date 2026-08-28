@@ -1,0 +1,23 @@
+uuid: cffef707-5d12-4fed-9d31-fa320f4827c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_linked
+    - node.type.activity
+id: node.activity.field_linked
+field_name: field_linked
+entity_type: node
+bundle: activity
+label: Linked
+description: "Should this activity link to it's own dedicated page"
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

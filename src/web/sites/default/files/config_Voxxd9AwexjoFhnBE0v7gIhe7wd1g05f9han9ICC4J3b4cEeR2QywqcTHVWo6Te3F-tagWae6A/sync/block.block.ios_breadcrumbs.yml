@@ -1,0 +1,22 @@
+uuid: 3c8f7d10-03f2-4bf5-8fb4-ac51f1b8c868
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - ios
+_core:
+  default_config_hash: DUAsfbfX2cviubu2kNSc5unlIo5MpqrTOW22NpoxmPE
+id: ios_breadcrumbs
+theme: ios
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

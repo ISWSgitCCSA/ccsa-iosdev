@@ -1,0 +1,22 @@
+uuid: 8cd75cd7-eff2-41f0-9097-e2655572df92
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - ios
+_core:
+  default_config_hash: 4zRXfMg5Bf_9g_TiwfK0x71wNJ_LA79XL_0LqrFVSeY
+id: ios_powered_by_drupal
+theme: ios
+region: footer
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

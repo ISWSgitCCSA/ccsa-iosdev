@@ -1,0 +1,19 @@
+uuid: 4d295459-7206-4844-bd39-c9bd81ea3e0d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_session_number
+    - node.type.concurrent_session
+id: node.concurrent_session.field_session_number
+field_name: field_session_number
+entity_type: node
+bundle: concurrent_session
+label: 'Session Number'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

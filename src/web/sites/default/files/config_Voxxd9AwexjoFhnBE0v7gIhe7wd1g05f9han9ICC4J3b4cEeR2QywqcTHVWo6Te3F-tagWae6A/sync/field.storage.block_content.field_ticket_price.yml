@@ -1,0 +1,19 @@
+uuid: 9826494a-dc29-475d-93da-0a5f24ea7c09
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - commerce_price
+id: block_content.field_ticket_price
+field_name: field_ticket_price
+entity_type: block_content
+type: commerce_price
+settings: {  }
+module: commerce_price
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

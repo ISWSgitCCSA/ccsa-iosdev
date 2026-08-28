@@ -1,0 +1,21 @@
+uuid: 42f4e492-a624-429e-bb1b-01b201a34288
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.speaker_type
+  module:
+    - text
+id: taxonomy_term.speaker_type.description
+field_name: description
+entity_type: taxonomy_term
+bundle: speaker_type
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

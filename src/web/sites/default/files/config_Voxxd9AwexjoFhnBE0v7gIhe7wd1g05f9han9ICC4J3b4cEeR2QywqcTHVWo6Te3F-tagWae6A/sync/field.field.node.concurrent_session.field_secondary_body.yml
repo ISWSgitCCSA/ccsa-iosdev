@@ -1,0 +1,22 @@
+uuid: b352697b-196a-4605-8111-d4e8d7e576bd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_secondary_body
+    - node.type.concurrent_session
+  module:
+    - text
+id: node.concurrent_session.field_secondary_body
+field_name: field_secondary_body
+entity_type: node
+bundle: concurrent_session
+label: 'Secondary Body'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

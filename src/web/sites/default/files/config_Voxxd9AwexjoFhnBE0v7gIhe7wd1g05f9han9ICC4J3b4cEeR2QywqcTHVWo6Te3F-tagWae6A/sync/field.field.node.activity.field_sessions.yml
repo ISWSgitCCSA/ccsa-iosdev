@@ -1,0 +1,28 @@
+uuid: 1875ea1b-6d06-4515-ab91-6ea238752404
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sessions
+    - node.type.activity
+    - node.type.concurrent_session
+id: node.activity.field_sessions
+field_name: field_sessions
+entity_type: node
+bundle: activity
+label: Sessions
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      concurrent_session: concurrent_session
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

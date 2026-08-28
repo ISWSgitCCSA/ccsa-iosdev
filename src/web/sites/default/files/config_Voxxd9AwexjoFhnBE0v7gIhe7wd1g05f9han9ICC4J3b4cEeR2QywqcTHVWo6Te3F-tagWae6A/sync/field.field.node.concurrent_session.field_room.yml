@@ -1,0 +1,19 @@
+uuid: 8670580a-9dc7-4275-847f-3b1a1e1aa0b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_room
+    - node.type.concurrent_session
+id: node.concurrent_session.field_room
+field_name: field_room
+entity_type: node
+bundle: concurrent_session
+label: Room
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

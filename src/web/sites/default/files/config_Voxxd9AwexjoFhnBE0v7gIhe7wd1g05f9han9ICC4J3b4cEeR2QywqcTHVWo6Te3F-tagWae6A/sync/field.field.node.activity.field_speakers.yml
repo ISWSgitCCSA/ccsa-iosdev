@@ -1,0 +1,28 @@
+uuid: 982ae115-9197-42ed-920e-a6e2baf846cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_speakers
+    - node.type.activity
+    - node.type.speaker
+id: node.activity.field_speakers
+field_name: field_speakers
+entity_type: node
+bundle: activity
+label: Speakers
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      speaker: speaker
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

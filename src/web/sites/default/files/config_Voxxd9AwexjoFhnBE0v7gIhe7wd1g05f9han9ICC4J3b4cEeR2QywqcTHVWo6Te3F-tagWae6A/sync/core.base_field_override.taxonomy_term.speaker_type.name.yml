@@ -1,0 +1,18 @@
+uuid: 22d23a33-cba8-4cc2-99e1-8a0313dfaa8f
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.speaker_type
+id: taxonomy_term.speaker_type.name
+field_name: name
+entity_type: taxonomy_term
+bundle: speaker_type
+label: Name
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

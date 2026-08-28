@@ -1,0 +1,22 @@
+uuid: 50429744-5f35-491d-a5d1-1ef2a1de12fd
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - ios
+_core:
+  default_config_hash: NOEkUoVmoHMQ7OiPHbcGrgtZolWT35OaQ-WAYVp3egQ
+id: ios_messages
+theme: ios
+region: content
+weight: -7
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: Messages
+  label_display: '0'
+  provider: system
+visibility: {  }

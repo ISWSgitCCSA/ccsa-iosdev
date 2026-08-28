@@ -1,0 +1,27 @@
+uuid: 69a661f1-c317-44cc-9990-0d44acb9708c
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - system
+  theme:
+    - ios
+_core:
+  default_config_hash: 3KjRj3tv6rd-COqlsd2Qmcrawx991jbv65prZnm_774
+id: ios_main_navigation
+theme: ios
+region: nav_main
+weight: 0
+provider: null
+plugin: 'system_menu_block:main'
+settings:
+  id: 'system_menu_block:main'
+  label: 'Main navigation'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: true
+visibility: {  }

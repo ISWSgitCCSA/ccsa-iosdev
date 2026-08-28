@@ -1,0 +1,777 @@
+uuid: 62908906-0056-475f-bfa1-edbce2c273a7
+langcode: en
+status: open
+dependencies: {  }
+weight: 0
+open: null
+close: null
+uid: 2
+template: false
+archive: false
+id: call_for_submissions_2027_issues
+title: 'Call for Submissions - 2027 Issues of Substance Conference'
+description: ''
+categories: {  }
+elements: |-
+  agreement:
+    '#type': webform_wizard_page
+    '#title': Agreement
+    '#states_clear': false
+    submission_id:
+      '#type': webform_computed_twig
+      '#title': 'Submission ID'
+      '#wrapper_attributes':
+        class:
+          - hidden
+      '#access_update_roles': {  }
+      '#template': '{{ uuid |slice(0, 13)}}'
+      '#store': true
+    submission_start_time:
+      '#type': webform_computed_twig
+      '#title': 'Submission Start Time'
+      '#title_display': inline
+      '#template': '{{ created | date("j-M-Y G:i:s T") }}'
+    submission_editing_deadline:
+      '#type': webform_computed_twig
+      '#title': 'Submission Editing Deadline'
+      '#template': '{{ created | date_modify("+2 day") | date("j-M-Y G:i:s T") }}'
+    submission_editable:
+      '#type': webform_computed_twig
+      '#title': 'Submission Editable'
+      '#display_on': view
+      '#template': '{% set deadline = created | date_modify("+2 day") | date("U") %}{% set mydate = date() | date("U") %}{% if (deadline > mydate) %}Yes{% else %}No{% endif %}'
+      '#whitespace': trim
+      '#store': true
+      '#ajax': true
+    submission_closed_message:
+      '#type': webform_computed_twig
+      '#title': 'Submission Closed Message'
+      '#title_display': invisible
+      '#display_on': form
+      '#template': '{% set deadline = created | date_modify("+2 day") | date("U") %}{% set mydate = date() | date("U") %}{% if (deadline > mydate) %}{% else %}<strong>This submission is now closed to further editing. Please note the submission editing deadline above. All current field values are visible, however, resubmission of this form is now disabled.</strong>{% endif %}'
+      '#whitespace': spaceless
+      '#ajax': true
+    introduction:
+      '#type': webform_markup
+      '#markup': 'To begin your submission, please use the following checklist to indicate that you are ready to continue with the submission process.'
+    requirements_understood:
+      '#type': checkbox
+      '#title': 'I have reviewed and understand the <a href="#" target="_blank">submission requirements</a>.'
+      '#required': true
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+    24_hour_deadline_understood:
+      '#type': checkbox
+      '#title': 'I am aware that I have 48 hours from the Submission Start Time above during which I can update my submission.'
+      '#description': 'We suggest you prepare your abstract in another document, then copy and paste the final information into the online submission application. You will be provided with a submission ID in a confirmation email once the submission is complete.'
+      '#description_display': after
+      '#required': true
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+    all_authors_included:
+      '#type': checkbox
+      '#title': 'I will enter all authors in the order in which they should appear in the program.'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    title_chosen:
+      '#type': checkbox
+      '#title': 'I have chosen an appropriate abstract title, and will capitalize only the first word.'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    abstract_format_prepared:
+      '#type': checkbox
+      '#title': 'My abstract will be a maximum of 300 words, with the following headings: Objective(s), Background, Methods, Results, Conclusions.'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    abstract_format_understood:
+      '#type': checkbox
+      '#title': 'I understand that my submission will be rejected if the abstract does not meet the formatting requirements outlined above.'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    theme_chosen:
+      '#type': checkbox
+      '#title': 'I have chosen the theme(s) that most closely align with my submission.'
+      '#help_title': Themes
+      '#help': 'Theme 1 | Theme 2 | Theme 3'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    visa_requirement_understood:
+      '#type': checkbox
+      '#title': 'I understand that I must determine whether I require a visa to attend the conference, and, if so, will submit a request in time for CCSA to provide me with a letter.'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    visa_required:
+      '#type': radios
+      '#title': 'Do you require a visa to attend the conference?'
+      '#options':
+        'Yes': 'Yes'
+        'No': 'No'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    visa_country:
+      '#type': select
+      '#options': country_names
+      '#title': 'Visa Country'
+      '#states':
+        visible:
+          ':input[name="visa_required"]':
+            value: 'Yes'
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+        required:
+          ':input[name="visa_required"]':
+            value: 'Yes'
+    visa_contact_email:
+      '#type': email
+      '#title': 'Visa Contact Email'
+      '#description': 'This may be the email address of the person coordinating your visa application. Use your own email address if no other address is available.'
+      '#states':
+        visible:
+          ':input[name="visa_required"]':
+            value: 'Yes'
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+        required:
+          ':input[name="visa_required"]':
+            value: 'Yes'
+    captcha_for_submissions:
+      '#type': captcha
+      '#captcha_type': recaptcha/reCAPTCHA
+  primary_contact_details:
+    '#type': webform_wizard_page
+    '#title': 'Primary Contact'
+    '#states_clear': false
+    contact_first_name:
+      '#type': textfield
+      '#title': 'First Name'
+      '#maxlength': 35
+      '#size': 37
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    contact_last_name:
+      '#type': textfield
+      '#title': 'Last Name'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#maxlength': 35
+      '#size': 37
+    contact_credentials:
+      '#type': textfield
+      '#title': Credentials
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#maxlength': 35
+      '#size': 37
+    contact_title:
+      '#type': textfield
+      '#title': Title/Position
+      '#maxlength': 50
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#size': 53
+    contact_organization:
+      '#type': textfield
+      '#title': Organization/Affiliation
+      '#maxlength': 50
+      '#size': 53
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    contact_address_1:
+      '#type': textfield
+      '#title': 'Address Line 1'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#maxlength': 35
+      '#size': 37
+    contact_address_2:
+      '#type': textfield
+      '#title': 'Address Line 2'
+      '#maxlength': 35
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#size': 37
+    contact_city:
+      '#type': textfield
+      '#title': City
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#maxlength': 35
+      '#size': 37
+    contact_province_state:
+      '#type': webform_select_other
+      '#title': Province/State
+      '#options': state_province_codes
+      '#empty_option': '- Please select -'
+      '#other__size': '35'
+      '#other__maxlength': '37'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    country:
+      '#type': select
+      '#title': Country
+      '#options': country_names
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    contact_postal_code:
+      '#type': textfield
+      '#title': 'Postal Code/Zip'
+      '#maxlength': 9
+      '#size': 9
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    contact_phone:
+      '#type': tel
+      '#title': Telephone
+      '#description': 'e.g. +1 204-234-5678'
+      '#maxlength': 20
+      '#required': true
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+    contact_extension:
+      '#type': textfield
+      '#title': 'Telephone Extension'
+      '#maxlength': 20
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#size': 22
+    contact_email:
+      '#type': email
+      '#title': Email
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#size': 53
+  additional_details:
+    '#type': webform_wizard_page
+    '#title': 'Additional Details'
+    '#states_clear': false
+    author_names:
+      '#type': webform_custom_composite
+      '#title': Authors
+      '#description': '<strong>Please provide names and affiliations for all authors in the order in which they should appear in the abstract. This list should include the name of the lead presenter.</strong>'
+      '#description_display': before
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#multiple__add_more_button_label': 'Add another author'
+      '#multiple__add_more_input_label': 'more authors'
+      '#element':
+        author_first_name:
+          '#type': textfield
+          '#required': true
+          '#title': 'First Name'
+        author_last_name:
+          '#type': textfield
+          '#required': true
+          '#title': 'Last Name'
+        author_credentials:
+          '#type': textfield
+          '#title': Credentials
+        author_organization:
+          '#type': textfield
+          '#required': true
+          '#title': Organization/Affiiliation
+    program_topics:
+      '#type': webform_checkboxes_other
+      '#title': 'Program Topics'
+      '#description': '<p><strong>Choose all topics that apply. If you do not see an appropriate topic, then please specify under “Other”.</strong></p>'
+      '#description_display': before
+      '#options':
+        'Topic 1': 'Topic 1'
+        'Topic 2': 'Topic 2'
+        'Topic 3': 'Topic 3'
+      '#required': true
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+    preferred_presentation_format:
+      '#type': radios
+      '#title': 'Preferred Presentation Format'
+      '#description': |
+        <p>There is a limited number of openings for podium presentations. If your first choice is a podium presentation but you are willing to present a poster if your abstract is not selected for a podium presentation, then please indicate poster presentation as your alternate presentation format.</p>
+
+        <p><strong>Students who wish to be part of the Outstanding Student Research Competition must select poster presentation as one of their two choices. Please note that only abstracts accepted for poster presentation will be included in the competition.</strong></p>
+      '#description_display': before
+      '#options':
+        Poster: Poster
+        Podium: Podium
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    alternate_presentation_format:
+      '#type': radios
+      '#title': 'Alternate Presentation Format'
+      '#options':
+        Poster: Poster
+        Podium: Podium
+        None: 'Not applicable. I do not have a second choice.'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+    consider_for_osra:
+      '#type': checkbox
+      '#title': 'Consider this presentation for the Outstanding Student Research Award.'
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#description': 'Only poster presentations are eligible for the OSRA.'
+    significance_of_work:
+      '#type': textarea
+      '#title': 'In 1-2 sentences describe the significance of your work (maximum 100 words).'
+      '#required': true
+      '#counter_type': word
+      '#counter_maximum': 100
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+        visible:
+          ':input[name="consider_for_poster_blitz"]':
+            value: 'Yes'
+  abstract:
+    '#type': webform_wizard_page
+    '#title': Abstract
+    '#states_clear': false
+    title:
+      '#type': textfield
+      '#title': Title
+      '#maxlength': 255
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#attributes':
+        class:
+          - abstract
+    objectives:
+      '#type': textarea
+      '#title': Objectives
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#attributes':
+        class:
+          - abstract
+    background:
+      '#type': textarea
+      '#title': Background
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#attributes':
+        class:
+          - abstract
+    methods:
+      '#type': textarea
+      '#title': Methods
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#attributes':
+        class:
+          - abstract
+    results:
+      '#type': textarea
+      '#title': Results
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#attributes':
+        class:
+          - abstract
+    conclusions:
+      '#type': textarea
+      '#title': Conclusions
+      '#states':
+        disabled:
+          ':input[name="submission_editable"]':
+            value: 'No'
+      '#required': true
+      '#attributes':
+        class:
+          - abstract
+    word_count:
+      '#type': hidden
+      '#title': 'Word Count'
+    word_count_display:
+      '#type': textfield
+      '#title': 'Word Count'
+      '#readonly': true
+    word_count_warning:
+      '#type': webform_markup
+      '#markup': '<strong>You will only be able to preview and submit this form if your abstract is within the 300 word limit.</strong>'
+    submission_editable_calc:
+      '#type': webform_computed_twig
+      '#title': 'Submission Editable'
+      '#wrapper_attributes':
+        class:
+          - hidden
+      '#display_on': form
+      '#template': '{% set deadline = created | date_modify("+2 day") | date("U") %}{% set mydate = date() | date("U") %}{% if (deadline > mydate) %}Yes{% else %}No{% endif %}'
+      '#whitespace': trim
+  actions:
+    '#type': webform_actions
+    '#title': 'Submit button(s)'
+    '#states_clear': false
+    '#submit__label': 'Submit Abstract >'
+    '#submit__attributes':
+      class:
+        - final-submit-button
+    '#update__attributes':
+      class:
+        - final-submit-button
+css: "div.form-item-submission-start-time label,  div.form-item-submission-editing-deadline label {font-weight:bold;}\r\n#webform-submission-call-for-contributed-podium-and-test-form > div.webform-progress > ul > li:nth-child(5) {display:none;}\r\n\r\n.webform-preview label {font-weight: bold; padding-right: 10px;}\r\n.webform-preview legend {font-weight: bold; }\r\n\r\n.webform-preview summary {font-weight: bold; font-size: 150%; padding-top: 25px; }\r\n"
+javascript: "(function ($) {\r\n\r\n  \"use strict\";\r\n  \r\n \r\n  $(document).ajaxComplete(function() {\r\n    \r\n  \r\n  $(function(){\r\n    $('.abstract').on('keyup', function(){\r\n\t\t\r\n\t\t var title =  $(\"input[name=title]\").val();\r\n\t\r\n\t\t var objectives =  $(\"textarea[name=objectives]\").val();\r\n\t\t \r\n\t\t var background =  $(\"textarea[name=background]\").val();\r\n\t\t \r\n\t\t var methods =  $(\"textarea[name=methods]\").val();\r\n\r\n\t\t var results =  $(\"textarea[name=results]\").val();\r\n\t\t\r\n\t\t var conclusions =  $(\"textarea[name=conclusions]\").val();\r\n\r\n\t\t var TotalLength = (title + \" \" + objectives + \" \" + background + \" \" + methods + \" \" + results + \" \" + conclusions).replace(/\\n|\\s{2,}/g, ' ').trim().split(' ').length;\r\n\t\t \r\n\t  $(\"input[name=word_count]\").val(TotalLength);\r\n      \r\n       $(\"input[name=word_count_display]\").val(TotalLength);\r\n      \r\n      \r\n      if (TotalLength >= 301) {\r\n \r\n    //   $(':input.final-submit-button[type=\"submit\"]').prop('disabled', true);\r\n        \r\n        $(':input.webform-button--preview[type=\"submit\"]').prop('disabled', true);\r\n        \r\n        $('.form-item-word-count-warning').show();\r\n        \r\n      } \r\n      \r\n      else {\r\n\r\n        // $(':input.final-submit-button[type=\"submit\"]').prop('disabled', false);\r\n        \r\n        $(':input.webform-button--preview[type=\"submit\"]').prop('disabled', false);\r\n              \r\n        $('.form-item-word-count-warning').hide();\r\n        \r\n      }\r\n      \r\n      \r\n\r\n\t  \r\n\t  \r\n    });\r\n    \r\n    \r\n          var canedit = $(\"input[name=submission_editable_calc]\").val();\r\n  \r\n          if (canedit == \"No\") {\r\n       \r\n            $(':input.final-submit-button[type=\"submit\"]').prop('disabled', true);\r\n            \r\n            $(':input.webform-button--preview[type=\"submit\"]').prop('disabled', true);\r\n            \r\n           }\r\n    \r\n            /* check for conflicts in presentation format */\r\n            \r\n            $(\"input[name='preferred_presentation_format'], input[name='alternate_presentation_format']\").blur(function(){\r\n\r\n            var preferredValue = $(\"input[name='preferred_presentation_format']:checked\").val();\r\n\r\n            var alternateValue = $(\"input[name='alternate_presentation_format']:checked\").val();\r\n            \r\n            if (preferredValue == alternateValue) {\r\n\r\n                alert(\"Your alternate presentation format must be different from your preferred presentation format.\");\r\n              \r\n                $(\"input[name='alternate_presentation_format']\").prop('checked', false);\r\n              \r\n              }\r\n\r\n            });\r\n    \r\n            /* end check for conflicts */\r\n    \r\n});\r\n  \r\n      \r\n   \r\n    \r\n  });\r\n\r\n  \r\n  \r\n  \r\n})(jQuery);\r\n"
+settings:
+  ajax: true
+  ajax_scroll_top: form
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  page_theme_name: ''
+  form_title: source_entity_webform
+  form_submit_once: true
+  form_open_message: ''
+  form_close_message: '<p>Sorry, submissions are no longer being accepted.</p>'
+  form_exception_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_disable_remote_addr: false
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_unsaved: false
+  form_disable_back: false
+  form_submit_back: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
+  form_autofocus: true
+  form_details_toggle: false
+  form_reset: false
+  form_access_denied: default
+  form_access_denied_title: ''
+  form_access_denied_message: ''
+  form_access_denied_attributes: {  }
+  form_file_limit: ''
+  form_file_limit_message: ''
+  form_attributes: {  }
+  form_method: ''
+  form_action: ''
+  share: false
+  share_node: false
+  share_theme_name: ''
+  share_title: true
+  share_page_body_attributes: {  }
+  submission_label: ''
+  submission_exception_message: ''
+  submission_locked_message: ''
+  submission_log: true
+  submission_excluded_elements:
+    submission_closed_message: submission_closed_message
+    word_count_display: word_count_display
+  submission_exclude_empty: true
+  submission_exclude_empty_checkbox: false
+  submission_views: {  }
+  submission_views_replace: {  }
+  submission_user_columns: {  }
+  submission_user_duplicate: false
+  submission_access_denied: default
+  submission_access_denied_title: ''
+  submission_access_denied_message: ''
+  submission_access_denied_attributes: {  }
+  previous_submission_message: ''
+  previous_submissions_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_progress_link: false
+  wizard_progress_states: false
+  wizard_start_label: ''
+  wizard_preview_link: false
+  wizard_confirmation: true
+  wizard_confirmation_label: 'Complete Submission'
+  wizard_auto_forward: true
+  wizard_auto_forward_hide_next_button: false
+  wizard_keyboard: true
+  wizard_track: ''
+  wizard_prev_button_label: ''
+  wizard_next_button_label: ''
+  wizard_toggle: false
+  wizard_toggle_show_label: ''
+  wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
+  preview: 2
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements:
+    submission_editable: submission_editable
+    submission_closed_message: submission_closed_message
+    word_count_warning: word_count_warning
+  preview_exclude_empty: true
+  preview_exclude_empty_checkbox: true
+  draft: none
+  draft_multiple: false
+  draft_auto_save: false
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
+  confirmation_type: page
+  confirmation_url: ''
+  confirmation_title: ''
+  confirmation_message: '<p>Thank you for your abstract submission. Your submission ID is [webform_submission:values:submission_id].</p><p>You have 48 hours from the submission start time during you will be able to update your submission. Please use the following link to make any updates:</p><p><a href="[webform_submission:token-update-url]" target="_blank">[webform_submission:token-update-url]</a></p><p>You will receive a confirmation email with your submission data included in the email. Please check your spam or junk email folder for the confirmation email. The email will also include the editing link above. Your deadline for making changes to your submission is [webform_submission:values:submission_editing_deadline].</p>'
+  confirmation_attributes: {  }
+  confirmation_back: false
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  confirmation_exclude_query: false
+  confirmation_exclude_token: false
+  confirmation_update: false
+  limit_total: null
+  limit_total_interval: null
+  limit_total_message: ''
+  limit_total_unique: false
+  limit_user: null
+  limit_user_interval: null
+  limit_user_message: ''
+  limit_user_unique: false
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
+  results_disabled: false
+  results_disabled_ignore: false
+  results_customize: false
+  token_view: false
+  token_update: true
+  token_delete: false
+  serial_disabled: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+    permissions: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  configuration:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+handlers:
+  email:
+    id: email
+    handler_id: email
+    label: Email
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: '[webform_submission:values:contact_email:raw]'
+      to_options: {  }
+      bcc_mail: growland@ccsa.ca
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Issues of Substance Abstract Submission ID [webform_submission:values:submission_id]'
+      body: '<p>Thank you for your abstract submission.</p><p>You have 48 hours from the submission start time during you will be able to update your submission. Please use the following link to make any updates:</p><p>[webform_submission:token-update-url]</p><p>The following information was submitted:</p><p>[webform_submission:values]</p>'
+      excluded_elements:
+        submission_editable: submission_editable
+        submission_closed_message: submission_closed_message
+        word_count_display: word_count_display
+        submission_editable_calc: submission_editable_calc
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: true
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      langcode: ''
+      parameters: {  }
+      debug: false
+  email_on_update:
+    id: email
+    handler_id: email_on_update
+    label: 'Email on update'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 1
+    settings:
+      states:
+        - updated
+      to_mail: '[webform_submission:values:contact_email:raw]'
+      to_options: {  }
+      bcc_mail: growland@ccsa.ca
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Issues of Substance Abstract Submission ID [webform_submission:values:submission_id]'
+      body: '<p>Thank you for updating your abstract submission.</p><p>You have 48 hours from the submission start time during you will be able to update your submission. Please use the following link to make any updates:</p><p>[webform_submission:token-update-url]</p><p>The following updated information is recorded in the submission database:</p><p>[webform_submission:values]</p>'
+      excluded_elements:
+        submission_editable: submission_editable
+        submission_closed_message: submission_closed_message
+        word_count_display: word_count_display
+        submission_editable_calc: submission_editable_calc
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: true
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      langcode: ''
+      parameters: {  }
+      debug: false
+variants: {  }

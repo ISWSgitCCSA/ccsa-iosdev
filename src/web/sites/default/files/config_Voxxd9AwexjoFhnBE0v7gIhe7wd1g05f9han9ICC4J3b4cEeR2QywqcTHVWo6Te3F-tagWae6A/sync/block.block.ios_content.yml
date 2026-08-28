@@ -1,0 +1,22 @@
+uuid: 34ee13f1-d901-4d72-baad-715e80253653
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - ios
+_core:
+  default_config_hash: ytP2hMDNnkh9FU6YBm5M-A-mP3sKViJ0P77Cp-KnwUM
+id: ios_content
+theme: ios
+region: content
+weight: -1
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  label_display: '0'
+  provider: system
+visibility: {  }

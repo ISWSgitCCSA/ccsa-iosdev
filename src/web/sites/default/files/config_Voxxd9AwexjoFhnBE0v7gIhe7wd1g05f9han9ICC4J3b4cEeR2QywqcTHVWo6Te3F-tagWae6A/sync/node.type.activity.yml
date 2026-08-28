@@ -1,0 +1,17 @@
+uuid: 91882748-13a2-439c-8554-d16ffe82c7e5
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Activity
+type: activity
+description: 'Activities that will appear in the program listing'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,54 @@
+uuid: e267746c-be6a-440d-8783-8ed965c60386
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.concurrent_session.body
+    - field.field.node.concurrent_session.field_activity_type
+    - field.field.node.concurrent_session.field_banner_image
+    - field.field.node.concurrent_session.field_concurrent_track
+    - field.field.node.concurrent_session.field_end_date_time
+    - field.field.node.concurrent_session.field_meta_tags
+    - field.field.node.concurrent_session.field_room
+    - field.field.node.concurrent_session.field_secondary_body
+    - field.field.node.concurrent_session.field_session_number
+    - field.field.node.concurrent_session.field_start_date_time
+    - node.type.concurrent_session
+  module:
+    - text
+    - user
+id: node.concurrent_session.teaser
+targetEntityType: node
+bundle: concurrent_session
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  content_moderation_control:
+    settings: {  }
+    third_party_settings: {  }
+    weight: -20
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_activity_type: true
+  field_banner_image: true
+  field_concurrent_track: true
+  field_end_date_time: true
+  field_meta_tags: true
+  field_room: true
+  field_secondary_body: true
+  field_session_number: true
+  field_start_date_time: true
+  langcode: true

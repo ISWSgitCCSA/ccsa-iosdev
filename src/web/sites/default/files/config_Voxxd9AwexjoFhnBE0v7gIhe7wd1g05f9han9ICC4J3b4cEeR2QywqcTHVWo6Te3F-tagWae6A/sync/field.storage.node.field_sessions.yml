@@ -1,0 +1,19 @@
+uuid: 070d02f8-814b-4d5b-b745-1c121f87c2f2
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_sessions
+field_name: field_sessions
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

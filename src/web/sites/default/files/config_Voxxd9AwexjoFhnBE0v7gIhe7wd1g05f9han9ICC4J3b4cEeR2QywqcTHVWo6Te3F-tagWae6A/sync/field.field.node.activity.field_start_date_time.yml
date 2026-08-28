@@ -1,0 +1,21 @@
+uuid: b07932a9-8d61-4e84-a37d-2b71a07dd759
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_start_date_time
+    - node.type.activity
+  module:
+    - datetime
+id: node.activity.field_start_date_time
+field_name: field_start_date_time
+entity_type: node
+bundle: activity
+label: 'Start Date/Time'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime
