@@ -25,6 +25,8 @@
         "drupal/core-project-message": "^11.3",
         "drupal/core-recipe-unpack": "^11.3",
         "drupal/core-recommended": "^11.3",
+        "drupal/gin": "^4.0",
+        "drupal/gin_toolbar": "^2.0",
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/media_folders": "^1.0",
         "drupal/metatag": "^2.2",
