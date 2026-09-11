@@ -2,3 +2,5 @@ global-styling:
   css:
     theme:
       css/style.css: {}
+      css/universal-ios.css: {}
+      css/ios-colour-theme.css: {}

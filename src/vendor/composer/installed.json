@@ -1473,6 +1473,137 @@
             "install-path": "../../web/themes/contrib/bootstrap5"
         },
         {
+            "name": "drupal/ckeditor5_plugin_pack",
+            "version": "1.5.4",
+            "version_normalized": "1.5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ckeditor5_plugin_pack.git",
+                "reference": "1.5.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ckeditor5_plugin_pack-1.5.4.zip",
+                "reference": "1.5.4",
+                "shasum": "8e3957b6475cd5cb72154a7bdb88904500854ba3"
+            },
+            "require": {
+                "drupal/ckeditor5_premium_features": "^1.6.4 || ^1.7",
+                "drupal/core": "^10.3 || ^11.0",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "drupal/ckeditor5_premium_features_wproofreader": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.5.4",
+                    "datestamp": "1785320332",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Wojciech Kukowski (salmonek)",
+                    "homepage": "https://www.drupal.org/u/salmonek",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Dawid Olszewski (dolszewski)",
+                    "homepage": "https://www.drupal.org/u/dolszewski",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "The plugin pack for the CKEditor 5 WYSIWYG editor.",
+            "homepage": "https://www.drupal.org/project/ckeditor5_plugin_pack",
+            "support": {
+                "source": "https://git.drupalcode.org/project/ckeditor5_plugin_pack",
+                "issues": "https://www.drupal.org/project/issues/ckeditor5_plugin_pack"
+            },
+            "install-path": "../../web/modules/contrib/ckeditor5_plugin_pack"
+        },
+        {
+            "name": "drupal/ckeditor5_premium_features",
+            "version": "1.8.3",
+            "version_normalized": "1.8.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ckeditor5_premium_features.git",
+                "reference": "1.8.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ckeditor5_premium_features-1.8.3.zip",
+                "reference": "1.8.3",
+                "shasum": "1f18f33af2143cda203e4657891bb7739a93bbc6"
+            },
+            "require": {
+                "drupal/core": "^10.3 || ^11.0",
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "drupal/ckeditor5-ckeditor5": "*",
+                "drupal/ckeditor5_premium_features_cloud_services": "*",
+                "drupal/ckeditor5_premium_features_mentions": "*"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Required for AWS Bedrock provider for the AI Assistant.",
+                "caxy/php-htmldiff": "Required for asynchronous collaboration and notifications.",
+                "firebase/php-jwt": "Required for Real-time collaboration and document converters.",
+                "openai-php/client": "Required for OpenAI an AzureAI providers for the AI Assistant."
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.8.3",
+                    "datestamp": "1785318955",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Wojciech Kukowski (salmonek)",
+                    "homepage": "https://www.drupal.org/u/salmonek",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Dawid Olszewski (dolszewski)",
+                    "homepage": "https://www.drupal.org/u/dolszewski",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "wwalc",
+                    "homepage": "https://www.drupal.org/user/184556"
+                }
+            ],
+            "description": "The premium features for the CKEditor 5 WYSIWYG editor.",
+            "homepage": "https://www.drupal.org/project/ckeditor5_premium_features",
+            "support": {
+                "source": "https://git.drupalcode.org/project/ckeditor5_premium_features",
+                "issues": "https://www.drupal.org/project/issues/ckeditor5_premium_features"
+            },
+            "install-path": "../../web/modules/contrib/ckeditor5_premium_features"
+        },
+        {
             "name": "drupal/commerce",
             "version": "3.3.4",
             "version_normalized": "3.3.4.0",
@@ -2465,6 +2596,143 @@
                 "source": "https://git.drupalcode.org/project/entity_reference_revisions"
             },
             "install-path": "../../web/modules/contrib/entity_reference_revisions"
+        },
+        {
+            "name": "drupal/fontawesome",
+            "version": "3.0.0",
+            "version_normalized": "3.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/fontawesome.git",
+                "reference": "3.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/fontawesome-3.0.0.zip",
+                "reference": "3.0.0",
+                "shasum": "48102613a7cb6791db4d50c0ffe8604cdb29623f"
+            },
+            "require": {
+                "drupal/core": "^10.2 || ^11.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.0",
+                    "datestamp": "1737497622",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^12 || ^13"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "daniel.moberly",
+                    "homepage": "https://www.drupal.org/user/1160788"
+                },
+                {
+                    "name": "truls1502",
+                    "homepage": "https://www.drupal.org/user/325866"
+                }
+            ],
+            "description": "The web's most popular icon set and toolkit.",
+            "homepage": "https://www.drupal.org/project/fontawesome",
+            "support": {
+                "source": "https://git.drupalcode.org/project/fontawesome",
+                "issues": "https://drupal.org/project/issues/fontawesome"
+            },
+            "install-path": "../../web/modules/contrib/fontawesome"
+        },
+        {
+            "name": "drupal/fontyourface",
+            "version": "4.2.0",
+            "version_normalized": "4.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/fontyourface.git",
+                "reference": "4.2.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/fontyourface-4.2.0.zip",
+                "reference": "4.2.0",
+                "shasum": "59569fb06b8efe0b484bfa5447337b12d7530bd5"
+            },
+            "require": {
+                "drupal/core": "^10.2 || ^11.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "4.2.0",
+                    "datestamp": "1772018724",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Neslee Canil Pinto",
+                    "homepage": "https://www.drupal.org/u/neslee-canil-pinto",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "btmash",
+                    "homepage": "https://www.drupal.org/user/60422"
+                },
+                {
+                    "name": "Drave Robber",
+                    "homepage": "https://www.drupal.org/user/984338"
+                },
+                {
+                    "name": "hmendes",
+                    "homepage": "https://www.drupal.org/user/3673677"
+                },
+                {
+                    "name": "mandclu",
+                    "homepage": "https://www.drupal.org/user/52136"
+                },
+                {
+                    "name": "neslee canil pinto",
+                    "homepage": "https://www.drupal.org/user/3580850"
+                },
+                {
+                    "name": "podarok",
+                    "homepage": "https://www.drupal.org/user/116002"
+                },
+                {
+                    "name": "sreynen",
+                    "homepage": "https://www.drupal.org/user/109890"
+                }
+            ],
+            "description": "Web font management tools.",
+            "homepage": "https://www.drupal.org/project/fontyourface",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/fontyourface",
+                "issues": "https://drupal.org/project/issues/fontyourface"
+            },
+            "install-path": "../../web/modules/contrib/fontyourface"
         },
         {
             "name": "drupal/gin",
