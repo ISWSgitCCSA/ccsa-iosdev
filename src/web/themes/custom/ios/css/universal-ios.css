@@ -1,0 +1,5102 @@
+/* ==========================================================
+   IOS UNIVERSAL COMPONENTS
+   ========================================================== */
+
+
+/* ==========================================================
+   IMPORTED FONTS
+   Montserrat and Noto Sans
+   ========================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+
+/* ==========================================================
+   BASE TYPOGRAPHY
+   ========================================================== */
+
+body {
+  margin: 0;
+
+  font-family:
+    "Noto Sans",
+    sans-serif;
+
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+  font-family:
+    "Montserrat",
+    sans-serif;
+}
+
+.paragraph-text,
+.ios-list,
+table {
+  color: inherit;
+
+  font-family:
+    "Noto Sans",
+    sans-serif;
+
+  font-optical-sizing: auto;
+  font-size: 1rem;
+}
+
+
+/* ==========================================================
+   LINKS AND FOCUS
+   ========================================================== */
+
+/*
+ * Link colours are supplied by color-theme.css.
+ */
+
+a {
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    letter-spacing 0.3s ease;
+}
+
+a:focus-visible {
+  outline:
+    2px solid currentColor;
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================
+   BASIC CONTENT UTILITIES
+   ========================================================== */
+
+.ios-list {
+  margin-block-end:
+    1.5rem;
+
+  margin-inline-start:
+    1rem;
+}
+
+.note {
+  margin-block-end:
+    2rem;
+
+  font-style:
+    italic;
+}
+
+.swatch {
+  aspect-ratio:
+    2 / 1;
+
+  font-size:
+    2.5rem;
+}
+
+
+/* ==========================================================
+   STACKED TEXT SHADOW
+   ========================================================== */
+
+.ios-stacked-text-shadow {
+  --ios-shadow-light:
+    color-mix(
+      in srgb,
+      var(--ios-text-contrast) 8%,
+      var(--ios-white) 92%
+    );
+
+  color:
+    var(
+      --ios-theme-color,
+      var(--ios-cool)
+    );
+
+  background:
+    transparent;
+
+  text-shadow:
+    1px 0 0
+    var(--ios-shadow-light),
+
+    0 1px 0
+    var(--ios-shadow-light),
+
+    2px 2px 0
+    var(--ios-shadow-light),
+
+    4px 4px 0
+    var(--ios-shadow-light),
+
+    6px 6px 0
+    var(--ios-shadow-light);
+}
+
+
+/* ==========================================================
+   IOS BUTTONS
+   ========================================================== */
+
+.btn-ios {
+  --_ios-btn-color:
+    var(
+      --ios-btn-color,
+      var(--ios-cool)
+    );
+
+  --_ios-btn-text:
+    var(
+      --ios-btn-text,
+      var(--ios-white)
+    );
+
+  --_ios-btn-border:
+    var(
+      --ios-btn-border,
+      var(--_ios-btn-color)
+    );
+
+  --_ios-btn-hover-bg:
+    var(
+      --ios-btn-hover-bg,
+      var(--ios-white)
+    );
+
+  --_ios-btn-hover-color:
+    var(
+      --ios-btn-hover-color,
+      var(--_ios-btn-color)
+    );
+
+  --_ios-btn-hover-border:
+    var(
+      --ios-btn-hover-border,
+      var(--_ios-btn-hover-color)
+    );
+
+  padding:
+    0.7em 1.9em;
+
+  color:
+    var(--_ios-btn-text);
+
+  background-color:
+    var(--_ios-btn-color);
+
+  border:
+    1px solid
+    var(--_ios-btn-border);
+
+  font-family:
+    "Noto Sans",
+    sans-serif;
+
+  font-size:
+    1.12em;
+
+  font-style:
+    normal;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    0.08rem;
+
+  text-transform:
+    uppercase;
+
+
+  /* Bootstrap button integration */
+
+  --bs-btn-color:
+    var(--_ios-btn-text);
+
+  --bs-btn-bg:
+    var(--_ios-btn-color);
+
+  --bs-btn-border-color:
+    var(--_ios-btn-border);
+
+  --bs-btn-hover-color:
+    var(--_ios-btn-hover-color);
+
+  --bs-btn-hover-bg:
+    var(--_ios-btn-hover-bg);
+
+  --bs-btn-hover-border-color:
+    var(--_ios-btn-hover-border);
+
+  --bs-btn-active-color:
+    var(--_ios-btn-hover-color);
+
+  --bs-btn-active-bg:
+    var(--_ios-btn-hover-bg);
+
+  --bs-btn-active-border-color:
+    var(--_ios-btn-hover-border);
+}
+
+
+/*
+ * Prevent global link styles from overriding linked buttons.
+ */
+
+a.btn-ios,
+a.btn-ios:link,
+a.btn-ios:visited {
+  color:
+    var(--_ios-btn-text);
+
+  background-color:
+    var(--_ios-btn-color);
+
+  border-color:
+    var(--_ios-btn-border);
+
+  text-decoration:
+    none;
+}
+
+a.btn-ios:hover,
+a.btn-ios:focus-visible {
+  color:
+    var(--_ios-btn-hover-color);
+
+  background-color:
+    var(--_ios-btn-hover-bg);
+
+  border-color:
+    var(--_ios-btn-hover-border);
+
+  text-decoration:
+    none;
+}
+
+.btn-ios-view-more {
+
+
+  font-size:
+    smaller;
+
+  text-align:
+    start;
+}
+
+
+/* Button arrow */
+
+.btn-arrow::after {
+  display:
+    inline-block;
+
+  margin-inline-start:
+    0.35em;
+
+  content:
+    "\00a0\2192";
+
+  transition:
+    transform 0.2s ease;
+}
+
+.btn-arrow:hover::after,
+.btn-arrow:focus-visible::after {
+  transform:
+    translateX(0.2em);
+}
+
+
+/* ==========================================================
+   BLOCKQUOTE AND PULLQUOTE
+   ========================================================== */
+
+.ios-blockquote,
+.ios-pullquote {
+  --_ios-quote-bg:
+    var(
+      --ios-btn-color,
+      var(--bs-secondary-bg)
+    );
+
+  --_ios-quote-text:
+    var(
+      --ios-btn-text,
+      var(--bs-body-color)
+    );
+
+  --_ios-quote-border:
+    var(
+      --ios-btn-border,
+      var(--bs-border-color)
+    );
+
+  position:
+    relative;
+
+  color:
+    var(--_ios-quote-text);
+
+  background:
+    linear-gradient(
+      0deg,
+      color-mix(
+        in srgb,
+        var(--_ios-quote-bg) 75%,
+        var(--ios-blockquote-highlight) 25%
+      ),
+      var(--_ios-quote-bg)
+    );
+
+  border:
+    2px solid
+    color-mix(
+      in srgb,
+      var(--_ios-quote-border) 35%,
+      var(--ios-white) 65%
+    );
+
+  border-radius:
+    0.5rem;
+
+  box-shadow:
+    1px 6px 13px 1px
+    rgb(0 1 64 / 0.16);
+}
+
+
+/* Blockquote */
+
+.ios-blockquote {
+  inline-size:
+    min(70%, 60rem);
+
+  margin:
+    1rem auto;
+
+  padding:
+    1.5rem;
+
+  text-align:
+    center;
+}
+
+.ios-blockquote h2 {
+  inline-size:
+    min(75%, 45rem);
+
+  margin:
+    1rem auto;
+
+  font-size:
+    2rem;
+
+  letter-spacing:
+    0.15rem;
+
+  text-transform:
+    uppercase;
+}
+
+.ios-blockquote p {
+  inline-size:
+    min(85%, 50rem);
+
+  margin:
+    .5rem auto;
+
+  font-size:
+    1.3rem;
+}
+
+
+/* Pullquote */
+
+.ios-pullquote {
+  inline-size:
+    min(18.75rem, calc(100% - 2rem));
+
+  margin:
+    1rem;
+
+  padding:
+    1.5rem;
+
+  font-size:
+    1rem;
+}
+
+.ios-pullquote,
+.ios-pullquote p,
+.ios-pullquote figcaption {
+  color:
+    var(--_ios-quote-text);
+}
+
+.ios-pullquote p {
+  position:
+    relative;
+
+  margin:
+    0 0 1.5rem;
+
+  padding:
+    0 1.25rem;
+
+  font-style:
+    italic;
+
+  text-align:
+    center;
+}
+
+.ios-pullquote p::before,
+.ios-pullquote p::after {
+  position:
+    absolute;
+
+  color:
+    currentColor;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    1.5rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1;
+}
+
+.ios-pullquote p::before {
+  inset-block-start:
+    -0.45rem;
+
+  inset-inline-start:
+    -0.5rem;
+
+  content:
+    "\201C";
+}
+
+.ios-pullquote p::after {
+  inset-inline-end:
+    0;
+
+  inset-block-end:
+    -1.2rem;
+
+  content:
+    "\201D";
+}
+
+.ios-pullquote figcaption {
+  font-variant:
+    small-caps;
+
+  font-weight:
+    600;
+
+  letter-spacing:
+    0.02em;
+
+  text-align:
+    end;
+}
+
+.ios-pullquote figcaption::before {
+  content:
+    "\2014\00a0";
+}
+
+
+/*
+ * Tonal quote classes inherit their border from the active
+ * tonal utility applied to the same element.
+ */
+
+.ios-blockquote:is(
+  .warm-bg,
+  .warm-light-bg,
+  .warm-dark-bg,
+  .cool-bg,
+  .cool-light-bg,
+  .cool-dark-bg
+),
+.ios-pullquote:is(
+  .warm-bg,
+  .warm-light-bg,
+  .warm-dark-bg,
+  .cool-bg,
+  .cool-light-bg,
+  .cool-dark-bg
+) {
+  border-color:
+    color-mix(
+      in srgb,
+      var(--ios-btn-border) 30%,
+      var(--ios-white) 70%
+    );
+}
+
+
+/* ==========================================================
+   IOS CARDS
+   ========================================================== */
+
+.ios-card {
+  inline-size:
+    100%;
+
+  overflow:
+    hidden;
+}
+
+.ios-card .card-title {
+  font-family:
+    "Noto Sans",
+    sans-serif;
+
+  font-weight:
+    700;
+}
+
+.ios-card p {
+  font-size:
+    0.9rem;
+}
+
+.ios-card .btn-ios {
+  inline-size:
+    100%;
+
+  font-size:
+    0.9rem;
+
+  letter-spacing:
+    0;
+}
+
+.ios-card .card-img-top {
+  inline-size:
+    100%;
+
+  block-size:
+    13rem;
+
+  object-fit:
+    cover;
+}
+
+.ios-card__cta {
+  display:
+    grid;
+
+  grid-template-columns:
+    1fr auto 1fr;
+
+  align-items:
+    center;
+
+  inline-size:
+    100%;
+
+  padding-block:
+    0.9rem;
+
+  padding-inline:
+    1rem;
+
+  border-radius:
+    0;
+
+  letter-spacing:
+    0;
+
+  text-decoration:
+    none;
+}
+
+.ios-card__cta span {
+  grid-column:
+    2;
+}
+
+.ios-card__cta::after {
+  grid-column:
+    3;
+
+  justify-self:
+    center;
+
+  content:
+    "\f178";
+
+  font-family:
+    "Font Awesome 6 Free";
+
+  font-weight:
+    900;
+}
+
+
+/* ==========================================================
+   IOS ACCORDION
+   ========================================================== */
+
+.ios-accordion {
+  --ios-btn-text:
+    var(--ios-white);
+}
+
+.ios-accordion .accordion-item:nth-child(odd) {
+  --ios-btn-color:
+    var(--ios-warm);
+
+  --ios-btn-border:
+    var(--ios-warm);
+}
+
+.ios-accordion .accordion-item:nth-child(even) {
+  --ios-btn-color:
+    var(--ios-cool);
+
+  --ios-btn-border:
+    var(--ios-cool);
+}
+
+.ios-accordion .accordion-button[aria-expanded="true"] {
+  color:
+    var(--ios-btn-text);
+
+  background-color:
+    var(--ios-btn-color);
+
+  border-color:
+    var(--ios-btn-border);
+}
+
+
+/* ==========================================================
+   PILLS AND TAGS
+   ========================================================== */
+
+.ios-tag .rounded-pill {
+  --bs-border-radius-pill:
+    0.4rem;
+}
+
+
+/* ==========================================================
+   BREADCRUMBS
+   ========================================================== */
+
+.ios-breadcrumbs .breadcrumb-item {
+  font-size:
+    0.9rem;
+
+  letter-spacing:
+    -0.05rem;
+
+  text-transform:
+    uppercase;
+}
+
+.ios-breadcrumbs .breadcrumb-item a {
+  color:
+    var(--ios-warm);
+
+  text-decoration:
+    none;
+}
+
+.ios-breadcrumbs .breadcrumb-item a:hover,
+.ios-breadcrumbs .breadcrumb-item a:focus-visible {
+  color:
+    var(--ios-cool);
+
+  letter-spacing:
+    -0.03rem;
+
+  text-decoration:
+    underline;
+
+  text-decoration-thickness:
+    1px;
+
+  text-underline-offset:
+    0.2em;
+}
+
+
+/* ==========================================================
+   RESPONSIVE MENU
+   ========================================================== */
+
+.ios-responsive-menu {
+  /*
+   * Source palette values keep the mobile menu sufficiently
+   * dark in both daylight and dark modes.
+   */
+
+  --_ios-menu-base:
+    var(
+      --ios-palette-cool,
+      var(--ios-cool)
+    );
+
+  --_ios-menu-dark:
+    var(
+      --ios-palette-cool-dark,
+      var(--ios-cool-dark)
+    );
+
+  --_ios-menu-border:
+    var(
+      --ios-menu-border,
+      var(--bs-border-color)
+    );
+
+  --_ios-menu-disabled:
+    var(
+      --ios-disabled,
+      var(--bs-secondary-color)
+    );
+
+  padding:
+    0;
+
+  background:
+    transparent;
+}
+
+.ios-menu {
+  --bs-nav-tabs-border-color:
+    var(--_ios-menu-border);
+
+  --bs-nav-tabs-link-active-border-color:
+    var(--_ios-menu-border)
+    var(--_ios-menu-border)
+    transparent;
+
+  --bs-dropdown-border-color:
+    var(--_ios-menu-border);
+}
+
+.ios-menu .nav-link,
+.ios-menu .dropdown-item {
+  font-size:
+    0.9rem;
+
+  letter-spacing:
+    -0.05rem;
+
+  text-decoration:
+    none;
+
+  text-transform:
+    uppercase;
+}
+
+.ios-menu .nav-link.disabled,
+.ios-menu .nav-link:disabled,
+.ios-menu .dropdown-item.disabled,
+.ios-menu .dropdown-item:disabled {
+  cursor:
+    not-allowed;
+
+  pointer-events:
+    none;
+
+  text-decoration:
+    none;
+}
+
+
+/* Mobile toggle */
+
+.ios-menu-toggle {
+  margin-inline-start:
+    auto;
+
+  color:
+    var(--ios-cool);
+
+  background:
+    transparent;
+
+  border:
+    0;
+
+  box-shadow:
+    none;
+}
+
+.ios-menu-toggle i {
+  color:
+    currentColor;
+
+  font-size:
+    1.5rem;
+}
+
+.ios-menu-toggle .fa-xmark {
+  display:
+    none;
+}
+
+.ios-menu-toggle[aria-expanded="true"] {
+  color:
+    var(--ios-white);
+}
+
+.ios-menu-toggle[aria-expanded="true"] .fa-bars {
+  display:
+    none;
+}
+
+.ios-menu-toggle[aria-expanded="true"] .fa-xmark {
+  display:
+    inline-block;
+}
+
+.ios-menu-toggle:hover,
+.ios-menu-toggle:focus,
+.ios-menu-toggle:active {
+  border:
+    0;
+
+  box-shadow:
+    none;
+}
+
+.ios-menu-toggle:focus-visible {
+  outline:
+    2px solid
+    var(--ios-warm);
+
+  outline-offset:
+    3px;
+}
+
+
+/* ==========================================================
+   MOBILE AND TABLET MENU
+   ========================================================== */
+
+@media (max-width: 991.98px) {
+  .ios-responsive-menu:has(.navbar-collapse.show),
+  .ios-responsive-menu:has(.navbar-collapse.collapsing) {
+    background:
+      linear-gradient(
+        0deg,
+        color-mix(
+          in srgb,
+          var(--_ios-menu-dark) 95%,
+          transparent
+        ),
+        color-mix(
+          in srgb,
+          var(--_ios-menu-base) 82%,
+          transparent
+        )
+      ),
+      var(--_ios-menu-base);
+  }
+
+  .ios-responsive-menu__content {
+    display:
+      grid;
+
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(8rem, 42%);
+
+    gap:
+      1rem;
+
+    align-items:
+      start;
+
+    padding:
+      1rem;
+  }
+
+  .ios-menu {
+    flex-direction:
+      column;
+
+    align-items:
+      flex-start;
+
+    justify-content:
+      flex-start;
+
+    inline-size:
+      100%;
+
+    border:
+      0;
+  }
+
+  .ios-menu .nav-item {
+    inline-size:
+      100%;
+  }
+
+  .ios-menu .nav-link,
+  .ios-menu .nav-link:link,
+  .ios-menu .nav-link:visited {
+    display:
+      inline-block;
+
+    padding:
+      0.35rem 0;
+
+    color:
+      var(--ios-white) !important;
+
+    background:
+      transparent;
+
+    border:
+      0;
+
+    border-radius:
+      0;
+
+    font-size:
+      larger;
+
+    font-weight:
+      400;
+
+    letter-spacing:
+      0.09rem;
+
+    text-align:
+      start;
+  }
+
+  .ios-menu .nav-link:hover,
+  .ios-menu .nav-link:focus-visible,
+  .ios-menu .nav-link.active,
+  .ios-menu .nav-link.active:link,
+  .ios-menu .nav-link.active:visited {
+    color:
+      var(--ios-white) !important;
+
+    background:
+      transparent;
+
+    text-decoration:
+      underline;
+
+    text-decoration-thickness:
+      1px;
+
+    text-underline-offset:
+      0.2em;
+  }
+
+  .ios-menu .nav-link.disabled,
+  .ios-menu .nav-link:disabled,
+  .ios-menu .nav-link.disabled:visited {
+    color:
+      var(--ios-white) !important;
+
+    background:
+      transparent;
+
+    opacity:
+      0.5;
+
+    font-weight:
+      300;
+
+    text-decoration:
+      none;
+  }
+
+
+  /* Mobile dropdown */
+
+  .ios-menu .dropdown-menu {
+    position:
+      static;
+
+    float:
+      none;
+
+    margin:
+      0;
+
+    padding:
+      0 0 0.5rem 1rem;
+
+    background:
+      transparent;
+
+    border:
+      0;
+
+    box-shadow:
+      none;
+  }
+
+  .ios-menu .dropdown-item,
+  .ios-menu .dropdown-item:link,
+  .ios-menu .dropdown-item:visited {
+    padding-inline:
+      0;
+
+    color:
+      var(--ios-white) !important;
+
+    background:
+      transparent;
+
+    font-weight:
+      300;
+  }
+
+  .ios-menu .dropdown-item:hover,
+  .ios-menu .dropdown-item:focus-visible {
+    color:
+      var(--ios-white) !important;
+
+    background:
+      transparent;
+
+    text-decoration:
+      underline;
+
+    text-underline-offset:
+      0.2em;
+  }
+
+  .ios-menu .dropdown-item.disabled,
+  .ios-menu .dropdown-item:disabled,
+  .ios-menu .dropdown-item.disabled:visited {
+    color:
+      var(--ios-white) !important;
+
+    background:
+      transparent;
+
+    opacity:
+      0.5;
+
+    text-decoration:
+      none;
+  }
+
+  .ios-menu .dropdown-divider {
+    border-color:
+      color-mix(
+        in srgb,
+        var(--ios-white) 45%,
+        transparent
+      );
+  }
+
+
+  /* Mobile feature image */
+
+  .ios-responsive-menu__feature {
+    position:
+      relative;
+
+    align-self:
+      stretch;
+
+    min-block-size:
+      15rem;
+  }
+
+  .ios-responsive-menu__feature::before {
+    position:
+      absolute;
+
+    inset:
+      1rem 0 0 1rem;
+
+    content:
+      "";
+
+    background-color:
+      color-mix(
+        in srgb,
+        var(--_ios-menu-dark) 65%,
+        transparent
+      );
+
+    border-radius:
+      0.5rem;
+
+    box-shadow:
+      0 0.75rem 1.5rem
+      rgb(0 0 0 / 0.25);
+  }
+
+  .ios-responsive-menu__feature img {
+    position:
+      relative;
+
+    z-index:
+      1;
+
+    display:
+      block;
+
+    inline-size:
+      100%;
+
+    block-size:
+      100%;
+
+    min-block-size:
+      15rem;
+
+    margin-block-end:
+      1rem;
+
+    object-fit:
+      cover;
+
+    border-radius:
+      0.5rem;
+
+    transform:
+      translate(1rem, -0.8rem);
+  }
+}
+
+
+/* ==========================================================
+   DESKTOP MENU
+   ========================================================== */
+
+@media (min-width: 992px) {
+  .ios-responsive-menu {
+    background:
+      transparent;
+  }
+
+  .ios-responsive-menu .navbar-collapse {
+    inline-size:
+      100%;
+  }
+
+  .ios-responsive-menu__content {
+    display:
+      block;
+
+    inline-size:
+      100%;
+  }
+
+  .ios-menu {
+    flex-direction:
+      row;
+
+    justify-content:
+      flex-end;
+
+    inline-size:
+      100%;
+  }
+
+  .ios-menu .nav-link,
+  .ios-menu .nav-link:link,
+  .ios-menu .nav-link:visited {
+    color:
+      var(--ios-cool) !important;
+
+    border-block-end:
+      0;
+
+    font-weight:
+      700;
+  }
+
+  .ios-menu .nav-link:hover,
+  .ios-menu .nav-link:focus-visible {
+    color:
+      var(--ios-warm) !important;
+
+    background-color:
+      var(--ios-cool-light);
+
+    border:
+      0;
+
+    letter-spacing:
+      0.03rem;
+  }
+
+  .ios-menu .nav-link.active,
+  .ios-menu .nav-link.active:link,
+  .ios-menu .nav-link.active:visited {
+    color:
+      var(--ios-warm) !important;
+
+    background-color:
+      var(--bs-body-bg);
+
+    border-color:
+      var(--_ios-menu-border)
+      var(--_ios-menu-border)
+      var(--bs-body-bg);
+
+    border-block-end:
+      0;
+  }
+
+  .ios-menu .nav-link.disabled,
+  .ios-menu .nav-link:disabled,
+  .ios-menu .nav-link.disabled:visited {
+    color:
+      var(--_ios-menu-disabled) !important;
+
+    background:
+      transparent;
+
+    opacity:
+      1;
+
+    font-weight:
+      300;
+  }
+
+
+  /* Desktop dropdown */
+
+  .ios-menu .dropdown-menu {
+    border-color:
+      var(--_ios-menu-border);
+
+    border-block-start:
+      0;
+  }
+
+  .ios-menu .dropdown-menu[data-bs-popper] {
+    margin-block-start:
+      2px;
+  }
+
+  .ios-menu .dropdown-item,
+  .ios-menu .dropdown-item:link,
+  .ios-menu .dropdown-item:visited {
+    color:
+      var(--ios-cool) !important;
+  }
+
+  .ios-menu .dropdown-item:hover,
+  .ios-menu .dropdown-item:focus-visible {
+    color:
+      var(--ios-warm) !important;
+
+    background-color:
+      var(--ios-cool-light);
+  }
+
+  .ios-menu .dropdown-item.disabled,
+  .ios-menu .dropdown-item:disabled,
+  .ios-menu .dropdown-item.disabled:visited {
+    color:
+      var(--_ios-menu-disabled) !important;
+
+    background:
+      transparent;
+
+    opacity:
+      1;
+
+    font-weight:
+      300;
+  }
+
+  .ios-responsive-menu__feature {
+    display:
+      none;
+  }
+}
+
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.ios-footer {
+  --ios-mix-theme-weight:
+    35%;
+
+  --ios-mix-white-weight:
+    65%;
+}
+
+.ios-footer p,
+.ios-footer span {
+  color:
+    var(--ios-white);
+}
+
+.ios-footer a,
+.ios-footer a:visited {
+  color:
+    var(--ccsa-accent-color);
+
+  font-weight:
+    400;
+
+  text-decoration:
+    none;
+}
+
+.ios-footer a:hover,
+.ios-footer a:focus-visible {
+  color:
+    color-mix(
+      in srgb,
+      var(--ios-white) 30%,
+      var(--ios-warm) 70%
+    );
+
+  letter-spacing:
+    0.05rem;
+
+  text-decoration:
+    underline;
+
+  text-decoration-thickness:
+    1px;
+
+  text-underline-offset:
+    0.2em;
+}
+
+.ios-footer-questionmark {
+  inline-size:
+    1.6em;
+
+  padding:
+    0.09em;
+
+  color:
+    color-mix(
+      in srgb,
+      var(--ios-white) 30%,
+      var(--ios-warm) 70%
+    );
+
+  border:
+    5px solid
+    currentColor;
+
+  border-radius:
+    50px 50px 50px 5px;
+
+  font-size:
+    3rem;
+
+  text-align:
+    center;
+}
+
+.ios-footer-contact-btn {
+  inline-size:
+    100%;
+
+  letter-spacing:
+    0.03rem;
+}
+
+.ios-footer-contact-btn:hover,
+.ios-footer-contact-btn:focus-visible {
+  letter-spacing:
+    0.05rem;
+}
+
+.ios-footer-utility-menu p,
+.ios-footer-utility-menu a {
+  font-weight:
+    300;
+
+  letter-spacing:
+    0.03rem;
+}
+
+.ios-footer-map-heading {
+  letter-spacing:
+    0.06rem;
+
+  text-decoration:
+    underline;
+
+  text-decoration-thickness:
+    0.05rem;
+
+  text-underline-offset:
+    0.4em;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ==========================================================
+   IOS CAROUSEL
+   ========================================================== */
+
+.ios-featured-speakers .row {
+  min-inline-size:
+    0;
+}
+
+.ios-carousel {
+  --_ios-carousel-control-color:
+    var(
+      --ios-carousel-control-color,
+      var(--ios-warm)
+    );
+
+  --_ios-carousel-control-bg:
+    var(
+      --ios-carousel-control-bg,
+      var(--ios-white)
+    );
+
+  --_ios-carousel-control-border:
+    var(
+      --ios-carousel-control-border,
+      var(--ios-warm)
+    );
+
+  --_ios-carousel-control-hover-color:
+    var(
+      --ios-carousel-control-hover-color,
+      var(--ios-white)
+    );
+
+  --_ios-carousel-control-hover-bg:
+    var(
+      --ios-carousel-control-hover-bg,
+      var(--ios-warm)
+    );
+
+  --_ios-carousel-control-focus:
+    var(
+      --ios-carousel-control-focus,
+      var(--ios-cool-dark)
+    );
+
+  --_ios-carousel-control-shadow:
+    var(
+      --ios-carousel-control-shadow,
+      rgb(0 0 0 / 0.2)
+    );
+
+  position:
+    relative;
+
+  inline-size:
+    100%;
+
+  min-inline-size:
+    0;
+
+  padding-block-end:
+    2.5rem;
+
+  padding-inline:
+    2rem;
+
+  overflow:
+    visible;
+}
+
+.ios-carousel .carousel-inner {
+  inline-size:
+    100%;
+
+  overflow:
+    hidden;
+}
+
+.ios-carousel .carousel-item > .row {
+  align-items:
+    stretch;
+}
+
+.ios-carousel
+  .carousel-item
+  [class*="col-"] {
+  display:
+    flex;
+}
+
+.ios-carousel .ios-card {
+  inline-size:
+    100%;
+
+  block-size:
+    100%;
+}
+
+.ios-carousel
+  .ios-card
+  .card-img-top {
+  object-position:
+    center top;
+}
+
+
+/* Carousel controls */
+
+.ios-carousel .carousel-control-prev,
+.ios-carousel .carousel-control-next {
+  position:
+    absolute;
+
+  inset-block-start:
+    calc(48% - 1.25rem);
+
+  inset-block-end:
+    auto;
+
+  z-index:
+    10;
+
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  inline-size:
+    3rem;
+
+  block-size:
+    3rem;
+
+  padding:
+    0;
+
+  color:
+    var(--_ios-carousel-control-color);
+
+  background-color:
+    var(--_ios-carousel-control-bg);
+
+  border:
+    2px solid
+    var(--_ios-carousel-control-border);
+
+  border-radius:
+    50%;
+
+  box-shadow:
+    0 0.25rem 0.6rem
+    var(--_ios-carousel-control-shadow);
+
+  opacity:
+    1;
+
+  transform:
+    translateY(-50%);
+
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.ios-carousel .carousel-control-prev {
+  inset-inline-start:
+    0.6rem;
+}
+
+.ios-carousel .carousel-control-next {
+  inset-inline-end:
+    0.6rem;
+}
+
+.ios-carousel .carousel-control-prev i,
+.ios-carousel .carousel-control-next i {
+  display:
+    block;
+
+  color:
+    currentColor !important;
+
+  font-size:
+    1rem;
+
+  line-height:
+    1;
+}
+
+.ios-carousel .carousel-control-prev:hover,
+.ios-carousel .carousel-control-next:hover,
+.ios-carousel .carousel-control-prev:focus-visible,
+.ios-carousel .carousel-control-next:focus-visible {
+  color:
+    var(--_ios-carousel-control-hover-color);
+
+  background-color:
+    var(--_ios-carousel-control-hover-bg);
+
+  border-color:
+    var(--_ios-carousel-control-border);
+}
+
+.ios-carousel .carousel-control-prev:focus-visible,
+.ios-carousel .carousel-control-next:focus-visible {
+  outline:
+    3px solid
+    var(--_ios-carousel-control-focus);
+
+  outline-offset:
+    3px;
+}
+
+
+/* Carousel indicators */
+
+.ios-carousel .carousel-indicators {
+  inset-inline:
+    0;
+
+  inset-block-end:
+    0;
+
+  gap:
+    0.4rem;
+
+  margin:
+    0;
+}
+
+.ios-carousel
+  .carousel-indicators
+  [data-bs-target] {
+  inline-size:
+    0.65rem;
+
+  block-size:
+    0.65rem;
+
+  margin:
+    0;
+
+  background-color:
+    var(--_ios-carousel-control-color);
+
+  border:
+    0;
+
+  border-radius:
+    50%;
+
+  opacity:
+    0.35;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.ios-carousel
+  .carousel-indicators
+  [data-bs-target]:hover {
+  opacity:
+    0.75;
+}
+
+.ios-carousel
+  .carousel-indicators
+  .active {
+  opacity:
+    1;
+}
+
+.ios-carousel
+  .carousel-indicators
+  [data-bs-target]:focus-visible {
+  outline:
+    3px solid
+    var(--_ios-carousel-control-focus);
+
+  outline-offset:
+    3px;
+}
+
+
+/* Mobile carousel */
+
+@media (max-width: 575.98px) {
+  .ios-carousel {
+    padding-inline:
+      1.5rem;
+  }
+
+  .ios-carousel .carousel-control-prev {
+    inset-inline-start:
+      -0.25rem;
+  }
+
+  .ios-carousel .carousel-control-next {
+    inset-inline-end:
+      -0.25rem;
+  }
+}
+
+
+/* ==========================================================
+   IOS UNIVERSAL PAGE HEADER
+   ========================================================== */
+
+/*
+ * Optional theme hooks:
+ *
+ * --ios-page-header-bg
+ * --ios-page-header-text
+ * --ios-page-header-overlay-color
+ * --ios-page-header-accent
+ * --ios-page-header-meta-color
+ * --ios-page-header-icon-color
+ * --ios-page-header-border
+ * --ios-page-header-image-opacity
+ * --ios-page-header-image-position
+ */
+
+
+/* Base component */
+
+.ios-page-header {
+  --_ios-page-header-bg:
+    var(
+      --ios-page-header-bg,
+      var(--bs-secondary-bg)
+    );
+
+  --_ios-page-header-text:
+    var(
+      --ios-page-header-text,
+      var(--bs-body-color)
+    );
+
+  --_ios-page-header-overlay:
+    var(
+      --ios-page-header-overlay-color,
+      var(--bs-body-bg)
+    );
+
+  --_ios-page-header-accent:
+    var(
+      --ios-page-header-accent,
+      var(--ios-warm)
+    );
+
+  --_ios-page-header-meta:
+    var(
+      --ios-page-header-meta-color,
+      var(--bs-body-color)
+    );
+
+  --_ios-page-header-icon:
+    var(
+      --ios-page-header-icon-color,
+      var(--ios-warm)
+    );
+
+  --_ios-page-header-border:
+    var(
+      --ios-page-header-border,
+      var(--bs-border-color)
+    );
+
+  --_ios-page-header-image-opacity:
+    var(
+      --ios-page-header-image-opacity,
+      0.72
+    );
+
+  --_ios-page-header-image-position:
+    var(
+      --ios-page-header-image-position,
+      center
+    );
+
+  --_ios-page-header-max-width:
+    var(
+      --ios-page-header-max-width,
+      80rem
+    );
+
+  --_ios-page-header-copy-width:
+    48rem;
+
+  --_ios-page-header-image-width:
+    56%;
+
+  --_ios-page-header-padding:
+    clamp(2.75rem, 6vw, 5rem);
+
+  --_ios-page-header-title-size:
+    clamp(2.25rem, 5vw, 3.75rem);
+
+  --_ios-page-header-min-height:
+    17rem;
+
+  position:
+    relative;
+
+  isolation:
+    isolate;
+
+  overflow:
+    hidden;
+
+  min-block-size:
+    var(--_ios-page-header-min-height);
+
+  color:
+    var(--_ios-page-header-text);
+
+  background-color:
+    var(--_ios-page-header-bg);
+
+  border-block-end:
+    1px solid
+    var(--_ios-page-header-border);
+}
+
+
+/* Background image */
+
+.ios-page-header__image {
+  position:
+    absolute;
+
+  inset-block:
+    0;
+
+  inset-inline-end:
+    0;
+
+  z-index:
+    -2;
+
+  inline-size:
+    var(--_ios-page-header-image-width);
+
+  block-size:
+    100%;
+
+  object-fit:
+    cover;
+
+  object-position:
+    var(--_ios-page-header-image-position);
+
+  opacity:
+    var(--_ios-page-header-image-opacity);
+}
+
+
+/* Gradient overlay */
+
+.ios-page-header__overlay {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    -1;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--_ios-page-header-overlay) 0%,
+      var(--_ios-page-header-overlay) 44%,
+      color-mix(
+        in srgb,
+        var(--_ios-page-header-overlay) 90%,
+        transparent
+      ) 62%,
+      color-mix(
+        in srgb,
+        var(--_ios-page-header-overlay) 30%,
+        transparent
+      ) 100%
+    );
+}
+
+
+/* Page-header text outline */
+
+/*
+ * Optional edge treatment for text that overlaps the
+ * transparent end of the page-header image gradient.
+ *
+ * The outline uses the active page-header overlay colour,
+ * so daylight, alternate and dark palettes remain in sync
+ * without a separate template-specific colour variable.
+ */
+
+.ios-page-header-text-outline {
+  text-shadow:
+    -1px -1px 0
+    var(--_ios-page-header-overlay),
+
+    1px -1px 0
+    var(--_ios-page-header-overlay),
+
+    -1px 1px 0
+    var(--_ios-page-header-overlay),
+
+    1px 1px 0
+    var(--_ios-page-header-overlay);
+}
+
+
+/* Content */
+
+.ios-page-header__content {
+  inline-size:
+    min(
+      calc(100% - 2rem),
+      var(--_ios-page-header-max-width)
+    );
+
+  margin-inline:
+    auto;
+
+  padding-block:
+    var(--_ios-page-header-padding);
+}
+
+.ios-page-header__copy {
+  max-inline-size:
+    var(--_ios-page-header-copy-width);
+}
+
+
+/* Header breadcrumbs */
+
+.ios-page-header .breadcrumb {
+  margin-block-end:
+    1.25rem;
+
+  font-size:
+    0.75rem;
+}
+
+.ios-page-header .breadcrumb-item.active {
+  color:
+    inherit;
+
+  opacity:
+    0.72;
+}
+
+
+/* Header title */
+
+.ios-page-header__title {
+  max-inline-size:
+    100%;
+
+  margin-block-end:
+    1.25rem;
+
+  color:
+    inherit;
+
+  font-size:
+    var(--_ios-page-header-title-size);
+
+  font-weight:
+    400;
+
+  line-height:
+    0.98;
+}
+
+.ios-page-header__title::after {
+  display:
+    block;
+
+  inline-size:
+    clamp(3rem, 7vw, 5rem);
+
+  block-size:
+    0.22rem;
+
+  margin-block-start:
+    1rem;
+
+  content:
+    "";
+
+  background-color:
+    var(--_ios-page-header-accent);
+
+  border-radius:
+    999px;
+}
+
+
+/* Introductory copy */
+
+.ios-page-header__intro {
+  max-inline-size:
+    46rem;
+
+  margin-block-start:
+    1.5rem;
+}
+
+.ios-page-header__intro > :last-child {
+  margin-block-end:
+    0;
+}
+
+
+/* Event or page metadata */
+
+.ios-page-header__meta {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  align-items:
+    center;
+
+  gap:
+    0.75rem 0;
+
+  margin-block-start:
+    clamp(1.75rem, 4vw, 3rem);
+
+  color:
+    var(--_ios-page-header-meta);
+
+  font-size:
+    0.9rem;
+}
+
+.ios-page-header__meta-item {
+  display:
+    inline-flex;
+
+  align-items:
+    center;
+
+  gap:
+    0.65rem;
+
+  min-inline-size:
+    0;
+
+  padding-inline-end:
+    1rem;
+}
+
+.ios-page-header__meta-item
+  + .ios-page-header__meta-item {
+  padding-inline-start:
+    1rem;
+
+  border-inline-start:
+    1px solid
+    var(--_ios-page-header-border);
+}
+
+.ios-page-header__meta-item i {
+  flex:
+    0 0 auto;
+
+  color:
+    var(--_ios-page-header-icon);
+
+  font-size:
+    1.1rem;
+}
+
+
+/* ==========================================================
+   LARGE PAGE HEADER
+   About, program and major landing pages
+   ========================================================== */
+
+.ios-page-header--large {
+  --_ios-page-header-copy-width:
+    52rem;
+
+  --_ios-page-header-image-width:
+    54%;
+
+  --_ios-page-header-padding:
+    clamp(3.5rem, 8vw, 6.5rem);
+
+  --_ios-page-header-title-size:
+    clamp(2.75rem, 6vw, 4.75rem);
+
+  --_ios-page-header-min-height:
+    23rem;
+}
+
+
+/* ==========================================================
+   MEDIUM PAGE HEADER
+   Listings, speaker galleries and news pages
+   ========================================================== */
+
+.ios-page-header--medium {
+  --_ios-page-header-copy-width:
+    46rem;
+
+  --_ios-page-header-image-width:
+    58%;
+
+  --_ios-page-header-padding:
+    clamp(2.75rem, 6vw, 5rem);
+
+  --_ios-page-header-title-size:
+    clamp(2.25rem, 5vw, 3.75rem);
+
+  --_ios-page-header-min-height:
+    17rem;
+}
+
+
+/* ==========================================================
+   NARROW PAGE HEADER
+   Sessions, events and compact detail pages
+   ========================================================== */
+
+.ios-page-header--narrow {
+  --_ios-page-header-copy-width:
+    44rem;
+
+  --_ios-page-header-image-width:
+    64%;
+
+  --_ios-page-header-padding:
+    clamp(1.75rem, 4vw, 3rem);
+
+  --_ios-page-header-title-size:
+    clamp(1.85rem, 4vw, 3rem);
+
+  --_ios-page-header-min-height:
+    11rem;
+}
+
+.ios-page-header--narrow .breadcrumb {
+  margin-block-end:
+    0.8rem;
+}
+
+.ios-page-header--narrow
+  .ios-page-header__title {
+  margin-block-end:
+    0.75rem;
+}
+
+.ios-page-header--narrow
+  .ios-page-header__title::after {
+  inline-size:
+    3.25rem;
+
+  margin-block-start:
+    0.75rem;
+}
+
+.ios-page-header--narrow
+  .ios-page-header__intro {
+  margin-block-start:
+    1rem;
+}
+
+.ios-page-header--narrow
+  .ios-page-header__meta {
+  margin-block-start:
+    1.5rem;
+}
+
+
+/* ==========================================================
+   PAGE HEADER: TABLET
+   ========================================================== */
+
+@media (max-width: 991.98px) {
+  .ios-page-header {
+    --_ios-page-header-image-width:
+      64%;
+  }
+
+  .ios-page-header--large {
+    --_ios-page-header-min-height:
+      20rem;
+  }
+}
+
+
+/* ==========================================================
+   PAGE HEADER: MOBILE
+   ========================================================== */
+
+@media (max-width: 767.98px) {
+  .ios-page-header,
+  .ios-page-header--large,
+  .ios-page-header--medium,
+  .ios-page-header--narrow {
+    --_ios-page-header-image-width:
+      100%;
+
+    --_ios-page-header-min-height:
+      auto;
+  }
+
+  .ios-page-header__image {
+    inset:
+      0;
+
+    opacity:
+      clamp(
+        0.3,
+        var(--_ios-page-header-image-opacity),
+        0.45
+      );
+  }
+
+  .ios-page-header__overlay {
+    background:
+      color-mix(
+        in srgb,
+        var(--_ios-page-header-overlay) 90%,
+        transparent
+      );
+  }
+
+  .ios-page-header__meta {
+    align-items:
+      flex-start;
+  }
+
+  .ios-page-header__meta-item {
+    inline-size:
+      100%;
+
+    padding-inline:
+      0;
+  }
+
+  .ios-page-header__meta-item
+    + .ios-page-header__meta-item {
+    padding-inline-start:
+      0;
+
+    border-inline-start:
+      0;
+  }
+}
+
+
+/* ==========================================================
+   PAGE HEADER: SMALL MOBILE
+   ========================================================== */
+
+@media (max-width: 479.98px) {
+  .ios-page-header__content {
+    inline-size:
+      min(
+        calc(100% - 1.5rem),
+        var(--_ios-page-header-max-width)
+      );
+  }
+
+  .ios-page-header__title {
+    line-height:
+      1.05;
+  }
+}
+
+/* ==========================================================
+   PILLS AND TAGS
+   ========================================================== */
+
+.ios-tag .rounded-pill {
+  --bs-border-radius-pill:
+    0.4rem;
+}
+
+
+/* Interactive pill controls */
+
+.ios-tag button.badge {
+  appearance:
+    none;
+
+  -webkit-appearance:
+    none;
+
+  border:
+    0;
+
+  box-shadow:
+    none;
+
+  font:
+    inherit;
+}
+
+.ios-tag button.badge:hover,
+.ios-tag button.badge:focus,
+.ios-tag button.badge:active {
+  box-shadow:
+    none;
+}
+
+
+/* Interactive pill links */
+
+.ios-tag a.badge,
+.ios-tag a.badge:link,
+.ios-tag a.badge:visited,
+.ios-tag a.badge:hover,
+.ios-tag a.badge:focus,
+.ios-tag a.badge:active {
+  color:
+    var(--ios-theme-text, var(--bs-badge-color));
+
+  text-decoration:
+    none;
+}
+
+/* ==========================================================
+   IOS BASIC PAGE TEMPLATE
+   ========================================================== */
+
+/*
+ * This template uses:
+ *
+ * Active tonal colours
+ * --ios-warm
+ * --ios-warm-dark
+ * --ios-cool
+ * --ios-cool-dark
+ *
+ * Bootstrap semantic roles
+ * --bs-body-bg
+ * --bs-body-color
+ * --bs-secondary-bg
+ * --bs-tertiary-bg
+ * --bs-secondary-color
+ * --bs-border-color
+ *
+ * Shared page-header roles
+ * --ios-page-header-bg
+ * --ios-page-header-text
+ * --ios-page-header-overlay-color
+ * --ios-page-header-border
+ * --ios-page-header-image-opacity
+ * --ios-page-header-image-position
+ *
+ * Optional layout hooks
+ * --ios-basic-page-max-width
+ * --ios-basic-page-wide-width
+ * --ios-basic-page-reading-width
+ * --ios-basic-page-section-space
+ */
+
+
+/* ==========================================================
+   PAGE SHELL
+   ========================================================== */
+
+.ios-basic-page {
+  --_ios-basic-page-max-width:
+    var(
+      --ios-basic-page-max-width,
+      80rem
+    );
+
+  --_ios-basic-page-wide-width:
+    var(
+      --ios-basic-page-wide-width,
+      68rem
+    );
+
+  --_ios-basic-page-reading-width:
+    var(
+      --ios-basic-page-reading-width,
+      52rem
+    );
+
+  --_ios-basic-page-section-space:
+    var(
+      --ios-basic-page-section-space,
+      clamp(3.5rem, 7vw, 6.5rem)
+    );
+
+  color:
+    var(--bs-body-color);
+
+  background-color:
+    var(--bs-body-bg);
+}
+
+.ios-basic-page__main {
+  padding-block:
+    clamp(3rem, 6vw, 6rem);
+}
+
+.ios-basic-page__content {
+  inline-size:
+    min(
+      calc(100% - 2rem),
+      var(--_ios-basic-page-max-width)
+    );
+
+  margin-inline:
+    auto;
+}
+
+.ios-basic-page__reading {
+  max-inline-size:
+    var(--_ios-basic-page-reading-width);
+
+  margin-inline:
+    auto;
+}
+
+.ios-basic-page__wide {
+  max-inline-size:
+    var(--_ios-basic-page-wide-width);
+
+  margin-inline:
+    auto;
+}
+
+.ios-basic-page__section {
+  margin-block-end:
+    var(--_ios-basic-page-section-space);
+}
+
+.ios-basic-page__section:last-child {
+  margin-block-end:
+    0;
+}
+
+
+/* ==========================================================
+   SECTION LABELS
+   ========================================================== */
+
+.ios-basic-page__section-label {
+  display:
+    inline-block;
+
+  margin-block-end:
+    1.5rem;
+
+  padding-block-end:
+    0.35rem;
+
+  color:
+    var(--ios-cool-dark);
+
+  border-block-end:
+    2px solid
+    var(--ios-warm);
+
+  font-size:
+    0.78rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.04rem;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ==========================================================
+   BASIC-PAGE HEADER
+   ========================================================== */
+
+/*
+ * The Basic Page keeps its existing markup, but now consumes
+ * the same semantic theme roles as .ios-page-header.
+ */
+
+.ios-basic-page__header {
+  position:
+    relative;
+
+  isolation:
+    isolate;
+
+  overflow:
+    hidden;
+
+  min-block-size:
+    23rem;
+
+  color:
+    var(
+      --ios-page-header-text,
+      var(--bs-body-color)
+    );
+
+  background-color:
+    var(
+      --ios-page-header-bg,
+      var(--bs-secondary-bg)
+    );
+
+  border-block-end:
+    1px solid
+    var(
+      --ios-page-header-border,
+      var(--bs-border-color)
+    );
+}
+
+.ios-basic-page__header-image {
+  position:
+    absolute;
+
+  inset-block:
+    0;
+
+  inset-inline-end:
+    0;
+
+  z-index:
+    -2;
+
+  inline-size:
+    52%;
+
+  block-size:
+    100%;
+
+  object-fit:
+    cover;
+
+  object-position:
+    var(
+      --ios-page-header-image-position,
+      center
+    );
+
+  opacity:
+    var(
+      --ios-page-header-image-opacity,
+      0.72
+    );
+}
+
+.ios-basic-page__header-overlay {
+  position:
+    absolute;
+
+  inset:
+    0;
+
+  z-index:
+    -1;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(
+        --ios-page-header-overlay-color,
+        var(--bs-body-bg)
+      ) 0%,
+      var(
+        --ios-page-header-overlay-color,
+        var(--bs-body-bg)
+      ) 42%,
+      color-mix(
+        in srgb,
+        var(
+          --ios-page-header-overlay-color,
+          var(--bs-body-bg)
+        ) 88%,
+        transparent
+      ) 62%,
+      color-mix(
+        in srgb,
+        var(
+          --ios-page-header-overlay-color,
+          var(--bs-body-bg)
+        ) 20%,
+        transparent
+      ) 100%
+    );
+}
+
+.ios-basic-page__header-content {
+  inline-size:
+    min(
+      calc(100% - 2rem),
+      var(--_ios-basic-page-max-width)
+    );
+
+  margin-inline:
+    auto;
+
+  padding-block:
+    clamp(3rem, 7vw, 6rem);
+}
+
+.ios-basic-page__header-copy {
+  max-inline-size:
+    48rem;
+}
+
+.ios-basic-page__header h1 {
+  margin-block-end:
+    1.5rem;
+}
+
+.ios-basic-page__header .breadcrumb {
+  margin-block-end:
+    1.25rem;
+
+  font-size:
+    0.78rem;
+
+  text-transform:
+    uppercase;
+}
+
+.ios-basic-page__header .breadcrumb-item.active {
+  color:
+    inherit;
+
+  opacity:
+    0.72;
+}
+
+
+/* ==========================================================
+   HEADER STATISTICS
+   ========================================================== */
+
+/*
+ * This strip intentionally has no assigned background.
+ * It inherits the page background beneath it.
+ */
+
+.ios-basic-page__stats {
+  position:
+    relative;
+
+  z-index:
+    2;
+
+  background:
+    transparent;
+
+  border:
+    0;
+
+  border-block-end:
+    1px solid
+    var(--bs-border-color);
+
+  box-shadow:
+    0 0.8rem 1.8rem -1.4rem
+    rgb(0 0 0 / 0.18);
+}
+
+.ios-basic-page__stats-inner {
+  inline-size:
+    min(
+      calc(100% - 2rem),
+      var(--_ios-basic-page-max-width)
+    );
+
+  margin-inline:
+    auto;
+}
+
+.ios-basic-page__stats-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+}
+
+.ios-basic-page__stat {
+  display:
+    flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
+
+  gap:
+    0.8rem;
+
+  min-inline-size:
+    0;
+
+  padding:
+    1.25rem 1rem;
+}
+
+.ios-basic-page__stat:not(:last-child) {
+  border-inline-end:
+    1px solid
+    var(--bs-border-color);
+}
+
+.ios-basic-page__stat-icon {
+  flex:
+    0 0 auto;
+
+  color:
+    var(--ios-warm);
+
+  font-size:
+    2rem;
+
+  line-height:
+    1;
+}
+
+.ios-basic-page__stat-copy {
+  min-inline-size:
+    0;
+}
+
+.ios-basic-page__stat-value {
+  display:
+    block;
+
+  color:
+    var(--ios-cool);
+
+  font-size:
+    clamp(1.25rem, 2vw, 1.8rem);
+
+  font-weight:
+    700;
+
+  line-height:
+    1;
+}
+
+.ios-basic-page__stat-label {
+  display:
+    block;
+
+  margin-block-start:
+    0.25rem;
+
+  color:
+    var(--bs-body-color);
+
+  font-size:
+    0.65rem;
+
+  letter-spacing:
+    0.04rem;
+
+  line-height:
+    1.2;
+
+  text-transform:
+    uppercase;
+}
+
+
+/* ==========================================================
+   EDITORIAL INTRODUCTION
+   ========================================================== */
+
+.ios-basic-page__intro {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 2fr)
+    minmax(14rem, 0.8fr);
+
+  gap:
+    clamp(2.5rem, 6vw, 6rem);
+
+  align-items:
+    start;
+}
+
+.ios-basic-page__intro-copy {
+  min-inline-size:
+    0;
+}
+
+.ios-basic-page__intro-copy > :last-child {
+  margin-block-end:
+    0;
+}
+
+
+/* ==========================================================
+   EDITORIAL SIDE QUOTE
+   ========================================================== */
+
+.ios-basic-page__quote {
+  position:
+    relative;
+
+  margin:
+    0;
+
+  padding:
+    1.25rem 1.5rem 1.25rem 2.5rem;
+
+  color:
+    var(--ios-warm-dark);
+
+  border-inline-start:
+    2px solid
+    var(--ios-warm);
+
+  font-family:
+    "Montserrat",
+    sans-serif;
+
+  font-size:
+    clamp(1rem, 1.8vw, 1.3rem);
+
+  font-weight:
+    700;
+
+  line-height:
+    1.45;
+}
+
+.ios-basic-page__quote::before,
+.ios-basic-page__quote::after {
+  position:
+    absolute;
+
+  color:
+    currentColor;
+
+  font-family:
+    Georgia,
+    serif;
+
+  font-size:
+    2.2rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1;
+}
+
+.ios-basic-page__quote::before {
+  inset-block-start:
+    0.55rem;
+
+  inset-inline-start:
+    0.6rem;
+
+  content:
+    "\201C";
+}
+
+.ios-basic-page__quote::after {
+  inset-inline-end:
+    0.2rem;
+
+  inset-block-end:
+    0;
+
+  content:
+    "\201D";
+}
+
+
+/* ==========================================================
+   ALTERNATING IMAGE AND TEXT ROWS
+   ========================================================== */
+
+.ios-basic-page__media-list {
+  display:
+    grid;
+
+  gap:
+    clamp(3rem, 7vw, 6rem);
+}
+
+.ios-basic-page__media-row {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(15rem, 0.85fr)
+    minmax(0, 1.4fr);
+
+  grid-template-areas:
+    "media content";
+
+  gap:
+    clamp(2rem, 5vw, 5rem);
+
+  align-items:
+    center;
+}
+
+.ios-basic-page__media-row--reverse {
+  grid-template-columns:
+    minmax(0, 1.4fr)
+    minmax(15rem, 0.85fr);
+
+  grid-template-areas:
+    "content media";
+}
+
+.ios-basic-page__media {
+  grid-area:
+    media;
+
+  min-inline-size:
+    0;
+
+  margin:
+    0;
+}
+
+.ios-basic-page__media img {
+  display:
+    block;
+
+  inline-size:
+    100%;
+
+  aspect-ratio:
+    4 / 3;
+
+  object-fit:
+    cover;
+
+  object-position:
+    center;
+
+  border-radius:
+    0.5rem;
+}
+
+.ios-basic-page__media figcaption {
+  margin-block-start:
+    0.65rem;
+
+  color:
+    var(--bs-secondary-color);
+
+  font-size:
+    0.78rem;
+}
+
+.ios-basic-page__media-content {
+  grid-area:
+    content;
+
+  min-inline-size:
+    0;
+}
+
+.ios-basic-page__media-content > :last-child {
+  margin-block-end:
+    0;
+}
+
+
+/* ==========================================================
+   FULL-WIDTH FEATURE BAND
+   ========================================================== */
+
+.ios-basic-page__feature-band {
+  inline-size:
+    100vw;
+
+  margin-inline:
+    calc(50% - 50vw);
+
+  padding-block:
+    clamp(2.5rem, 5vw, 4.5rem);
+
+  background-color:
+    var(--bs-secondary-bg);
+
+  border-block:
+    1px solid
+    var(--bs-border-color);
+}
+
+.ios-basic-page__feature-inner {
+  inline-size:
+    min(
+      calc(100% - 2rem),
+      var(--_ios-basic-page-max-width)
+    );
+
+  margin-inline:
+    auto;
+}
+
+.ios-basic-page__feature-grid {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(18rem, 1.2fr)
+    minmax(14rem, 0.8fr);
+
+  gap:
+    clamp(2rem, 5vw, 4.5rem);
+
+  align-items:
+    center;
+}
+
+.ios-basic-page__feature-image {
+  display:
+    block;
+
+  inline-size:
+    100%;
+
+  aspect-ratio:
+    16 / 9;
+
+  object-fit:
+    cover;
+
+  border-radius:
+    0.5rem;
+}
+
+.ios-basic-page__feature-list {
+  display:
+    grid;
+
+  gap:
+    1.25rem;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  list-style:
+    none;
+}
+
+.ios-basic-page__feature-list li {
+  display:
+    grid;
+
+  grid-template-columns:
+    auto 1fr;
+
+  gap:
+    0.8rem;
+
+  align-items:
+    start;
+}
+
+.ios-basic-page__feature-list i {
+  color:
+    var(--ios-warm);
+
+  font-size:
+    1.25rem;
+}
+
+
+/* ==========================================================
+   CONFERENCE HISTORY TABLE
+   ========================================================== */
+
+.ios-basic-page__table-wrap {
+  overflow-x:
+    auto;
+
+  border:
+    1px solid
+    var(--bs-border-color);
+
+  border-radius:
+    0.4rem;
+}
+
+.ios-basic-page__table {
+  --bs-table-color:
+    var(--bs-body-color);
+
+  --bs-table-bg:
+    var(--bs-body-bg);
+
+  --bs-table-border-color:
+    var(--bs-border-color);
+
+  --bs-table-hover-color:
+    var(--bs-body-color);
+
+  --bs-table-hover-bg:
+    var(--bs-tertiary-bg);
+
+  min-inline-size:
+    44rem;
+
+  margin-block-end:
+    0;
+}
+
+.ios-basic-page__table th,
+.ios-basic-page__table td {
+  padding:
+    1rem 1.15rem;
+
+  vertical-align:
+    middle;
+}
+
+.ios-basic-page__table thead th {
+  color:
+    var(--ios-warm);
+
+  font-size:
+    0.72rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.04rem;
+
+  text-transform:
+    uppercase;
+
+  white-space:
+    nowrap;
+}
+
+.ios-basic-page__table tbody th {
+  color:
+    var(--ios-cool-dark);
+
+  font-weight:
+    700;
+}
+
+.ios-basic-page__table tbody td {
+  font-size:
+    0.9rem;
+}
+
+
+/* ==========================================================
+   TABLET
+   ========================================================== */
+
+@media (max-width: 991.98px) {
+  .ios-basic-page__header-image {
+    inline-size:
+      62%;
+  }
+
+  .ios-basic-page__intro {
+    grid-template-columns:
+      1fr;
+  }
+
+  .ios-basic-page__quote {
+    max-inline-size:
+      34rem;
+  }
+
+  .ios-basic-page__feature-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .ios-basic-page__feature-list {
+    grid-column:
+      1 / -1;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 767.98px) {
+  .ios-basic-page__header {
+    min-block-size:
+      auto;
+  }
+
+  .ios-basic-page__header-image {
+    inset:
+      0;
+
+    inline-size:
+      100%;
+
+    opacity:
+      calc(
+        var(
+          --ios-page-header-image-opacity,
+          0.72
+        )
+        * 0.58
+      );
+  }
+
+  .ios-basic-page__header-overlay {
+    background:
+      color-mix(
+        in srgb,
+        var(
+          --ios-page-header-overlay-color,
+          var(--bs-body-bg)
+        ) 90%,
+        transparent
+      );
+  }
+
+  .ios-basic-page__stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .ios-basic-page__stat {
+    justify-content:
+      flex-start;
+  }
+
+  .ios-basic-page__stat:nth-child(2) {
+    border-inline-end:
+      0;
+  }
+
+  .ios-basic-page__stat:nth-child(-n + 2) {
+    border-block-end:
+      1px solid
+      var(--bs-border-color);
+  }
+
+  .ios-basic-page__media-row,
+  .ios-basic-page__media-row--reverse {
+    grid-template-columns:
+      1fr;
+
+    grid-template-areas:
+      "media"
+      "content";
+  }
+
+  .ios-basic-page__feature-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .ios-basic-page__feature-list {
+    grid-column:
+      auto;
+
+    grid-template-columns:
+      1fr;
+  }
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+   ========================================================== */
+
+@media (max-width: 479.98px) {
+  .ios-basic-page__stats-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .ios-basic-page__stat {
+    border-inline-end:
+      0 !important;
+
+    border-block-end:
+      1px solid
+      var(--bs-border-color);
+  }
+
+  .ios-basic-page__stat:last-child {
+    border-block-end:
+      0;
+  }
+}
+
+/* ==========================================================
+   IOS CONFERENCE PROGRAM PAGE TEMPLATE
+   ========================================================== */
+
+/*
+ * This file owns only conference-program-specific structure:
+ *
+ * - the continuous schedule rail
+ * - the time and session-content relationship
+ * - event-card icon placement
+ * - keynote speaker-summary placement
+ * - responsive schedule behaviour
+ *
+ * Universal CSS and Bootstrap own the page header, tabs,
+ * forms, cards, links, buttons, labels, carousel controls,
+ * colours, focus states and dark mode.
+ *
+ * Suggested Drupal Views classes:
+ *
+ * View content wrapper:
+ * .ios-conference-program__schedule
+ *
+ * View row:
+ * .ios-conference-program__slot
+ */
+
+
+/* ==========================================================
+   SCHEDULE RAIL
+   ========================================================== */
+
+.ios-conference-program__schedule {
+  position:
+    relative;
+
+  isolation:
+    isolate;
+
+  display:
+    grid;
+
+  gap:
+    clamp(1rem, 2.5vw, 1.5rem);
+
+  min-inline-size:
+    0;
+
+  padding-block:
+    clamp(1.25rem, 3vw, 2rem);
+}
+
+.ios-conference-program__schedule::before {
+  position:
+    absolute;
+
+  inset-block:
+    0;
+
+  inset-inline-start:
+    0;
+
+  z-index:
+    0;
+
+  inline-size:
+    clamp(7rem, 14vw, 9rem);
+
+  background-color:
+    var(--bs-tertiary-bg);
+
+border-inline-start:
+  0.2rem solid
+  color-mix(
+    in srgb,
+    var(--ios-cool) 25%,
+    transparent
+  );
+
+  border-radius:
+    var(--bs-border-radius-lg, 0.5rem);
+
+  content:
+    "";
+}
+
+
+/* ==========================================================
+   SCHEDULE SLOT
+   ========================================================== */
+
+/*
+ * Expected structure:
+ *
+ * .ios-conference-program__slot
+ *   .ios-conference-program__time
+ *   .ios-conference-program__slot-content
+ */
+
+.ios-conference-program__slot {
+  position:
+    relative;
+
+  z-index:
+    1;
+
+  display:
+    grid;
+
+  grid-template-columns:
+    clamp(7rem, 14vw, 9rem)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(1rem, 3vw, 2rem);
+
+  align-items:
+    start;
+
+  min-inline-size:
+    0;
+
+  padding-block:
+    0.35rem;
+}
+
+.ios-conference-program__time,
+.ios-conference-program__slot-content {
+  min-inline-size:
+    0;
+}
+
+
+/* ==========================================================
+   TIME BLOCK
+   ========================================================== */
+
+/*
+ * Typography and colour are supplied by Bootstrap and theme
+ * utility classes in the markup.
+ */
+
+.ios-conference-program__time {
+  display:
+    grid;
+
+  gap:
+    0.2rem;
+
+  align-content:
+    start;
+
+  padding:
+    0.9rem 0.8rem;
+
+  text-align:
+    end;
+}
+
+.ios-conference-program__time-range {
+  display:
+    grid;
+
+  gap:
+    0.15rem;
+}
+
+.ios-conference-program__time-label {
+  margin-block-start:
+    0.45rem;
+}
+
+
+/* ==========================================================
+   SLOT CONTENT
+   ========================================================== */
+
+/*
+ * A slot may contain one card, a keynote card, or a universal
+ * carousel. Presentation remains owned by those components.
+ */
+
+.ios-conference-program__slot-content {
+  display:
+    grid;
+
+  gap:
+    1rem;
+}
+
+
+/* ==========================================================
+   EVENT CARD LAYOUT
+   ========================================================== */
+
+/*
+ * For registration, breakfast, breaks, networking and poster
+ * viewing.
+ *
+ * Apply alongside the universal card classes.
+ */
+
+.ios-program-card--event {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    auto;
+
+  gap:
+    clamp(1rem, 3vw, 2rem);
+
+  align-items:
+    center;
+
+  min-inline-size:
+    0;
+}
+
+.ios-program-card--event
+.ios-program-card__icon {
+  display:
+    grid;
+
+  place-items:
+    center;
+
+  inline-size:
+    clamp(3.25rem, 8vw, 5rem);
+
+  aspect-ratio:
+    1;
+}
+
+.ios-program-card--event
+.ios-program-card__icon
+:is(i, svg) {
+  max-inline-size:
+    100%;
+
+  font-size:
+    clamp(1.75rem, 4vw, 3rem);
+}
+
+
+/* ==========================================================
+   KEYNOTE CARD LAYOUT
+   ========================================================== */
+
+/*
+ * The universal card owns the surface and interactions.
+ * These classes only arrange the optional speaker summary.
+ */
+
+.ios-program-card--keynote
+.ios-program-card__speaker {
+  display:
+    grid;
+
+  grid-template-columns:
+    clamp(4rem, 9vw, 5.5rem)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(0.8rem, 2vw, 1.25rem);
+
+  align-items:
+    center;
+
+  min-inline-size:
+    0;
+}
+
+.ios-program-card--keynote
+.ios-program-card__speaker-image {
+  display:
+    block;
+
+  inline-size:
+    100%;
+
+  aspect-ratio:
+    1;
+
+  object-fit:
+    cover;
+
+  object-position:
+    center top;
+
+  border-radius:
+    50%;
+}
+
+.ios-program-card--keynote
+.ios-program-card__speaker-copy {
+  min-inline-size:
+    0;
+}
+
+
+/* ==========================================================
+   TABLET
+   ========================================================== */
+
+@media (max-width: 767.98px) {
+  .ios-conference-program__schedule::before {
+    inline-size:
+      6rem;
+  }
+
+  .ios-conference-program__slot {
+    grid-template-columns:
+      6rem
+      minmax(0, 1fr);
+
+    gap:
+      1rem;
+  }
+
+  .ios-conference-program__time {
+    padding-inline:
+      0.65rem;
+  }
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+   ========================================================== */
+
+@media (max-width: 575.98px) {
+  /*
+   * The broad time rail becomes a narrow guide line. The time
+   * block moves above the session card to preserve card width.
+   */
+
+  .ios-conference-program__schedule {
+    padding-inline-start:
+      0.85rem;
+  }
+
+  .ios-conference-program__schedule::before {
+    inline-size:
+      0.25rem;
+
+    border-inline-start:
+      0;
+
+    border-radius:
+      50rem;
+  }
+
+  .ios-conference-program__slot {
+    grid-template-columns:
+      1fr;
+
+    gap:
+      0.75rem;
+
+    padding-inline-start:
+      0.75rem;
+  }
+
+  .ios-conference-program__time {
+    grid-auto-flow:
+      column;
+
+    grid-auto-columns:
+      max-content;
+
+    justify-content:
+      start;
+
+    align-items:
+      baseline;
+
+    gap:
+      0.5rem 0.85rem;
+
+    padding:
+      0;
+
+    text-align:
+      start;
+  }
+
+  .ios-conference-program__time-range {
+    grid-auto-flow:
+      column;
+
+    grid-auto-columns:
+      max-content;
+
+    gap:
+      0.35rem;
+  }
+
+  .ios-conference-program__time-label {
+    margin-block-start:
+      0;
+  }
+
+  .ios-program-card--event {
+    grid-template-columns:
+      1fr;
+  }
+
+  .ios-program-card--event
+  .ios-program-card__icon {
+    justify-self:
+      start;
+  }
+
+  .ios-program-card--keynote
+  .ios-program-card__speaker {
+    grid-template-columns:
+      3.75rem
+      minmax(0, 1fr);
+  }
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Hero
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.ios-hero {
+  /*
+   * Palette hooks:
+   * --ios-hero-bg
+   * --ios-hero-overlay-color
+   * --ios-hero-text-outline-color
+   * --ios-hero-countdown-bg
+   */
+
+  --_ios-hero-bg:
+    var(--ios-hero-bg, var(--ios-white));
+
+  --_ios-hero-overlay:
+    var(--ios-hero-overlay-color, var(--ios-white));
+
+  --_ios-hero-text-outline:
+    var(
+      --ios-hero-text-outline-color,
+      rgb(255 255 255 / 0.95)
+    );
+
+  --_ios-hero-countdown-bg:
+    var(
+      --ios-hero-countdown-bg,
+      rgb(255 255 255 / 0.85)
+    );
+
+  min-height: 30rem;
+  margin-bottom: 0;
+  padding-bottom: 5em;
+
+  background-color: var(--_ios-hero-bg);
+}
+
+.ios-hero__image {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+
+  width: 72%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+}
+
+/*
+ * Solid on the left, increasingly transparent
+ * toward the right.
+ */
+
+.ios-hero__overlay {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    var(--_ios-hero-overlay) 0%,
+    var(--_ios-hero-overlay) 35%,
+    color-mix(
+      in srgb,
+      var(--_ios-hero-overlay) 82%,
+      transparent
+    ) 55%,
+    color-mix(
+      in srgb,
+      var(--_ios-hero-overlay) 25%,
+      transparent
+    ) 100%
+  );
+}
+
+.ios-hero > .container-fluid {
+  z-index: 1;
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Hero text outline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.ios-hero-text-outline {
+  --ios-hero-text-outline:
+    var(--_ios-hero-text-outline);
+
+  text-shadow:
+    -1px -1px 0 var(--ios-hero-text-outline),
+     1px -1px 0 var(--ios-hero-text-outline),
+    -1px  1px 0 var(--ios-hero-text-outline),
+     1px  1px 0 var(--ios-hero-text-outline);
+}
+
+/*
+ * Optional stronger stroke treatment.
+ * Add .ios-hero__copy-with-stroke to an element
+ * alongside .ios-hero-text-outline when desired.
+ */
+
+@supports (-webkit-text-stroke: 1px #000) {
+  .ios-hero__copy-with-stroke {
+    -webkit-text-stroke:
+      0.27em var(--ios-hero-text-outline);
+
+    paint-order: stroke fill;
+    text-shadow: none;
+  }
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Countdown
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.ios-hero-countdown {
+  border-radius: 0 0 15px 15px;
+
+  /*
+   * !important is needed when the element also
+   * uses Bootstrap's .bg-white utility.
+   */
+
+  background-color:
+    var(--_ios-hero-countdown-bg) !important;
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Hero statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.ios-hero-stats {
+  /*
+   * Palette hooks:
+   * --ios-hero-stats-inset-shadow
+   * --ios-hero-stats-divider
+   */
+
+  --_ios-hero-stats-shadow:
+    var(
+      --ios-hero-stats-inset-shadow,
+      color-mix(
+        in srgb,
+        var(--ios-cool-dark) 25%,
+        transparent
+      )
+    );
+
+  --_ios-hero-stats-divider:
+    var(
+      --ios-hero-stats-divider,
+      color-mix(
+        in srgb,
+        var(--ios-cool) 35%,
+        var(--ios-white) 65%
+      )
+    );
+}
+
+.ios-hero-stats small {
+  font-size: 0.65rem;
+  letter-spacing: 0.04rem;
+}
+
+
+/* Desktop heading chevrons */
+
+.ios-hero-stats__desktop-heading::before,
+.ios-hero-stats__desktop-heading::after {
+  position: absolute;
+
+  content: "\f078";
+
+  color: var(--ios-cool);
+  font-family: "Font Awesome 6 Free";
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 2.2rem;
+}
+
+.ios-hero-stats__desktop-heading::before {
+  margin-inline-start: -1.5em;
+}
+
+.ios-hero-stats__desktop-heading::after {
+  margin-inline-start: 0.45em;
+}
+
+
+/* Statistics card radius */
+
+.ios-hero-stat.rounded {
+  border-radius: 50px !important;
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Mobile statistics disclosure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+.ios-hero-stats__mobile-toggle {
+  color: inherit;
+  line-height: 1.1;
+
+  box-shadow:
+    inset 0 10px 12px -12px
+    var(--_ios-hero-stats-shadow);
+}
+
+.ios-hero-stats__mobile-toggle:focus-visible {
+  outline: 3px solid var(--ios-warm);
+  outline-offset: 3px;
+}
+
+.ios-hero-stats__mobile-label {
+  position: relative;
+
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-inline-size: 100%;
+  padding: 0 0.75rem 0.55rem;
+
+  border-bottom:
+    1px solid var(--_ios-hero-stats-divider);
+}
+
+.ios-hero-stats__eyebrow {
+  display: block;
+
+  max-inline-size: 100%;
+
+  color: var(--ios-cool);
+  font-size: 0.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.04rem;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: normal;
+}
+
+
+/* Centred disclosure triangle */
+
+.ios-hero-stats__mobile-label::after {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-end: -0.35rem;
+
+  content: "";
+
+  border-inline: 0.3rem solid transparent;
+  border-block-start:
+    0.35rem solid var(--ios-cool);
+
+  transform: translateX(-50%);
+  transition: transform 0.2s ease;
+}
+
+.ios-hero-stats__mobile-toggle[aria-expanded="true"]
+  .ios-hero-stats__mobile-label::after {
+  transform:
+    translateX(-50%)
+    rotate(180deg);
+}
+
+
+/* Optional Font Awesome chevron animation */
+
+.ios-hero-stats__chevron {
+  transition: transform 0.2s ease;
+}
+
+.ios-hero-stats button[aria-expanded="true"]
+  .ios-hero-stats__chevron {
+  transform: rotate(180deg);
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Mobile hero
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+@media (max-width: 767.98px) {
+  .ios-hero {
+    min-height: auto;
+  }
+
+  /*
+   * Keep the image fully opaque.
+   * Adjust only the overlay percentage.
+   */
+
+  .ios-hero__image {
+    width: 100%;
+    opacity: 1;
+  }
+
+  .ios-hero__overlay {
+    background: color-mix(
+      in srgb,
+      var(--_ios-hero-overlay) 92%,
+      transparent
+    );
+  }
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Tablet and desktop statistics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+
+@media (min-width: 768px) {
+  /*
+   * Bootstrap collapse works normally on mobile.
+   * From md upward, keep the statistics open.
+   */
+
+  .ios-hero-stats #heroStatsPanel.collapse,
+  .ios-hero-stats #heroStatsPanel.collapsing {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    transition: none !important;
+  }
+
+  .ios-hero-stats #heroStatsPanel {
+    box-shadow:
+      inset 0 10px 12px -12px
+      var(--_ios-hero-stats-shadow);
+  }
+}
+
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Featured-speaker carousel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*
+ * Keep universal image dimensions;
+ * adjust portrait position only.
+ */
+
+.ios-featured-speakers
+  .ios-carousel
+  .ios-card
+  .card-img-top {
+  object-position: center top;
+}
+
+
+
+/* ==========================================================
+   IOS SPEAKER GALLERY TEMPLATE
+   ========================================================== */
+
+
+/* ==========================================================
+   PAGE WRAPPER
+   ========================================================== */
+
+.ios-speaker-gallery {
+  color:
+    var(--ios-body-text);
+}
+
+
+/* ==========================================================
+   FEATURED PRESENTER
+   ========================================================== */
+
+/*
+ * Large introductory card for the primary keynote speaker
+ * or featured presenter.
+ */
+
+.ios-speaker-feature {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(0, 1.05fr)
+    minmax(14rem, 0.8fr);
+
+  gap:
+    clamp(1.5rem, 4vw, 3rem);
+
+  align-items:
+    center;
+
+  overflow:
+    hidden;
+
+  padding:
+    clamp(1.5rem, 3vw, 2.25rem);
+
+  background-color:
+    var(--bs-secondary-bg);
+
+  border:
+    1px solid
+    var(--bs-border-color-translucent);
+
+  border-radius:
+    var(--bs-border-radius-xl, 1rem);
+}
+
+
+/* Featured presenter content */
+
+.ios-speaker-feature__content {
+  min-inline-size:
+    0;
+}
+
+.ios-speaker-feature__eyebrow {
+  margin:
+    0 0 0.7rem;
+
+  color:
+    var(--ios-warm);
+
+  font-size:
+    0.7rem;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    0.025em;
+
+  line-height:
+    1.25;
+
+  text-transform:
+    uppercase;
+}
+
+.ios-speaker-feature__title {
+  margin:
+    0 0 0.45rem;
+
+  color:
+    var(--ios-cool-dark);
+
+  font-size:
+    clamp(1.4rem, 2.6vw, 1.85rem);
+
+  font-weight:
+    700;
+
+  line-height:
+    1.1;
+}
+
+.ios-speaker-feature__meta {
+  margin-block-end:
+    clamp(1.1rem, 2.5vw, 1.65rem);
+
+  color:
+    var(--bs-secondary-color);
+
+  font-size:
+    0.75rem;
+
+  line-height:
+    1.4;
+}
+
+.ios-speaker-feature__meta > :last-child {
+  margin-block-end:
+    0;
+}
+
+.ios-speaker-feature__summary {
+  max-inline-size:
+    33rem;
+
+  margin-block-end:
+    clamp(1.25rem, 3vw, 1.8rem);
+
+  font-size:
+    0.925rem;
+
+  line-height:
+    1.45;
+}
+
+.ios-speaker-feature__summary > :last-child {
+  margin-block-end:
+    0;
+}
+
+
+/*
+ * Controls only the layout of the action area.
+ *
+ * Button appearance and interaction states are supplied by
+ * the universal button classes used in the markup.
+ */
+
+.ios-speaker-feature__actions {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    0.75rem;
+
+  align-items:
+    center;
+}
+
+
+/* Featured presenter image */
+
+.ios-speaker-feature__media {
+  min-inline-size:
+    0;
+}
+
+.ios-speaker-feature__image {
+  display:
+    block;
+
+  inline-size:
+    100%;
+
+  aspect-ratio:
+    4 / 3;
+
+  object-fit:
+    cover;
+
+  object-position:
+    center top;
+
+  background-color:
+    var(--bs-tertiary-bg);
+
+  border-radius:
+    var(--bs-border-radius-lg, 0.5rem);
+}
+
+
+/* ==========================================================
+   KEYNOTE SPEAKER CAROUSEL
+   ========================================================== */
+
+/*
+ * The universal carousel owns its controls, indicators,
+ * colours and interaction states.
+ *
+ * This wrapper provides only spacing around the speaker-card
+ * collection.
+ */
+
+.ios-speaker-gallery__featured-carousel {
+  position:
+    relative;
+
+  margin-block:
+    1.5rem 3rem;
+
+  padding-inline:
+    1.6rem;
+}
+
+.ios-speaker-gallery__featured-carousel
+.carousel-inner {
+  padding-block:
+    0.15rem 1.75rem;
+}
+
+
+/* ==========================================================
+   SPEAKER CARD
+   ========================================================== */
+
+/*
+ * Drupal Views, Bootstrap or another parent container owns
+ * the collection layout.
+ *
+ * This component controls only the internal card structure.
+ */
+
+.ios-speaker-card--compact {
+  display:
+    grid;
+
+  grid-template-columns:
+    clamp(6.25rem, 30%, 7.25rem)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(0.75rem, 2vw, 1rem);
+
+  align-items:
+    center;
+
+  inline-size:
+    100%;
+
+  min-inline-size:
+    0;
+
+  padding:
+    0.9rem;
+
+  background-color:
+    var(--bs-body-bg);
+
+  border:
+    1px solid
+    var(--bs-border-color);
+
+  border-radius:
+    var(--bs-border-radius-xl, 1rem);
+}
+
+/* Speaker-card view-link border thickness */
+
+.ios-speaker-gallery
+.btn-ios-view-more {
+  border-width:
+    1px;
+    font-size: smaller;
+}
+
+
+/* Square headshot */
+
+.ios-speaker-card--compact
+.ios-speaker-card__image {
+  display:
+    block;
+
+  inline-size:
+    100%;
+
+  block-size:
+    auto;
+
+  min-inline-size:
+    0;
+
+  aspect-ratio:
+    1 / 1;
+
+  object-fit:
+    cover;
+
+  object-position:
+    center top;
+
+  background-color:
+    var(--bs-tertiary-bg);
+
+  border-radius:
+    var(--bs-border-radius-lg, 0.5rem);
+}
+
+
+/* Speaker information */
+
+.ios-speaker-card--compact
+.ios-speaker-card__content {
+  display:
+    flex;
+
+  flex-direction:
+    column;
+
+  align-items:
+    flex-start;
+
+  min-inline-size:
+    0;
+
+  padding:
+    0;
+}
+
+.ios-speaker-card--compact
+.ios-speaker-card__title {
+  margin:
+    0 0 0.4rem;
+
+  color:
+    var(--ios-cool-dark);
+
+  font-size:
+    0.9rem;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.2;
+}
+
+.ios-speaker-card--compact
+.ios-speaker-card__meta {
+  margin:
+    0 0 0.8rem;
+
+  color:
+    var(--bs-secondary-color);
+
+  font-size:
+    0.75rem;
+
+  line-height:
+    1.45;
+}
+
+
+/* ==========================================================
+   SPEAKER FILTERS
+   ========================================================== */
+
+/*
+ * Flexible layout for Drupal exposed filters.
+ *
+ * Labels, inputs, selects, buttons, colours and interaction
+ * states remain controlled by universal form styles and
+ * tonal utility classes.
+ */
+
+.ios-speaker-gallery__filters {
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  gap:
+    0.65rem;
+
+  align-items:
+    flex-end;
+
+  margin-block-end:
+    clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.ios-speaker-gallery__filters > * {
+  flex:
+    1 1 10rem;
+
+  min-inline-size:
+    0;
+}
+
+.ios-speaker-gallery__filters > :first-child {
+  flex-basis:
+    14rem;
+}
+
+
+/* ==========================================================
+   SPEAKER RESULTS
+   ========================================================== */
+
+/*
+ * This wrapper intentionally does not establish a production
+ * grid.
+ *
+ * Drupal Views controls the number of columns, gaps and
+ * responsive wrapping.
+ */
+
+.ios-speaker-gallery__results {
+  min-inline-size:
+    0;
+}
+
+.ios-speaker-gallery__results > * {
+  min-inline-size:
+    0;
+}
+
+
+/* ==========================================================
+   LOAD MORE
+   ========================================================== */
+
+/*
+ * Controls only the position of the universal button.
+ */
+
+.ios-speaker-gallery__load-more {
+  display:
+    flex;
+
+  justify-content:
+    center;
+
+  margin-block-start:
+    clamp(1.5rem, 3vw, 2.5rem);
+}
+
+
+/* ==========================================================
+   EMPTY RESULTS
+   ========================================================== */
+
+.ios-speaker-gallery__empty {
+  padding:
+    clamp(2rem, 5vw, 3.5rem);
+
+  text-align:
+    center;
+
+  background-color:
+    var(--bs-secondary-bg);
+
+  border:
+    1px solid
+    var(--bs-border-color-translucent);
+
+  border-radius:
+    var(--bs-border-radius-xl, 1rem);
+}
+
+
+/* ==========================================================
+   RESPONSIVE COMPONENT ADJUSTMENTS
+   ========================================================== */
+
+@media (max-width: 767.98px) {
+  .ios-speaker-feature {
+    grid-template-columns:
+      1fr;
+  }
+
+  .ios-speaker-feature__media {
+    order:
+      -1;
+  }
+
+  .ios-speaker-feature__image {
+    max-block-size:
+      24rem;
+  }
+}
+
+
+@media (max-width: 575.98px) {
+  .ios-speaker-gallery__featured-carousel {
+    padding-inline:
+      0;
+  }
+
+  .ios-speaker-card--compact {
+    grid-template-columns:
+      5.75rem minmax(0, 1fr);
+
+    gap:
+      0.75rem;
+
+    padding:
+      0.75rem;
+  }
+
+  .ios-speaker-card--compact
+  .ios-speaker-card__title {
+    font-size:
+      0.85rem;
+  }
+
+  .ios-speaker-card--compact
+  .ios-speaker-card__meta {
+    font-size:
+      0.7rem;
+  }
+}
+
+
+/* ==========================================================
+   STYLE GUIDE DEMO ONLY
+   Collection layout will be supplied by Drupal Views.
+   Do not move these rules into the production component.
+   ========================================================== */
+
+
+/* Speaker results demonstration */
+
+#template-speaker-gallery
+.ios-speaker-gallery__results {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(
+        min(100%, 17rem),
+        1fr
+      )
+    );
+
+  gap:
+    1rem;
+}
+
+
+/* Keynote carousel demonstration */
+
+#template-speaker-gallery
+.ios-speaker-gallery__featured-carousel
+.carousel-item
+.row {
+  display:
+    grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap:
+    0.85rem;
+
+  margin:
+    0;
+}
+
+#template-speaker-gallery
+.ios-speaker-gallery__featured-carousel
+.carousel-item
+.row > * {
+  inline-size:
+    auto;
+
+  max-inline-size:
+    none;
+
+  padding:
+    0;
+}
+
+
+/* Demo tablet layout */
+
+@media (max-width: 991.98px) {
+  #template-speaker-gallery
+  .ios-speaker-gallery__featured-carousel
+  .carousel-item
+  .row {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+/* Demo mobile layout */
+
+@media (max-width: 767.98px) {
+  #template-speaker-gallery
+  .ios-speaker-gallery__featured-carousel
+  .carousel-item
+  .row {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+/* ==========================================================
+   IOS SPEAKER PAGE TEMPLATE
+   ========================================================== */
+
+/*
+ * This file owns only speaker-page-specific structure:
+ *
+ * - the speaker profile layout inside the universal header
+ * - portrait sizing and crop
+ * - editorial content measure
+ * - the internal layout of session summaries
+ * - responsive adjustments specific to this template
+ *
+ * Bootstrap utilities should provide ordinary spacing,
+ * alignment and display rules wherever they solve the need.
+ *
+ * Universal CSS and the active theme continue to own:
+ *
+ * - header, link, button, card, tag and form appearance
+ * - colours, borders, shadows and interaction states
+ * - focus treatment and dark-mode mappings
+ * - Drupal Views collection layout and pagination
+ */
+
+
+/* ==========================================================
+   PAGE SHELL
+   ========================================================== */
+
+.ios-speaker-page {
+  min-inline-size:
+    0;
+}
+
+
+/* ==========================================================
+   UNIVERSAL PAGE HEADER INTEGRATION
+   ========================================================== */
+
+/*
+ * Expected header classes:
+ *
+ * .ios-page-header
+ * .ios-page-header--medium
+ * .ios-speaker-page__header
+ *
+ * The universal page header owns its decorative background,
+ * overlay, breadcrumb, title treatment and theme mapping.
+ */
+
+.ios-speaker-page__header
+.ios-page-header__copy {
+  max-inline-size:
+    none;
+}
+
+
+/* Speaker identity layout */
+
+.ios-speaker-page__profile {
+  display:
+    grid;
+
+  grid-template-columns:
+    clamp(12rem, 24vw, 18rem)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(1.5rem, 4vw, 3rem);
+
+  align-items:
+    center;
+
+  min-inline-size:
+    0;
+}
+
+.ios-speaker-page__profile-media,
+.ios-speaker-page__profile-copy {
+  min-inline-size:
+    0;
+}
+
+.ios-speaker-page__profile-copy {
+  max-inline-size:
+    42rem;
+}
+
+
+/* Speaker portrait */
+
+.ios-speaker-page__portrait {
+  display:
+    block;
+
+  inline-size:
+    100%;
+
+  block-size:
+    auto;
+
+  aspect-ratio:
+    1 / 1;
+
+  object-fit:
+    cover;
+
+  object-position:
+    center top;
+
+  border-radius:
+    var(--bs-border-radius-lg, 0.5rem);
+}
+
+
+/* Speaker role and organization grouping */
+
+.ios-speaker-page__position {
+  max-inline-size:
+    34rem;
+}
+
+
+/* ==========================================================
+   MAIN CONTENT
+   ========================================================== */
+
+/*
+ * Use inside a Bootstrap .container or .container-fluid.
+ * This keeps biography and session content at a readable
+ * measure without recreating Bootstrap's page container.
+ */
+
+.ios-speaker-page__content {
+  max-inline-size:
+    56rem;
+}
+
+.ios-speaker-page__about {
+  max-inline-size:
+    52rem;
+}
+
+
+/* ==========================================================
+   SESSION COLLECTION
+   ========================================================== */
+
+/*
+ * Drupal Views owns the collection layout, row spacing,
+ * filtering, pagination and repeated-content wrappers.
+ *
+ * This container only protects against overflow from long
+ * session titles and metadata.
+ */
+
+.ios-speaker-page__sessions,
+.ios-speaker-page__sessions > * {
+  min-inline-size:
+    0;
+}
+
+
+/* ==========================================================
+   SESSION SUMMARY INTERNAL LAYOUT
+   ========================================================== */
+
+/*
+ * Apply this class to the element that also carries the
+ * universal or Bootstrap card classes.
+ *
+ * Card surface, border, radius and shadow remain outside this
+ * template stylesheet.
+ */
+
+.ios-speaker-page__session {
+  display:
+    grid;
+
+  grid-template-columns:
+    minmax(4.75rem, auto)
+    minmax(0, 1fr);
+
+  gap:
+    clamp(1rem, 2.5vw, 1.5rem);
+
+  align-items:
+    start;
+
+  min-inline-size:
+    0;
+}
+
+
+/* Date and time block */
+
+.ios-speaker-page__session-date {
+  display:
+    grid;
+
+  gap:
+    0.15rem;
+
+  justify-items:
+    center;
+
+  align-content:
+    start;
+
+  min-inline-size:
+    0;
+
+  text-align:
+    center;
+}
+
+
+/* Session content */
+
+.ios-speaker-page__session-body,
+.ios-speaker-page__session-title {
+  min-inline-size:
+    0;
+}
+
+.ios-speaker-page__session-summary {
+  max-inline-size:
+    44rem;
+}
+
+
+/* ==========================================================
+   TABLET
+   ========================================================== */
+
+@media (max-width: 991.98px) {
+  .ios-speaker-page__profile {
+    grid-template-columns:
+      clamp(10rem, 28vw, 14rem)
+      minmax(0, 1fr);
+
+    gap:
+      clamp(1.25rem, 4vw, 2.25rem);
+  }
+
+  .ios-speaker-page__profile-copy {
+    max-inline-size:
+      none;
+  }
+}
+
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 767.98px) {
+  .ios-speaker-page__session {
+    grid-template-columns:
+      minmax(4.25rem, auto)
+      minmax(0, 1fr);
+
+    gap:
+      1rem;
+  }
+}
+
+
+/* ==========================================================
+   SMALL MOBILE
+   ========================================================== */
+
+@media (max-width: 575.98px) {
+  .ios-speaker-page__profile {
+    grid-template-columns:
+      1fr;
+
+    align-items:
+      start;
+  }
+
+  .ios-speaker-page__profile-media {
+    inline-size:
+      min(100%, 13rem);
+  }
+
+  .ios-speaker-page__session {
+    grid-template-columns:
+      1fr;
+  }
+
+  .ios-speaker-page__session-date {
+    grid-auto-flow:
+      column;
+
+    grid-auto-columns:
+      max-content;
+
+    justify-content:
+      start;
+
+    align-items:
+      baseline;
+
+    text-align:
+      start;
+  }
+
+  /*
+   * Allows a Bootstrap .border-start divider on the session
+   * body at larger breakpoints without retaining it once the
+   * session layout stacks.
+   */
+
+  .ios-speaker-page__session-body.border-start {
+    padding-inline-start:
+      0 !important;
+
+    border-inline-start:
+      0 !important;
+  }
+}

@@ -1,0 +1,2723 @@
+/* ==========================================================
+   PART 1 — UNIVERSAL COLOUR RULES
+   Reusable colour utilities and component colour wiring.
+   These rules are shared by the default theme and dark mode.
+   ========================================================== */
+
+/* ==========================================================
+   IOS SHARED COLOUR UTILITIES
+   ========================================================== */
+
+:root {
+  /* ========================================================
+     SHARED CONSTANTS
+     ======================================================== */
+
+  --ios-white:
+    #ffffff;
+
+  /*
+   * Palette files override these where appropriate.
+   */
+
+  --ios-text-contrast:
+    #023951;
+
+  --ios-disabled:
+    #6c757d;
+
+  --ccsa-accent-color:
+    #e2e8ee;
+
+  --ios-menu-border:
+    var(--ccsa-accent-color);
+
+
+  /* ========================================================
+     FIXED CCSA BRAND COLOURS
+     ======================================================== */
+
+  /*
+   * These are fixed organizational brand colours.
+   * They remain unchanged when the IOS palette switches.
+   */
+
+  --ccsa-magenta:
+    #d40e8c;
+
+  --ccsa-green:
+    #49a348;
+
+  --ccsa-blue:
+    #037cb7;
+
+  --ccsa-gold:
+    #f7921e;
+
+  --ccsa-medium-accent:
+    #8c9196;
+
+  --ccsa-dark-accent:
+    #37424a;
+}
+
+
+/* ==========================================================
+   LINKS
+   ========================================================== */
+
+a {
+  color:
+    var(--ios-link-color);
+}
+
+a:visited {
+  color:
+    var(--ios-link-visited);
+}
+
+a:hover,
+a:focus-visible {
+  color:
+    var(--ios-link-hover);
+}
+
+
+/* ==========================================================
+   FIXED CCSA BRAND BACKGROUND VALUES
+   ========================================================== */
+
+/*
+ * These utilities can be used directly as fixed-colour
+ * backgrounds, including taxonomy pills.
+ *
+ * They also expose the shared --ios-theme-* values so the
+ * same class can be used on a .btn-ios element.
+ */
+
+
+/* CCSA magenta */
+
+.ccsa-magenta {
+  --ios-theme-bg:
+    var(--ccsa-magenta);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ccsa-magenta);
+
+  --ios-theme-accent:
+    var(--ccsa-magenta);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ccsa-magenta);
+
+  --ios-theme-hover-border:
+    var(--ccsa-magenta);
+}
+
+
+/* CCSA green */
+
+.ccsa-green {
+  --ios-theme-bg:
+    var(--ccsa-green);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ccsa-green);
+
+  --ios-theme-accent:
+    var(--ccsa-green);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ccsa-green);
+
+  --ios-theme-hover-border:
+    var(--ccsa-green);
+}
+
+
+/* CCSA blue */
+
+.ccsa-blue {
+  --ios-theme-bg:
+    var(--ccsa-blue);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ccsa-blue);
+
+  --ios-theme-accent:
+    var(--ccsa-blue);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ccsa-blue);
+
+  --ios-theme-hover-border:
+    var(--ccsa-blue);
+}
+
+
+/* CCSA gold */
+
+.ccsa-gold {
+   --ios-theme-bg:
+    #f7921e;
+
+  --ios-theme-text:
+    #4a2f00;
+
+  --ios-theme-border:
+    var(--ccsa-gold);
+
+  --ios-theme-accent:
+    var(--ccsa-gold);
+
+  --ios-theme-hover-bg:
+    var(--ccsa-dark-accent);
+
+  --ios-theme-hover-color:
+    var(--ios-white);
+
+  --ios-theme-hover-border:
+    var(--ccsa-dark-accent);
+
+  -webkit-text-stroke: 0.35px  #7504c0;
+
+}
+
+
+/* CCSA dark accent */
+
+.ccsa-dark-accent-bg {
+  --ios-theme-bg:
+    var(--ccsa-dark-accent);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ccsa-dark-accent);
+
+  --ios-theme-accent:
+    var(--ccsa-dark-accent);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ccsa-dark-accent);
+
+  --ios-theme-hover-border:
+    var(--ccsa-dark-accent);
+}
+
+
+/*
+ * This accent is intentionally palette-overridable and is
+ * therefore not part of the fixed CCSA button mappings.
+ */
+
+.ccsa-light-accent-bg {
+  background-color:
+    var(--ccsa-accent-color);
+}
+
+
+/* ==========================================================
+   FIXED CCSA BRAND TEXT
+   ========================================================== */
+
+.ccsa-magenta-text-only {
+  --ios-theme-color:
+    var(--ccsa-magenta);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.ccsa-green-text-only {
+  --ios-theme-color:
+    var(--ccsa-green);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.ccsa-blue-text-only {
+  --ios-theme-color:
+    var(--ccsa-blue);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.ccsa-gold-text-only {
+  --ios-theme-color:
+    var(--ccsa-gold);
+
+  color:
+    var(--ios-theme-color);
+
+  stroke:
+    var(--ios-white);
+}
+
+.ccsa-dark-accent-text {
+  --ios-theme-color:
+    var(--ccsa-dark-accent);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.ccsa-accent-text,
+.ios-accent-color {
+  --ios-theme-color:
+    var(--ccsa-accent-color);
+
+  color:
+    var(--ios-theme-color);
+}
+
+
+/* ==========================================================
+   ACTIVE TONAL TEXT UTILITIES
+   ========================================================== */
+
+.warm {
+  --ios-theme-color:
+    var(--ios-warm);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.warm-dark {
+  --ios-theme-color:
+    var(--ios-warm-dark);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.warm-light {
+  --ios-theme-color:
+    var(--ios-warm-light);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.cool {
+  --ios-theme-color:
+    var(--ios-cool);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.cool-dark {
+  --ios-theme-color:
+    var(--ios-cool-dark);
+
+  color:
+    var(--ios-theme-color);
+}
+
+.cool-light {
+  --ios-theme-color:
+    var(--ios-cool-light);
+
+  color:
+    var(--ios-theme-color);
+}
+
+
+/*
+ * Editor-facing tonal names are contextual.
+ *
+ * On ordinary content, .warm / .cool and their light/dark variants
+ * remain text-colour utilities. On .btn-ios, those same class names
+ * share the matching *-bg colour treatment below.
+ */
+
+/* ==========================================================
+   ACTIVE TONAL BACKGROUND VALUES
+   ========================================================== */
+
+/*
+ * Each utility only defines its actual colour relationship.
+ * The shared presentation and button wiring are applied once
+ * farther below.
+ */
+
+
+/* Warm */
+
+.warm-bg,
+.btn-ios.warm,
+.btn-primary.warm,
+.btn-outline-primary.warm {
+  --ios-theme-bg:
+    var(--ios-warm);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ios-warm);
+
+  --ios-theme-accent:
+    var(--ios-warm);
+
+  --ios-theme-accent-text:
+    var(--ios-white);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ios-warm);
+
+  --ios-theme-hover-border:
+    var(--ios-warm);
+}
+
+
+/* Warm dark */
+
+.warm-dark-bg,
+.btn-ios.warm-dark,
+.btn-primary.warm-dark,
+.btn-outline-primary.warm-dark {
+  --ios-theme-bg:
+    var(--ios-warm-dark);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ios-warm-dark);
+
+  --ios-theme-accent:
+    var(--ios-warm-dark);
+
+  --ios-theme-accent-text:
+    var(--ios-white);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ios-warm-dark);
+
+  --ios-theme-hover-border:
+    var(--ios-warm-dark);
+}
+
+
+/* Warm light */
+
+.warm-light-bg,
+.btn-ios.warm-light,
+.btn-primary.warm-light,
+.btn-outline-primary.warm-light {
+  --ios-theme-bg:
+    var(--ios-warm-light);
+
+  --ios-theme-text:
+    var(--ios-warm-dark);
+
+  --ios-theme-border:
+    var(--ios-warm);
+
+  --ios-theme-accent:
+    var(--ios-warm-dark);
+
+  --ios-theme-accent-text:
+    var(--ios-white);
+
+  --ios-theme-hover-bg:
+    var(--ios-warm-dark);
+
+  --ios-theme-hover-color:
+    var(--ios-white);
+
+  --ios-theme-hover-border:
+    var(--ios-warm-dark);
+}
+
+
+/* Cool */
+
+.cool-bg,
+.btn-ios.cool,
+.btn-primary.cool,
+.btn-outline-primary.cool {
+  --ios-theme-bg:
+    var(--ios-cool);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ios-cool);
+
+  --ios-theme-accent:
+    var(--ios-cool);
+
+  --ios-theme-accent-text:
+    var(--ios-white);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ios-cool);
+
+  --ios-theme-hover-border:
+    var(--ios-cool);
+}
+
+
+/* Cool dark */
+
+.cool-dark-bg,
+.btn-ios.cool-dark,
+.btn-primary.cool-dark,
+.btn-outline-primary.cool-dark {
+  --ios-theme-bg:
+    var(--ios-cool-dark);
+
+  --ios-theme-text:
+    var(--ios-white);
+
+  --ios-theme-border:
+    var(--ios-cool-dark);
+
+  --ios-theme-accent:
+    var(--ios-cool-dark);
+
+  --ios-theme-accent-text:
+    var(--ios-white);
+
+  --ios-theme-hover-bg:
+    var(--ios-white);
+
+  --ios-theme-hover-color:
+    var(--ios-cool-dark);
+
+  --ios-theme-hover-border:
+    var(--ios-cool-dark);
+}
+
+
+/* Cool light */
+
+.cool-light-bg,
+.btn-ios.cool-light,
+.btn-primary.cool-light,
+.btn-outline-primary.cool-light {
+  --ios-theme-bg:
+    var(--ios-cool-light);
+
+  --ios-theme-text:
+    var(--ios-cool-dark);
+
+  --ios-theme-border:
+    var(--ios-cool);
+
+  --ios-theme-accent:
+    var(--ios-cool);
+
+  --ios-theme-accent-text:
+    var(--ios-white);
+
+  --ios-theme-hover-bg:
+    var(--ios-cool);
+
+  --ios-theme-hover-color:
+    var(--ios-white);
+
+  --ios-theme-hover-border:
+    var(--ios-cool);
+}
+
+
+/* ==========================================================
+   FIXED CCSA NEUTRAL BUTTON / BACKGROUND
+   ========================================================== */
+
+/*
+ * Neutral outlined treatment for secondary actions.
+ *
+ * Unlike the warm and cool utilities, this deliberately does
+ * not depend on the active IOS palette.
+ */
+
+.ccsa-medium-accent-bg {
+  --ios-theme-bg:
+    var(--ios-white);
+
+  --ios-theme-text:
+    var(--ccsa-medium-accent);
+
+  --ios-theme-border:
+    var(--ccsa-medium-accent);
+
+  --ios-theme-accent:
+    var(--ccsa-medium-accent);
+
+  --ios-theme-hover-bg:
+    var(--ccsa-medium-accent);
+
+  --ios-theme-hover-color:
+    var(--ios-white);
+
+  --ios-theme-hover-border:
+    var(--ccsa-medium-accent);
+}
+
+
+/* ==========================================================
+   SHARED BACKGROUND PRESENTATION
+   ========================================================== */
+
+/*
+ * These utilities all provide the same component interface.
+ *
+ * They can therefore be used as ordinary backgrounds or
+ * directly on universal controls such as .btn-ios.
+ */
+
+.warm-bg,
+.btn-ios.warm,
+.warm-dark-bg,
+.btn-ios.warm-dark,
+.warm-light-bg,
+.btn-ios.warm-light,
+.cool-bg,
+.btn-ios.cool,
+.cool-dark-bg,
+.btn-ios.cool-dark,
+.cool-light-bg,
+.btn-ios.cool-light,
+.ccsa-magenta,
+.ccsa-green,
+.ccsa-blue,
+.ccsa-gold,
+.ccsa-medium-accent-bg,
+.ccsa-dark-accent-bg {
+  color:
+    var(--ios-theme-text);
+
+  background-color:
+    var(--ios-theme-bg);
+
+  border-color:
+    var(--ios-theme-border);
+
+
+  /* Button integration */
+
+  --ios-btn-color:
+    var(--ios-theme-bg);
+
+  --ios-btn-text:
+    var(--ios-theme-text);
+
+  --ios-btn-border:
+    var(--ios-theme-border);
+
+  --ios-btn-hover-bg:
+    var(--ios-theme-hover-bg);
+
+  --ios-btn-hover-color:
+    var(--ios-theme-hover-color);
+
+  --ios-btn-hover-border:
+    var(--ios-theme-hover-border);
+}
+
+
+/* ==========================================================
+   BOOTSTRAP TONAL BUTTON INTEGRATION
+   ========================================================== */
+
+/*
+ * The editor-facing tonal names remain text utilities on ordinary
+ * content. When the same names are placed on Bootstrap primary or
+ * outline-primary buttons, the button consumes the matching tonal
+ * relationship defined above.
+ */
+
+.btn.btn-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+) {
+  color:
+    var(--ios-theme-text);
+
+  background-color:
+    var(--ios-theme-bg);
+
+  border-color:
+    var(--ios-theme-border);
+
+  --bs-btn-color:
+    var(--ios-theme-text);
+
+  --bs-btn-bg:
+    var(--ios-theme-bg);
+
+  --bs-btn-border-color:
+    var(--ios-theme-border);
+
+  --bs-btn-hover-color:
+    var(--ios-theme-hover-color);
+
+  --bs-btn-hover-bg:
+    var(--ios-theme-hover-bg);
+
+  --bs-btn-hover-border-color:
+    var(--ios-theme-hover-border);
+
+  --bs-btn-active-color:
+    var(--ios-theme-hover-color);
+
+  --bs-btn-active-bg:
+    var(--ios-theme-hover-bg);
+
+  --bs-btn-active-border-color:
+    var(--ios-theme-hover-border);
+}
+
+.btn.btn-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+):hover,
+.btn.btn-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+):active,
+.btn.btn-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+).active {
+  color:
+    var(--ios-theme-hover-color);
+
+  background-color:
+    var(--ios-theme-hover-bg);
+
+  border-color:
+    var(--ios-theme-hover-border);
+}
+
+.btn.btn-outline-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+) {
+  color:
+    var(--ios-theme-accent);
+
+  background-color:
+    transparent;
+
+  border-color:
+    var(--ios-theme-border);
+
+  --bs-btn-color:
+    var(--ios-theme-accent);
+
+  --bs-btn-bg:
+    transparent;
+
+  --bs-btn-border-color:
+    var(--ios-theme-border);
+
+  --bs-btn-hover-color:
+    var(--ios-theme-accent-text);
+
+  --bs-btn-hover-bg:
+    var(--ios-theme-accent);
+
+  --bs-btn-hover-border-color:
+    var(--ios-theme-border);
+
+  --bs-btn-active-color:
+    var(--ios-theme-accent-text);
+
+  --bs-btn-active-bg:
+    var(--ios-theme-accent);
+
+  --bs-btn-active-border-color:
+    var(--ios-theme-border);
+}
+
+.btn.btn-outline-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+):hover,
+.btn.btn-outline-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+):active,
+.btn.btn-outline-primary:is(
+  .warm,
+  .warm-dark,
+  .warm-light,
+  .cool,
+  .cool-dark,
+  .cool-light
+).active {
+  color:
+    var(--ios-theme-accent-text);
+
+  background-color:
+    var(--ios-theme-accent);
+
+  border-color:
+    var(--ios-theme-border);
+}
+
+
+/* ==========================================================
+   MIX ACTIVE THEME COLOUR WITH WHITE
+   ========================================================== */
+
+/*
+ * Used with one of the tonal text classes:
+ *
+ * class="warm ios-mix-white"
+ * class="cool-dark ios-mix-white"
+ */
+
+.ios-mix-white {
+  color:
+    var(
+      --ios-theme-color,
+      var(--ios-white)
+    );
+}
+
+@supports (color: color-mix(in srgb, black, white)) {
+  .ios-mix-white {
+    color:
+      color-mix(
+        in srgb,
+        var(
+          --ios-theme-color,
+          var(--ios-white)
+        )
+        var(
+          --ios-mix-theme-weight,
+          45%
+        ),
+        var(--ios-white)
+        var(
+          --ios-mix-white-weight,
+          55%
+        )
+      );
+  }
+}
+
+/* ==========================================================
+   PART 2 — COLOUR THEME
+   Theme identity: palette values and semantic colour roles.
+   Default is the baseline view.
+   ========================================================== */
+
+/* ==========================================================
+   IOS DEFAULT COLOUR THEME
+   ========================================================== */
+
+:root {
+  /* ========================================================
+     DAYLIGHT SOURCE PALETTE
+     ======================================================== */
+
+  --ios-palette-warm:
+    #d40e8c;
+
+  --ios-palette-warm-dark:
+    #97006a;
+
+  --ios-palette-warm-light:
+    #fff3f9;
+
+  --ios-palette-cool:
+    #037cb7;
+
+  --ios-palette-cool-dark:
+    #023951;
+
+  --ios-palette-cool-light:
+    #f4faff;
+
+
+  /* ========================================================
+     NIGHT SOURCE PALETTE
+     ======================================================== */
+
+  /*
+   * These are designed specifically for use on the default
+   * palette's dark page and raised surfaces.
+   *
+   * The three roles remain visibly distinct:
+   *
+   * main  = vivid accent
+   * dark  = quieter, deeper accent
+   * light = brightest tint
+   */
+
+  --ios-palette-night-warm:
+    #ff79c2;
+
+  --ios-palette-night-warm-dark:
+    #e186bc;
+
+  --ios-palette-night-warm-light:
+    #ffd0e9;
+
+  --ios-palette-night-cool:
+    #62c8f7;
+
+  --ios-palette-night-cool-dark:
+    #86b8cf;
+
+  --ios-palette-night-cool-light:
+    #d2f2ff;
+
+
+  /* ========================================================
+     ACTIVE DAYLIGHT TONAL COLOURS
+     ======================================================== */
+
+  /*
+   * Components always consume these six variables.
+   *
+   * In daylight mode, they point to the daylight source
+   * palette. The dark stylesheet will switch them to the
+   * corresponding night source palette.
+   */
+
+  --ios-warm:
+    var(--ios-palette-warm);
+
+  --ios-warm-dark:
+    var(--ios-palette-warm-dark);
+
+  --ios-warm-light:
+    var(--ios-palette-warm-light);
+
+  --ios-cool:
+    var(--ios-palette-cool);
+
+  --ios-cool-dark:
+    var(--ios-palette-cool-dark);
+
+  --ios-cool-light:
+    var(--ios-palette-cool-light);
+
+
+  /* ========================================================
+     GENERAL TEXT
+     ======================================================== */
+
+  --ios-body-text:
+    #785d65;
+
+  --ios-text-contrast:
+    var(--ios-cool-dark);
+
+  --ios-disabled:
+    #6c757d;
+
+
+  /* ========================================================
+     LINKS
+     ======================================================== */
+
+  --ios-link-color:
+    var(--ios-cool);
+
+  --ios-link-visited:
+    var(--ios-cool-dark);
+
+  --ios-link-hover:
+    var(--ios-warm);
+
+
+  /* ========================================================
+     BOOTSTRAP SEMANTIC ROLES
+     ======================================================== */
+
+  --bs-body-bg:
+    var(--ios-white);
+
+  --bs-body-color:
+    var(--ios-body-text);
+
+  --bs-emphasis-color:
+    var(--ios-cool-dark);
+
+  --bs-secondary-color:
+    #6f5961;
+
+  --bs-tertiary-color:
+    #826c74;
+
+  --bs-secondary-bg:
+    var(--ios-cool-light);
+
+  --bs-tertiary-bg:
+    var(--ios-warm-light);
+
+  --bs-border-color:
+    #e2d9de;
+
+  --bs-border-color-translucent:
+    rgb(2 57 81 / 0.16);
+
+  --bs-link-color:
+    var(--ios-link-color);
+
+  --bs-link-hover-color:
+    var(--ios-link-hover);
+
+
+/* ========================================================
+   SHARED COMPONENT DETAILS
+   ======================================================== */
+
+--ios-blockquote-highlight:
+  #d9c8f7;
+
+--ios-menu-border:
+  var(--bs-border-color);
+
+
+/*
+ * CCSA supporting accent family.
+ *
+ * These are theme-responsive supporting colours rather than
+ * the fixed magenta / green / blue / gold brand colours.
+ */
+
+--ccsa-accent-color:
+  #e2e8ee;
+
+--ccsa-medium-accent:
+  #6b7075;
+
+--ccsa-dark-accent:
+  #3e4042;
+
+  /* ========================================================
+     UNIVERSAL PAGE HEADER
+     ======================================================== */
+
+  --ios-page-header-bg:
+    var(--ios-cool-light);
+
+  --ios-page-header-text:
+    var(--ios-body-text);
+
+  --ios-page-header-overlay-color:
+    var(--ios-white);
+
+  --ios-page-header-accent:
+    var(--ios-warm);
+
+  --ios-page-header-meta-color:
+    var(--ios-body-text);
+
+  --ios-page-header-icon-color:
+    var(--ios-warm);
+
+  --ios-page-header-border:
+    var(--bs-border-color);
+
+  --ios-page-header-image-opacity:
+    0.72;
+
+
+  /* ========================================================
+     HOME-PAGE HERO
+     ======================================================== */
+
+  --ios-hero-bg:
+    var(--ios-white);
+
+  --ios-hero-overlay-color:
+    var(--ios-white);
+
+  --ios-hero-text-outline-color:
+    rgb(255 255 255 / 0.95);
+
+  --ios-hero-countdown-bg:
+    rgb(255 255 255 / 0.88);
+
+  --ios-hero-stats-inset-shadow:
+    color-mix(
+      in srgb,
+      var(--ios-cool-dark) 25%,
+      transparent
+    );
+
+  --ios-hero-stats-divider:
+    color-mix(
+      in srgb,
+      var(--ios-cool) 35%,
+      var(--ios-white) 65%
+    );
+
+
+  /* ========================================================
+     CAROUSEL CONTROLS
+     ======================================================== */
+
+  --ios-carousel-control-color:
+    var(--ios-warm);
+
+  --ios-carousel-control-bg:
+    var(--ios-white);
+
+  --ios-carousel-control-border:
+    var(--ios-warm);
+
+  --ios-carousel-control-hover-color:
+    var(--ios-white);
+
+  --ios-carousel-control-hover-bg:
+    var(--ios-warm);
+
+  --ios-carousel-control-focus:
+    var(--ios-cool-dark);
+
+  --ios-carousel-control-shadow:
+    rgb(0 0 0 / 0.2);
+}
+/* ==========================================================
+   IOS DEFAULT COLOUR THEME
+   ========================================================== */
+
+:root {
+  /* ========================================================
+     DAYLIGHT SOURCE PALETTE
+     ======================================================== */
+
+  --ios-palette-warm:
+    #d40e8c;
+
+  --ios-palette-warm-dark:
+    #97006a;
+
+  --ios-palette-warm-light:
+    #fff3f9;
+
+  --ios-palette-cool:
+    #037cb7;
+
+  --ios-palette-cool-dark:
+    #023951;
+
+  --ios-palette-cool-light:
+    #f4faff;
+
+
+  /* ========================================================
+     NIGHT SOURCE PALETTE
+     ======================================================== */
+
+  /*
+   * These are designed specifically for use on the default
+   * palette's dark page and raised surfaces.
+   *
+   * The three roles remain visibly distinct:
+   *
+   * main  = vivid accent
+   * dark  = quieter, deeper accent
+   * light = brightest tint
+   */
+
+  --ios-palette-night-warm:
+    #ff79c2;
+
+  --ios-palette-night-warm-dark:
+    #e186bc;
+
+  --ios-palette-night-warm-light:
+    #ffd0e9;
+
+  --ios-palette-night-cool:
+    #62c8f7;
+
+  --ios-palette-night-cool-dark:
+    #86b8cf;
+
+  --ios-palette-night-cool-light:
+    #d2f2ff;
+
+
+  /* ========================================================
+     ACTIVE DAYLIGHT TONAL COLOURS
+     ======================================================== */
+
+  /*
+   * Components always consume these six variables.
+   *
+   * In daylight mode, they point to the daylight source
+   * palette. The dark stylesheet will switch them to the
+   * corresponding night source palette.
+   */
+
+  --ios-warm:
+    var(--ios-palette-warm);
+
+  --ios-warm-dark:
+    var(--ios-palette-warm-dark);
+
+  --ios-warm-light:
+    var(--ios-palette-warm-light);
+
+  --ios-cool:
+    var(--ios-palette-cool);
+
+  --ios-cool-dark:
+    var(--ios-palette-cool-dark);
+
+  --ios-cool-light:
+    var(--ios-palette-cool-light);
+
+
+  /* ========================================================
+     GENERAL TEXT
+     ======================================================== */
+
+  --ios-body-text:
+    #785d65;
+
+  --ios-text-contrast:
+    var(--ios-cool-dark);
+
+  --ios-disabled:
+    #6c757d;
+
+
+  /* ========================================================
+     LINKS
+     ======================================================== */
+
+  --ios-link-color:
+    var(--ios-cool);
+
+  --ios-link-visited:
+    var(--ios-cool-dark);
+
+  --ios-link-hover:
+    var(--ios-warm);
+
+
+  /* ========================================================
+     BOOTSTRAP SEMANTIC ROLES
+     ======================================================== */
+
+  --bs-body-bg:
+    var(--ios-white);
+
+  --bs-body-color:
+    var(--ios-body-text);
+
+  --bs-emphasis-color:
+    var(--ios-cool-dark);
+
+  --bs-secondary-color:
+    #6f5961;
+
+  --bs-tertiary-color:
+    #826c74;
+
+  --bs-secondary-bg:
+    var(--ios-cool-light);
+
+  --bs-tertiary-bg:
+    var(--ios-warm-light);
+
+  --bs-border-color:
+    #e2d9de;
+
+  --bs-border-color-translucent:
+    rgb(2 57 81 / 0.16);
+
+  --bs-link-color:
+    var(--ios-link-color);
+
+  --bs-link-hover-color:
+    var(--ios-link-hover);
+
+
+/* ========================================================
+   SHARED COMPONENT DETAILS
+   ======================================================== */
+
+--ios-blockquote-highlight:
+  #d9c8f7;
+
+--ios-menu-border:
+  var(--bs-border-color);
+
+
+/*
+ * CCSA supporting accent family.
+ *
+ * These are theme-responsive supporting colours rather than
+ * the fixed magenta / green / blue / gold brand colours.
+ */
+
+--ccsa-accent-color:
+  #e2e8ee;
+
+--ccsa-medium-accent:
+  #6b7075;
+
+--ccsa-dark-accent:
+  #3e4042;
+
+  /* ========================================================
+     UNIVERSAL PAGE HEADER
+     ======================================================== */
+
+  --ios-page-header-bg:
+    var(--ios-cool-light);
+
+  --ios-page-header-text:
+    var(--ios-body-text);
+
+  --ios-page-header-overlay-color:
+    var(--ios-white);
+
+  --ios-page-header-accent:
+    var(--ios-warm);
+
+  --ios-page-header-meta-color:
+    var(--ios-body-text);
+
+  --ios-page-header-icon-color:
+    var(--ios-warm);
+
+  --ios-page-header-border:
+    var(--bs-border-color);
+
+  --ios-page-header-image-opacity:
+    0.72;
+
+
+  /* ========================================================
+     HOME-PAGE HERO
+     ======================================================== */
+
+  --ios-hero-bg:
+    var(--ios-white);
+
+  --ios-hero-overlay-color:
+    var(--ios-white);
+
+  --ios-hero-text-outline-color:
+    rgb(255 255 255 / 0.95);
+
+  --ios-hero-countdown-bg:
+    rgb(255 255 255 / 0.88);
+
+  --ios-hero-stats-inset-shadow:
+    color-mix(
+      in srgb,
+      var(--ios-cool-dark) 25%,
+      transparent
+    );
+
+  --ios-hero-stats-divider:
+    color-mix(
+      in srgb,
+      var(--ios-cool) 35%,
+      var(--ios-white) 65%
+    );
+
+
+  /* ========================================================
+     CAROUSEL CONTROLS
+     ======================================================== */
+
+  --ios-carousel-control-color:
+    var(--ios-warm);
+
+  --ios-carousel-control-bg:
+    var(--ios-white);
+
+  --ios-carousel-control-border:
+    var(--ios-warm);
+
+  --ios-carousel-control-hover-color:
+    var(--ios-white);
+
+  --ios-carousel-control-hover-bg:
+    var(--ios-warm);
+
+  --ios-carousel-control-focus:
+    var(--ios-cool-dark);
+
+  --ios-carousel-control-shadow:
+    rgb(0 0 0 / 0.2);
+}
+/* ==========================================================
+   PART 3 — DARK MODE
+   Dark-mode adaptation for the active colour theme.
+
+   Dormant by default. A future Drupal toggle can activate it by
+   setting data-ios-theme="dark" on the <html> element.
+   ========================================================== */
+
+/* ==========================================================
+   IOS NIGHT THEME
+   Applied only when the document is explicitly switched to dark mode.
+   ========================================================== */
+
+html[data-ios-theme="dark"] {
+  color-scheme: dark;
+
+
+  /* ========================================================
+     NIGHT NEUTRAL ANCHORS
+     ======================================================== */
+
+  /*
+   * Soft neutrals used for the page atmosphere, body text,
+   * raised surfaces and alerts.
+   *
+   * These avoid stark white and pure black.
+   */
+
+  --ios-night-soft-light:
+    #d6d6d6;
+
+  --ios-night-soft-dark:
+    #121016;
+
+
+  /* ========================================================
+     ACTIVATE THE SELECTED NIGHT PALETTE
+     ======================================================== */
+
+  /*
+   * Each palette file supplies six coordinated night colours.
+   *
+   * The daylight source colour is retained as a fallback so
+   * a future palette will still render if its night values
+   * have not yet been added.
+   */
+
+  --ios-warm:
+    var(
+      --ios-palette-night-warm,
+      var(--ios-palette-warm)
+    );
+
+  --ios-warm-dark:
+    var(
+      --ios-palette-night-warm-dark,
+      var(--ios-palette-warm-dark)
+    );
+
+  --ios-warm-light:
+    var(
+      --ios-palette-night-warm-light,
+      var(--ios-palette-warm-light)
+    );
+
+  --ios-cool:
+    var(
+      --ios-palette-night-cool,
+      var(--ios-palette-cool)
+    );
+
+  --ios-cool-dark:
+    var(
+      --ios-palette-night-cool-dark,
+      var(--ios-palette-cool-dark)
+    );
+
+  --ios-cool-light:
+    var(
+      --ios-palette-night-cool-light,
+      var(--ios-palette-cool-light)
+    );
+
+
+  /* ========================================================
+     CORE NIGHT SURFACES
+     ======================================================== */
+
+  /*
+   * The page background continues to derive from the
+   * daylight palette's original dark tones.
+   *
+   * This produces a dark atmosphere connected to the
+   * selected palette without using a stark black base.
+   */
+
+  --ios-night-page:
+    color-mix(
+      in oklch,
+      color-mix(
+        in oklch,
+        var(--ios-palette-warm-dark) 46%,
+        var(--ios-palette-cool-dark) 54%
+      ) 38%,
+      var(--ios-night-soft-dark) 62%
+    );
+
+
+  /*
+   * Shared surfaces remain close to the page background so
+   * the interface does not become a collection of grey
+   * panels.
+   */
+
+  --ios-night-surface:
+    color-mix(
+      in oklch,
+      var(--ios-night-page) 96%,
+      var(--ios-night-soft-light) 4%
+    );
+
+  --ios-night-raised:
+    color-mix(
+      in oklch,
+      var(--ios-night-page) 92%,
+      var(--ios-night-soft-light) 8%
+    );
+
+
+  /* ========================================================
+     NIGHT BORDERS
+     ======================================================== */
+
+  /*
+   * Subtle decorative boundary.
+   */
+
+  --ios-night-border:
+    color-mix(
+      in oklch,
+      color-mix(
+        in oklch,
+        var(--ios-warm) 45%,
+        var(--ios-cool) 55%
+      ) 18%,
+      var(--ios-night-surface) 82%
+    );
+
+
+  /*
+   * Stronger boundary for controls and elements whose edges
+   * must remain clearly identifiable.
+   */
+
+  --ios-night-border-strong:
+    color-mix(
+      in oklch,
+      color-mix(
+        in oklch,
+        var(--ios-warm) 45%,
+        var(--ios-cool) 55%
+      ) 60%,
+      var(--ios-night-surface) 40%
+    );
+
+  --ios-night-warm-border:
+    color-mix(
+      in oklch,
+      var(--ios-warm) 56%,
+      var(--ios-night-surface) 44%
+    );
+
+  --ios-night-cool-border:
+    color-mix(
+      in oklch,
+      var(--ios-cool) 56%,
+      var(--ios-night-surface) 44%
+    );
+
+
+  /* ========================================================
+     PALETTE-TINTED NIGHT SURFACES
+     ======================================================== */
+
+  /*
+   * Dark-mode replacements for warm-light-bg and
+   * cool-light-bg.
+   *
+   * These remain close to the shared surface while carrying
+   * a visible tint from the active night palette.
+   */
+
+  --ios-night-warm-surface:
+    color-mix(
+      in oklch,
+      color-mix(
+        in oklch,
+        var(--ios-warm-light) 28%,
+        var(--ios-warm) 72%
+      ) 14%,
+      var(--ios-night-surface) 86%
+    );
+
+  --ios-night-cool-surface:
+    color-mix(
+      in oklch,
+      color-mix(
+        in oklch,
+        var(--ios-cool-light) 28%,
+        var(--ios-cool) 72%
+      ) 14%,
+      var(--ios-night-surface) 86%
+    );
+
+
+/* ========================================================
+   GENERAL TEXT
+   ======================================================== */
+
+--ios-body-text:
+  color-mix(
+    in oklch,
+    var(--ios-night-soft-light) 92%,
+    var(--ios-cool-light) 8%
+  );
+
+--ios-night-muted:
+  color-mix(
+    in oklch,
+    var(--ios-body-text) 74%,
+    var(--ios-night-surface) 26%
+  );
+
+--ios-night-subtle:
+  color-mix(
+    in oklch,
+    var(--ios-body-text) 60%,
+    var(--ios-night-surface) 40%
+  );
+
+--ios-text-contrast:
+  var(--ios-night-page);
+
+--ios-disabled:
+  var(--ios-night-subtle);
+
+--ios-blockquote-highlight:
+  var(--ios-night-raised);
+
+--ios-menu-border:
+  var(--ios-night-border-strong);
+
+
+/*
+ * CCSA supporting accent family in night mode.
+ *
+ * The light accent becomes a bright palette-derived accent.
+ * The medium accent becomes a readable muted foreground.
+ * The dark accent remains a dark structural surface, but
+ * picks up a small amount of the active palette.
+ */
+
+--ccsa-accent-color:
+  var(--ios-cool-light);
+
+--ccsa-medium-accent:
+  var(--ios-night-muted);
+
+--ccsa-dark-accent:
+  color-mix(
+    in oklch,
+    var(--ios-night-raised) 88%,
+    var(--ios-cool) 12%
+  );
+
+
+  /* ========================================================
+     LINKS
+     ======================================================== */
+
+  --ios-link-color:
+    var(--ios-cool);
+
+  --ios-link-visited:
+    var(--ios-warm);
+
+  --ios-link-hover:
+    var(--ios-warm-light);
+
+
+  /* ========================================================
+     BOOTSTRAP SEMANTIC ROLES
+     ======================================================== */
+
+  --bs-body-bg:
+    var(--ios-night-page);
+
+  --bs-body-color:
+    var(--ios-body-text);
+
+  --bs-emphasis-color:
+    var(--ios-night-soft-light);
+
+  --bs-secondary-color:
+    var(--ios-night-muted);
+
+  --bs-tertiary-color:
+    var(--ios-night-subtle);
+
+  --bs-secondary-bg:
+    var(--ios-night-surface);
+
+  --bs-tertiary-bg:
+    var(--ios-night-raised);
+
+  --bs-border-color:
+    var(--ios-night-border);
+
+  --bs-border-color-translucent:
+    color-mix(
+      in oklch,
+      var(--ios-night-border-strong) 38%,
+      transparent
+    );
+
+  --bs-link-color:
+    var(--ios-link-color);
+
+  --bs-link-hover-color:
+    var(--ios-link-hover);
+
+  --bs-code-color:
+    var(--ios-warm);
+
+
+  /* ========================================================
+     UNIVERSAL PAGE HEADER
+     ======================================================== */
+
+  --ios-page-header-bg:
+    var(--ios-night-surface);
+
+  --ios-page-header-text:
+    var(--ios-body-text);
+
+  --ios-page-header-overlay-color:
+    var(--ios-night-page);
+
+  --ios-page-header-accent:
+    var(--ios-warm);
+
+  --ios-page-header-meta-color:
+    var(--ios-body-text);
+
+  --ios-page-header-icon-color:
+    var(--ios-warm);
+
+  --ios-page-header-border:
+    var(--ios-night-border);
+
+  --ios-page-header-image-opacity:
+    0.58;
+
+
+  /* ========================================================
+     HOME-PAGE HERO
+     ======================================================== */
+
+  --ios-hero-bg:
+    var(--ios-night-page);
+
+  --ios-hero-overlay-color:
+    var(--ios-night-page);
+
+  --ios-hero-text-outline-color:
+    color-mix(
+      in oklch,
+      var(--ios-night-page) 96%,
+      transparent
+    );
+
+  --ios-hero-countdown-bg:
+    color-mix(
+      in oklch,
+      var(--ios-night-surface) 94%,
+      transparent
+    );
+
+  --ios-hero-stats-inset-shadow:
+    color-mix(
+      in oklch,
+      var(--ios-cool) 32%,
+      transparent
+    );
+
+  --ios-hero-stats-divider:
+    color-mix(
+      in oklch,
+      var(--ios-cool) 52%,
+      var(--ios-night-border-strong) 48%
+    );
+
+
+  /* ========================================================
+     CAROUSEL CONTROLS
+     ======================================================== */
+
+  --ios-carousel-control-color:
+    var(--ios-warm);
+
+  --ios-carousel-control-bg:
+    var(--ios-night-surface);
+
+  --ios-carousel-control-border:
+    var(--ios-night-warm-border);
+
+  --ios-carousel-control-hover-color:
+    var(--ios-night-page);
+
+  --ios-carousel-control-hover-bg:
+    var(--ios-warm);
+
+  --ios-carousel-control-focus:
+    var(--ios-cool);
+
+  --ios-carousel-control-shadow:
+    rgb(0 0 0 / 0.58);
+}
+
+
+/* ==========================================================
+   PAGE AND GENERAL TEXT
+   ========================================================== */
+
+html[data-ios-theme="dark"],
+html[data-ios-theme="dark"] body {
+  color:
+    var(--ios-body-text);
+
+  background-color:
+    var(--ios-night-page);
+}
+
+html[data-ios-theme="dark"] hr {
+  border-color:
+    var(--ios-night-border-strong);
+
+  opacity:
+    1;
+}
+
+html[data-ios-theme="dark"] .text-muted,
+html[data-ios-theme="dark"] .text-body-secondary,
+html[data-ios-theme="dark"] .form-text {
+  color:
+    var(--ios-night-muted) !important;
+}
+
+
+/* ==========================================================
+   CONTENT LINKS
+   ========================================================== */
+
+html[data-ios-theme="dark"] main a:not(.btn) {
+  text-decoration-thickness:
+    0.08em;
+
+  text-underline-offset:
+    0.18em;
+}
+
+html[data-ios-theme="dark"] main a:not(.btn):hover,
+html[data-ios-theme="dark"] main a:not(.btn):focus-visible {
+  color:
+    var(--ios-link-hover);
+}
+
+
+/* ==========================================================
+   STACKED TEXT SHADOW
+   ========================================================== */
+
+html[data-ios-theme="dark"] .ios-stacked-text-shadow {
+  --ios-shadow-light:
+    color-mix(
+      in oklch,
+      var(
+        --ios-theme-color,
+        var(--ios-cool)
+      ) 28%,
+      var(--ios-night-soft-dark) 72%
+    );
+}
+
+
+/* ==========================================================
+   SATURATED THEME BACKGROUNDS
+   ========================================================== */
+
+/*
+ * The active night palette colours are generally bright
+ * enough to support the dark page colour as their foreground.
+ */
+
+html[data-ios-theme="dark"] .warm-bg,
+html[data-ios-theme="dark"] .btn-ios.warm,
+html[data-ios-theme="dark"] .warm-dark-bg,
+html[data-ios-theme="dark"] .btn-ios.warm-dark,
+html[data-ios-theme="dark"] .cool-bg,
+html[data-ios-theme="dark"] .btn-ios.cool,
+html[data-ios-theme="dark"] .cool-dark-bg,
+html[data-ios-theme="dark"] .btn-ios.cool-dark {
+  --ios-theme-text:
+    var(--ios-night-page);
+
+  color:
+    var(--ios-theme-text);
+
+  --ios-btn-text:
+    var(--ios-theme-text);
+
+  --ios-btn-hover-bg:
+    var(--ios-night-raised);
+
+  --ios-btn-hover-color:
+    var(--ios-theme-bg);
+
+  --ios-btn-hover-border:
+    var(--ios-theme-border);
+}
+
+
+/* ==========================================================
+   LIGHT PALETTE BACKGROUNDS BECOME NIGHT SURFACES
+   ========================================================== */
+
+html[data-ios-theme="dark"] .warm-light-bg,
+html[data-ios-theme="dark"] .btn-ios.warm-light {
+  --ios-theme-bg:
+    var(--ios-night-warm-surface);
+
+  --ios-theme-text:
+    var(--ios-body-text);
+
+  --ios-theme-border:
+    var(--ios-night-warm-border);
+
+  --ios-theme-accent:
+    var(--ios-warm-light);
+
+  background-color:
+    var(--ios-theme-bg);
+
+  color:
+    var(--ios-theme-text);
+
+  border-color:
+    var(--ios-theme-border);
+
+  --ios-btn-color:
+    var(--ios-theme-bg);
+
+  --ios-btn-text:
+    var(--ios-theme-text);
+
+  --ios-btn-border:
+    var(--ios-theme-border);
+
+  --ios-btn-hover-bg:
+    var(--ios-warm);
+
+  --ios-btn-hover-color:
+    var(--ios-night-page);
+
+  --ios-btn-hover-border:
+    var(--ios-warm);
+}
+
+html[data-ios-theme="dark"] .cool-light-bg,
+html[data-ios-theme="dark"] .btn-ios.cool-light {
+  --ios-theme-bg:
+    var(--ios-night-cool-surface);
+
+  --ios-theme-text:
+    var(--ios-body-text);
+
+  --ios-theme-border:
+    var(--ios-night-cool-border);
+
+  --ios-theme-accent:
+    var(--ios-cool-light);
+
+  background-color:
+    var(--ios-theme-bg);
+
+  color:
+    var(--ios-theme-text);
+
+  border-color:
+    var(--ios-theme-border);
+
+  --ios-btn-color:
+    var(--ios-theme-bg);
+
+  --ios-btn-text:
+    var(--ios-theme-text);
+
+  --ios-btn-border:
+    var(--ios-theme-border);
+
+  --ios-btn-hover-bg:
+    var(--ios-cool);
+
+  --ios-btn-hover-color:
+    var(--ios-night-page);
+
+  --ios-btn-hover-border:
+    var(--ios-cool);
+}
+/* ==========================================================
+   CCSA SUPPORTING ACCENT BACKGROUNDS
+   ========================================================== */
+
+/*
+ * The medium CCSA accent is a quiet secondary treatment in
+ * daylight mode.
+ *
+ * In night mode, the daylight white surface is replaced by
+ * a raised dark surface so the component remains secondary
+ * without becoming a bright white interruption.
+ */
+
+html[data-ios-theme="dark"] .ccsa-medium-accent-bg {
+  --ccsa-medium-accent:
+    var(--ios-night-muted);
+
+  --ios-theme-bg:
+    var(--ios-night-raised);
+
+  --ios-theme-text:
+    var(--ios-body-text);
+
+  --ios-theme-border:
+    var(--ios-night-border-strong);
+
+  --ios-theme-accent:
+    var(--ios-cool-light);
+
+  background-color:
+    var(--ios-theme-bg);
+
+  color:
+    var(--ios-theme-text);
+
+  border-color:
+    var(--ios-theme-border);
+
+  --ios-btn-color:
+    var(--ios-theme-bg);
+
+  --ios-btn-text:
+    var(--ios-theme-text);
+
+  --ios-btn-border:
+    var(--ios-theme-border);
+
+  --ios-btn-hover-bg:
+    var(--ios-cool);
+
+  --ios-btn-hover-color:
+    var(--ios-night-page);
+
+  --ios-btn-hover-border:
+    var(--ios-cool);
+}
+
+/* ==========================================================
+   BOOTSTRAP BACKGROUND UTILITIES
+   ========================================================== */
+
+html[data-ios-theme="dark"] .bg-white,
+html[data-ios-theme="dark"] .bg-light {
+  color:
+    var(--ios-body-text);
+
+  background-color:
+    var(--ios-night-surface) !important;
+}
+
+html[data-ios-theme="dark"] .bg-secondary {
+  color:
+    var(--ios-body-text);
+
+  background-color:
+    var(--ios-night-raised) !important;
+}
+
+html[data-ios-theme="dark"] .ccsa-light-accent-bg {
+  color:
+    var(--ios-body-text);
+
+  background-color:
+    var(--ios-night-raised);
+}
+
+
+/* ==========================================================
+   EXPLICIT BORDERS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .border,
+html[data-ios-theme="dark"] .border-top,
+html[data-ios-theme="dark"] .border-end,
+html[data-ios-theme="dark"] .border-bottom,
+html[data-ios-theme="dark"] .border-start {
+  --bs-border-color:
+    var(--ios-night-border-strong);
+}
+
+
+/* ==========================================================
+   CARDS AND RAISED COMPONENTS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .card {
+  --bs-card-color:
+    var(--ios-body-text);
+
+  --bs-card-bg:
+    var(--ios-night-surface);
+
+  --bs-card-border-color:
+    var(--ios-night-border);
+
+  box-shadow:
+    0 0.65rem 1.6rem
+    rgb(0 0 0 / 0.34);
+}
+
+html[data-ios-theme="dark"] .ios-pullquote,
+html[data-ios-theme="dark"] .ios-blockquote {
+  border-color:
+    var(--ios-night-border);
+}
+
+html[data-ios-theme="dark"] .list-group {
+  --bs-list-group-color:
+    var(--ios-body-text);
+
+  --bs-list-group-bg:
+    var(--ios-night-surface);
+
+  --bs-list-group-border-color:
+    var(--ios-night-border-strong);
+
+  --bs-list-group-action-color:
+    var(--ios-body-text);
+
+  --bs-list-group-action-hover-color:
+    var(--ios-body-text);
+
+  --bs-list-group-action-hover-bg:
+    var(--ios-night-raised);
+}
+
+
+/* ==========================================================
+   CAROUSELS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .ios-carousel .carousel-control-prev,
+html[data-ios-theme="dark"] .ios-carousel .carousel-control-next {
+  border-color:
+    var(--ios-night-warm-border);
+
+  box-shadow:
+    0 0.25rem 0.8rem
+    rgb(0 0 0 / 0.58);
+}
+
+html[data-ios-theme="dark"] .ios-carousel .carousel-indicators {
+  align-items:
+    center;
+}
+
+html[data-ios-theme="dark"] .ios-carousel .carousel-indicators [data-bs-target] {
+  width:
+    0.7rem;
+
+  height:
+    0.7rem;
+
+  background-color:
+    var(--ios-cool);
+
+  border:
+    1px solid
+    var(--ios-night-cool-border);
+
+  opacity:
+    0.68;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+html[data-ios-theme="dark"] .ios-carousel .carousel-indicators [data-bs-target]:hover {
+  opacity:
+    0.9;
+}
+
+html[data-ios-theme="dark"] .ios-carousel .carousel-indicators .active {
+  background-color:
+    var(--ios-warm);
+
+  border-color:
+    var(--ios-night-warm-border);
+
+  opacity:
+    1;
+
+  transform:
+    scale(1.18);
+}
+
+
+/* ==========================================================
+   ACCORDIONS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .accordion {
+  --bs-accordion-color:
+    var(--ios-body-text);
+
+  --bs-accordion-bg:
+    var(--ios-night-surface);
+
+  --bs-accordion-border-color:
+    var(--ios-night-border-strong);
+
+  --bs-accordion-btn-color:
+    var(--ios-body-text);
+
+  --bs-accordion-btn-bg:
+    var(--ios-night-surface);
+
+  --bs-accordion-active-color:
+    var(--ios-body-text);
+
+  --bs-accordion-active-bg:
+    var(--ios-night-raised);
+
+  --bs-accordion-btn-focus-border-color:
+    var(--ios-cool);
+
+  --bs-accordion-btn-focus-box-shadow:
+    0 0 0 0.25rem
+    color-mix(
+      in oklch,
+      var(--ios-cool) 32%,
+      transparent
+    );
+}
+
+html[data-ios-theme="dark"] .ios-accordion .accordion-item {
+  --ios-btn-text:
+    var(--ios-night-page);
+}
+
+html[data-ios-theme="dark"] .accordion-button::after {
+  filter:
+    invert(1)
+    grayscale(1);
+}
+
+
+/* ==========================================================
+   DROPDOWNS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .dropdown-menu {
+  --bs-dropdown-color:
+    var(--ios-body-text);
+
+  --bs-dropdown-bg:
+    var(--ios-night-surface);
+
+  --bs-dropdown-border-color:
+    var(--ios-night-border-strong);
+
+  --bs-dropdown-link-color:
+    var(--ios-body-text);
+
+  --bs-dropdown-link-hover-color:
+    var(--ios-warm);
+
+  --bs-dropdown-link-hover-bg:
+    var(--ios-night-raised);
+
+  --bs-dropdown-link-active-color:
+    var(--ios-night-page);
+
+  --bs-dropdown-link-active-bg:
+    var(--ios-cool);
+
+  --bs-dropdown-divider-bg:
+    var(--ios-night-border-strong);
+
+  box-shadow:
+    0 0.6rem 1.5rem
+    rgb(0 0 0 / 0.4);
+}
+
+
+/* ==========================================================
+   FORMS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .form-control,
+html[data-ios-theme="dark"] .form-select,
+html[data-ios-theme="dark"] .input-group-text {
+  color:
+    var(--ios-body-text);
+
+  background-color:
+    var(--ios-night-surface);
+
+  border-color:
+    var(--ios-night-border-strong);
+}
+
+html[data-ios-theme="dark"] .form-control::placeholder {
+  color:
+    var(--ios-night-muted);
+
+  opacity:
+    1;
+}
+
+html[data-ios-theme="dark"] .form-control:focus,
+html[data-ios-theme="dark"] .form-select:focus {
+  color:
+    var(--ios-body-text);
+
+  background-color:
+    var(--ios-night-raised);
+
+  border-color:
+    var(--ios-cool);
+
+  box-shadow:
+    0 0 0 0.25rem
+    color-mix(
+      in oklch,
+      var(--ios-cool) 30%,
+      transparent
+    );
+}
+
+html[data-ios-theme="dark"] .form-control.warm-light-bg,
+html[data-ios-theme="dark"] .btn-ios.warm-light {
+  background-color:
+    var(--ios-night-warm-surface);
+
+  border-color:
+    var(--ios-night-warm-border);
+}
+
+html[data-ios-theme="dark"] .form-control.cool-light-bg,
+html[data-ios-theme="dark"] .btn-ios.cool-light {
+  background-color:
+    var(--ios-night-cool-surface);
+
+  border-color:
+    var(--ios-night-cool-border);
+}
+
+html[data-ios-theme="dark"] .form-check-input {
+  background-color:
+    var(--ios-night-surface);
+
+  border-color:
+    var(--ios-night-border-strong);
+}
+
+html[data-ios-theme="dark"] .form-check-input:checked {
+  background-color:
+    var(--ios-cool);
+
+  border-color:
+    var(--ios-cool);
+}
+
+html[data-ios-theme="dark"] .form-check-input:focus {
+  border-color:
+    var(--ios-cool);
+
+  box-shadow:
+    0 0 0 0.25rem
+    color-mix(
+      in oklch,
+      var(--ios-cool) 30%,
+      transparent
+    );
+}
+
+
+/* ==========================================================
+   TABLES
+   ========================================================== */
+
+html[data-ios-theme="dark"] .table {
+  --bs-table-color:
+    var(--ios-body-text);
+
+  --bs-table-bg:
+    transparent;
+
+  --bs-table-border-color:
+    var(--ios-night-border-strong);
+
+  --bs-table-striped-color:
+    var(--ios-body-text);
+
+  --bs-table-striped-bg:
+    var(--ios-night-surface);
+
+  --bs-table-hover-color:
+    var(--ios-body-text);
+
+  --bs-table-hover-bg:
+    var(--ios-night-raised);
+}
+
+
+/* ==========================================================
+   ALERTS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .alert-danger {
+  --bs-alert-color:
+    color-mix(
+      in oklch,
+      var(--bs-danger) 30%,
+      var(--ios-night-soft-light) 70%
+    );
+
+  --bs-alert-bg:
+    color-mix(
+      in oklch,
+      var(--bs-danger) 20%,
+      var(--ios-night-surface) 80%
+    );
+
+  --bs-alert-border-color:
+    color-mix(
+      in oklch,
+      var(--bs-danger) 62%,
+      var(--ios-night-border-strong) 38%
+    );
+
+  --bs-alert-link-color:
+    var(--ios-night-soft-light);
+}
+
+html[data-ios-theme="dark"] .alert-warning {
+  --bs-alert-color:
+    color-mix(
+      in oklch,
+      var(--bs-warning) 36%,
+      var(--ios-night-soft-light) 64%
+    );
+
+  --bs-alert-bg:
+    color-mix(
+      in oklch,
+      var(--bs-warning) 18%,
+      var(--ios-night-surface) 82%
+    );
+
+  --bs-alert-border-color:
+    color-mix(
+      in oklch,
+      var(--bs-warning) 58%,
+      var(--ios-night-border-strong) 42%
+    );
+
+  --bs-alert-link-color:
+    var(--ios-night-soft-light);
+}
+
+html[data-ios-theme="dark"] .alert-info {
+  --bs-alert-color:
+    color-mix(
+      in oklch,
+      var(--bs-info) 30%,
+      var(--ios-night-soft-light) 70%
+    );
+
+  --bs-alert-bg:
+    color-mix(
+      in oklch,
+      var(--bs-info) 18%,
+      var(--ios-night-surface) 82%
+    );
+
+  --bs-alert-border-color:
+    color-mix(
+      in oklch,
+      var(--bs-info) 58%,
+      var(--ios-night-border-strong) 42%
+    );
+
+  --bs-alert-link-color:
+    var(--ios-night-soft-light);
+}
+
+
+/* ==========================================================
+   BREADCRUMBS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .ios-breadcrumbs .breadcrumb-item a {
+  color:
+    var(--ios-link-color);
+}
+
+html[data-ios-theme="dark"] .ios-breadcrumbs .breadcrumb-item a:hover,
+html[data-ios-theme="dark"] .ios-breadcrumbs .breadcrumb-item a:focus-visible {
+  color:
+    var(--ios-link-hover);
+}
+
+html[data-ios-theme="dark"] .breadcrumb-item.active {
+  color:
+    var(--ios-night-muted);
+}
+
+
+/* ==========================================================
+   DESKTOP IOS MENU
+   ========================================================== */
+
+@media (min-width: 992px) {
+  html[data-ios-theme="dark"] .ios-menu .nav-link,
+html[data-ios-theme="dark"] .ios-menu .nav-link:link,
+html[data-ios-theme="dark"] .ios-menu .nav-link:visited {
+    color:
+      var(--ios-cool) !important;
+  }
+
+  html[data-ios-theme="dark"] .ios-menu .nav-link:hover,
+html[data-ios-theme="dark"] .ios-menu .nav-link:focus-visible {
+    color:
+      var(--ios-warm) !important;
+
+    background-color:
+      var(--ios-night-cool-surface);
+  }
+
+  html[data-ios-theme="dark"] .ios-menu .nav-link.active,
+html[data-ios-theme="dark"] .ios-menu .nav-link.active:link,
+html[data-ios-theme="dark"] .ios-menu .nav-link.active:visited {
+    color:
+      var(--ios-warm) !important;
+
+    background-color:
+      var(--ios-night-page);
+
+    border-color:
+      var(--ios-night-border-strong)
+      var(--ios-night-border-strong)
+      var(--ios-night-page);
+  }
+
+  html[data-ios-theme="dark"] .ios-menu .dropdown-item,
+html[data-ios-theme="dark"] .ios-menu .dropdown-item:link,
+html[data-ios-theme="dark"] .ios-menu .dropdown-item:visited {
+    color:
+      var(--ios-cool) !important;
+  }
+
+  html[data-ios-theme="dark"] .ios-menu .dropdown-item:hover,
+html[data-ios-theme="dark"] .ios-menu .dropdown-item:focus-visible {
+    color:
+      var(--ios-warm) !important;
+
+    background-color:
+      var(--ios-night-cool-surface);
+  }
+}
+
+
+/* ==========================================================
+   DARK-MODE TONAL BUTTON ADAPTATION
+   ========================================================== */
+
+/* Saturated tones use the dark page as their readable foreground. */
+
+html[data-ios-theme="dark"] .btn.btn-primary:is(
+  .warm,
+  .warm-dark,
+  .cool,
+  .cool-dark
+),
+html[data-ios-theme="dark"] .btn.btn-outline-primary:is(
+  .warm,
+  .warm-dark,
+  .cool,
+  .cool-dark
+) {
+  --ios-theme-text:
+    var(--ios-night-page);
+
+  --ios-theme-accent-text:
+    var(--ios-night-page);
+
+  --ios-theme-hover-bg:
+    var(--ios-night-raised);
+
+  --ios-theme-hover-color:
+    var(--ios-theme-bg);
+
+  --ios-theme-hover-border:
+    var(--ios-theme-border);
+}
+
+/* Light tonal buttons become palette-tinted night surfaces. */
+
+html[data-ios-theme="dark"] .btn.btn-primary.warm-light,
+html[data-ios-theme="dark"] .btn.btn-outline-primary.warm-light {
+  --ios-theme-bg:
+    var(--ios-night-warm-surface);
+
+  --ios-theme-text:
+    var(--ios-body-text);
+
+  --ios-theme-border:
+    var(--ios-night-warm-border);
+
+  --ios-theme-accent:
+    var(--ios-warm-light);
+
+  --ios-theme-accent-text:
+    var(--ios-night-page);
+
+  --ios-theme-hover-bg:
+    var(--ios-warm);
+
+  --ios-theme-hover-color:
+    var(--ios-night-page);
+
+  --ios-theme-hover-border:
+    var(--ios-warm);
+}
+
+html[data-ios-theme="dark"] .btn.btn-primary.cool-light,
+html[data-ios-theme="dark"] .btn.btn-outline-primary.cool-light {
+  --ios-theme-bg:
+    var(--ios-night-cool-surface);
+
+  --ios-theme-text:
+    var(--ios-body-text);
+
+  --ios-theme-border:
+    var(--ios-night-cool-border);
+
+  --ios-theme-accent:
+    var(--ios-cool-light);
+
+  --ios-theme-accent-text:
+    var(--ios-night-page);
+
+  --ios-theme-hover-bg:
+    var(--ios-cool);
+
+  --ios-theme-hover-color:
+    var(--ios-night-page);
+
+  --ios-theme-hover-border:
+    var(--ios-cool);
+}
+
+
+/* ==========================================================
+   KEYBOARD FOCUS
+   ========================================================== */
+
+html[data-ios-theme="dark"] .btn:focus-visible,
+html[data-ios-theme="dark"] .form-control:focus-visible,
+html[data-ios-theme="dark"] .form-select:focus-visible,
+html[data-ios-theme="dark"] .form-check-input:focus-visible,
+html[data-ios-theme="dark"] .carousel-control-prev:focus-visible,
+html[data-ios-theme="dark"] .carousel-control-next:focus-visible,
+html[data-ios-theme="dark"] .carousel-indicators [data-bs-target]:focus-visible {
+  outline:
+    3px solid
+    var(--ios-warm);
+
+  outline-offset:
+    3px;
+}
