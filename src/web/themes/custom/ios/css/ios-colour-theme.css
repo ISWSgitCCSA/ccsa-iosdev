@@ -2035,6 +2035,42 @@ html[data-ios-theme="dark"] .btn-ios.cool-light {
   --ios-btn-hover-border:
     var(--ios-cool);
 }
+
+
+/*
+ * Light tonal backgrounds need an explicit dark-mode interaction rule.
+ *
+ * The dark-mode base rules above set background-color, color and
+ * border-color directly. Without this rule, those later declarations can
+ * override the universal .btn-ios hover/focus presentation even though the
+ * correct --ios-btn-hover-* variables are present.
+ *
+ * Keep hover and keyboard focus visually equivalent.
+ */
+
+html[data-ios-theme="dark"]
+a.btn-ios:is(
+  .warm-light-bg,
+  .cool-light-bg,
+  .warm-light,
+  .cool-light
+):hover,
+html[data-ios-theme="dark"]
+a.btn-ios:is(
+  .warm-light-bg,
+  .cool-light-bg,
+  .warm-light,
+  .cool-light
+):focus-visible {
+  color:
+    var(--ios-btn-hover-color);
+
+  background-color:
+    var(--ios-btn-hover-bg);
+
+  border-color:
+    var(--ios-btn-hover-border);
+}
 /* ==========================================================
    CCSA SUPPORTING ACCENT BACKGROUNDS
    ========================================================== */

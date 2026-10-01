@@ -1,0 +1,98 @@
+{#
+/**
+ * @file
+ * Activity Program Card view mode.
+ *
+ * Content type:
+ *   Activity
+ *
+ * View mode:
+ *   Program Card
+ *
+ * Machine names:
+ *   Content type: activity
+ *   View mode: program_card
+ *
+ * Additional variables supplied by ios.theme:
+ *   activity_concurrent_gallery
+ */
+#}
+
+{# ==========================================================
+   CARD VALUES
+   ========================================================== #}
+
+{% set activity_title = node.label %}
+{% set card_title_id = 'activity-card-title-' ~ node.id %}
+
+
+{# ==========================================================
+   ACTIVITY CARD
+   ========================================================== #}
+
+<article
+  {{ attributes.addClass(
+    'card',
+    'ios-card',
+    'h-100'
+  ) }}
+  aria-labelledby="{{ card_title_id }}"
+>
+
+  <div class="card-body d-flex flex-column p-3">
+
+
+    {# ======================================================
+       ACTIVITY TITLE
+       ====================================================== #}
+
+    {{ title_prefix }}
+
+    <h3
+      id="{{ card_title_id }}"
+      class="card-title cool h6 mb-2"
+    >
+      {{ label }}
+    </h3>
+
+    {{ title_suffix }}
+
+
+    {# ======================================================
+       CONCURRENT SESSION GALLERY
+       ====================================================== #}
+
+    {% if activity_concurrent_gallery %}
+
+      <div class="mt-3">
+        {{ activity_concurrent_gallery }}
+      </div>
+
+    {% else %}
+
+
+      {# ====================================================
+         STANDARD ACTIVITY LINK
+         ==================================================== #}
+
+      <a
+        class="small text-uppercase text-decoration-none mt-auto"
+        href="{{ url }}"
+      >
+        {{ 'View activity'|t }}
+
+        <span class="visually-hidden">
+          : {{ activity_title }}
+        </span>
+
+        <i
+          class="fa-solid fa-arrow-right-long ms-2"
+          aria-hidden="true"
+        ></i>
+      </a>
+
+    {% endif %}
+
+  </div>
+
+</article>

@@ -1,0 +1,160 @@
+{#
+/**
+ * @file
+ * Reusable News Card node template.
+ *
+ * Content type:
+ *   News
+ *
+ * View mode:
+ *   News Card
+ *
+ * Machine names:
+ *   Content type: news
+ *   View mode: news_card
+ *
+ * Fields used:
+ *   field_news_category
+ *   field_start_date
+ *   body
+ *
+ * Prepared in ios.theme:
+ *   news_card_full_title
+ *   news_card_title
+ *   news_card_category_label
+ *   news_card_category_class
+ *   news_card_publication_timestamp
+ *   news_card_publication_datetime
+ *   news_card_summary
+ *
+ * This card is shared by:
+ * - Related News on full News pages.
+ * - The News gallery / archive.
+ *
+ * News Category colours are assigned from the vocabulary order rather than
+ * hard-coded term names. The palette cycles magenta, blue and green. Gold is
+ * intentionally reserved for the gallery's All filter.
+ */
+#}
+
+
+<article
+  {{ attributes.addClass(
+    'card',
+    'ios-card',
+    'h-100',
+    'shadow'
+  ) }}
+  aria-labelledby="news-card-title-{{ node.id() }}"
+>
+
+  <div class="card-body d-flex flex-column p-4">
+
+
+    {# ======================================================
+       NEWS CATEGORY
+       ====================================================== #}
+
+    {% if news_card_category_label %}
+
+      <div class="ios-tag mb-3">
+
+        <span
+          class="
+            badge
+            rounded-pill
+            {{ news_card_category_class }}
+          "
+        >
+          {{ news_card_category_label }}
+        </span>
+
+      </div>
+
+    {% endif %}
+
+
+    {# ======================================================
+       TITLE
+
+       The visible title is word-safe truncated in ios.theme.
+       A minimum height keeps the date and summary rows visually
+       aligned across a three-column gallery without a new CSS file.
+       ====================================================== #}
+
+    <h3
+      id="news-card-title-{{ node.id() }}"
+      class="
+        card-title
+        h5
+        cool
+        mb-3
+      "
+      style="min-height: 4.5rem;"
+    >
+      {{ news_card_title }}
+    </h3>
+
+
+    {# ======================================================
+       PUBLICATION DATE
+       ====================================================== #}
+
+    <p class="small text-body-secondary mb-3">
+
+      <i
+        class="fa-regular fa-calendar-days me-1"
+        aria-hidden="true"
+      ></i>
+
+      <time datetime="{{ news_card_publication_datetime }}">
+        {{ news_card_publication_timestamp|format_date(
+          'custom',
+          'j F Y'
+        ) }}
+      </time>
+
+    </p>
+
+
+    {# ======================================================
+       SUMMARY / AUTOMATIC EXCERPT
+       ====================================================== #}
+
+    {% if news_card_summary %}
+
+      <p class="card-text mb-4">
+        {{ news_card_summary }}
+      </p>
+
+    {% endif %}
+
+
+    {# ======================================================
+       ACTION
+       ====================================================== #}
+
+    <p class="mt-auto mb-0">
+
+      <a
+        class="
+          btn
+          btn-ios
+          btn-ios-view-more
+          btn-arrow
+          warm-light-bg
+          w-auto
+        "
+        href="{{ url }}"
+        aria-label="{{ 'Read article: @title'|t({
+          '@title': news_card_full_title
+        }) }}"
+      >
+        {{ 'Read article'|t }}
+      </a>
+
+    </p>
+
+  </div>
+
+</article>

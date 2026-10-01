@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Theme override for the IOS footer utility menu block.
+ *
+ * Uses the horizontal legal-navigation structure established
+ * by the static IOS footer.
+ */
+#}
+
+<nav
+  {{ attributes }}
+  aria-label="{{ label }}"
+>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {% if content['#items'] %}
+
+    <div class="d-flex flex-wrap gap-3">
+
+      {% for item in content['#items'] %}
+
+        {{ link(item.title, item.url) }}
+
+        {% if not loop.last %}
+          <span aria-hidden="true">|</span>
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+
+  {% endif %}
+</nav>

@@ -1,0 +1,176 @@
+{#
+/**
+ * @file
+ * Session Card view mode.
+ *
+ * Content type:
+ *   Session
+ *
+ * View mode:
+ *   Session Card
+ *
+ * Machine names:
+ *   Content type: session
+ *   View mode: session_card
+ *
+ * Fields used directly:
+ *   body
+ *   field_room
+ *
+ * Additional variables supplied by ios.theme:
+ *   session_card_speaker_names
+ *   session_activity_type_label
+ *   session_activity_type_class
+ */
+#}
+
+
+{# ==========================================================
+   CARD VALUES
+   ========================================================== #}
+
+{% set session_title = node.label %}
+{% set card_title_id = 'session-card-title-' ~ node.id %}
+
+{% set room_value =
+  node.field_room.value|default(null)
+%}
+
+{% set description_value =
+  node.body.value|default('')
+%}
+
+{% set activity_type_label =
+  session_activity_type_label|default('')
+%}
+
+{% set activity_type_class =
+  session_activity_type_class|default('ccsa-medium-accent-bg')
+%}
+
+{% set speaker_names =
+  session_card_speaker_names|default([])
+%}
+
+
+{# ==========================================================
+   SESSION CARD
+   ========================================================== #}
+
+<article
+  {{ attributes.addClass(
+    'card',
+    'ios-card',
+    'ios-session-card',
+    'h-100'
+  ) }}
+  aria-labelledby="{{ card_title_id }}"
+>
+
+  <div class="card-body d-flex flex-column p-3">
+
+
+    {# ======================================================
+       ACTIVITY TYPE
+       ====================================================== #}
+
+    {% if activity_type_label %}
+
+      <div class="ios-tag mb-2">
+
+        <span
+          class="badge rounded-pill {{ activity_type_class }}"
+        >
+          {{ activity_type_label }}
+        </span>
+
+      </div>
+
+    {% endif %}
+
+
+    {# ======================================================
+       SESSION TITLE
+       ====================================================== #}
+
+    {{ title_prefix }}
+
+    <h3
+      id="{{ card_title_id }}"
+      class="card-title cool h6 mb-2 ios-session-card__title"
+    >
+      {{ label }}
+    </h3>
+
+    {{ title_suffix }}
+
+
+    {# ======================================================
+       SESSION SPEAKERS
+       ====================================================== #}
+
+    {% if speaker_names %}
+
+      <p class="small text-body-secondary mb-2 ios-session-card__speakers">
+        {{ speaker_names|join(', ') }}
+      </p>
+
+    {% endif %}
+
+
+    {# ======================================================
+       ROOM
+       ====================================================== #}
+
+    {% if room_value %}
+
+      <p class="small text-body-secondary mb-2 ios-session-card__room">
+
+        <i
+          class="fa-solid fa-location-dot me-1"
+          aria-hidden="true"
+        ></i>
+
+        {{ room_value }}
+
+      </p>
+
+    {% endif %}
+
+
+    {# ======================================================
+       DESCRIPTION
+       ====================================================== #}
+
+    {% if description_value %}
+
+      <div class="small text-body-secondary mb-3 ios-session-card__description">
+        {{ description_value|striptags }}
+      </div>
+
+    {% endif %}
+
+
+    {# ======================================================
+       VIEW SESSION
+       ====================================================== #}
+
+    <a
+      class="small text-uppercase text-decoration-none mt-auto ios-session-card__link"
+      href="{{ url }}"
+    >
+      {{ 'View session'|t }}
+
+      <span class="visually-hidden">
+        : {{ session_title }}
+      </span>
+
+      <i
+        class="fa-solid fa-arrow-right-long ms-2"
+        aria-hidden="true"
+      ></i>
+    </a>
+
+  </div>
+
+</article>

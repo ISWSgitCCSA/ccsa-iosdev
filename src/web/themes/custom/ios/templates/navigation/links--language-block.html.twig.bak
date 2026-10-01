@@ -1,0 +1,107 @@
+{#
+/**
+ * @file
+ * Theme override for Drupal language-switcher links.
+ *
+ * Keeps Drupal's language URLs and active-link handling,
+ * while presenting the visible labels as EN / FR inside
+ * the shared IOS site-preferences control.
+ */
+#}
+
+{% if links -%}
+
+  {%- if heading -%}
+    {%- if heading.level -%}
+      <{{ heading.level }}{{ heading.attributes.addClass('visually-hidden') }}>
+        {{ heading.text }}
+      </{{ heading.level }}>
+    {%- else -%}
+      <h2{{ heading.attributes.addClass('visually-hidden') }}>
+        {{ heading.text }}
+      </h2>
+    {%- endif -%}
+  {%- endif -%}
+
+  <ul{{ attributes.addClass('ios-preferences__list') }}>
+
+    {%- for key, item in links -%}
+
+      {% set is_selected = item.attributes.hasClass('is-active') %}
+
+      <li{{ item.attributes.addClass('ios-preferences__item') }}>
+
+        {%- if item.link -%}
+
+          {% set link_options = item.link['#options']|default({}) %}
+          {% set link_attributes = link_options.attributes|default({}) %}
+          {% set existing_classes = link_attributes.class|default([]) %}
+
+          {#
+           * Drupal can expose the active language on the list item,
+           * the link class, or aria-current. Normalize those states
+           * into one component class so the active language gets the
+           * same inset-tile treatment as the active sun/moon option.
+           #}
+          {% set is_selected =
+            is_selected
+            or ('is-active' in existing_classes)
+            or (link_attributes['aria-current']|default('') == 'page')
+          %}
+
+          {% set option_classes = existing_classes|merge([
+            'ios-preferences__option',
+            'ios-preferences__option--language'
+          ]) %}
+
+          {% if is_selected %}
+            {% set option_classes = option_classes|merge([
+              'is-selected'
+            ]) %}
+          {% endif %}
+
+          {% set link_attributes = link_attributes|merge({
+            'class': option_classes,
+            'aria-label': item.text
+          }) %}
+
+          {% set link_options = link_options|merge({
+            'attributes': link_attributes
+          }) %}
+
+          {% set language_link = item.link|merge({
+            '#title': key|upper,
+            '#options': link_options
+          }) %}
+
+          {{ language_link }}
+
+        {%- else -%}
+
+          {#
+           * Defensive fallback: if Drupal renders the current language
+           * as text instead of a link, keep it visually identical to a
+           * selected language option rather than losing the tile.
+           #}
+          {% set text_classes = [
+            'ios-preferences__option',
+            'ios-preferences__option--language'
+          ] %}
+
+          {% if is_selected %}
+            {% set text_classes = text_classes|merge([
+              'is-selected'
+            ]) %}
+          {% endif %}
+
+          <span{{ item.text_attributes.addClass(text_classes) }}>
+            {{ key|upper }}
+          </span>
+
+        {%- endif -%}
+
+      </li>
+    {%- endfor -%}
+
+  </ul>
+{%- endif %}

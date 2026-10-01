@@ -1,0 +1,7 @@
+name: 'IOS Session Location'
+type: module
+description: 'Provides site-specific editing and validation for Concurrent Session location fields, grouping the embed and image options and allowing editors to choose either one or neither, but not both.'
+package: 'IOS Custom'
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:node

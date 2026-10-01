@@ -1,0 +1,12 @@
+infogram:
+  version: 1.x
+  js:
+    js/infogram-resize.js: {}
+
+session_form:
+  version: 1.x
+  js:
+    js/session-form.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

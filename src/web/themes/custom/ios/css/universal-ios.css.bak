@@ -5166,43 +5166,24 @@ border-inline-start:
 }
 
 /* ==========================================================
-   CONCURRENT SESSION GALLERY: EQUAL-HEIGHT CARDS
-   ========================================================== */
-.view-concurrent-session-gallery .views-view-responsive-grid__item-inner {
-  height: 100%;
-}
-
-/* ==========================================================
-   DESKTOP MAIN MENU: PREVENT BORDER FLASH ON MOUSE EXIT
-   Keep keyboard focus outlines intact.
-   ========================================================== */
-@media (min-width: 992px) {
-  .ios-menu > .nav-item > .nav-link,
-  .ios-menu > .nav-item > .nav-link:hover,
-  .ios-menu > .nav-item > .nav-link:focus,
-  .ios-menu > .nav-item > .nav-link:active,
-  .ios-menu > .nav-item > .nav-link.active,
-  .ios-menu > .nav-item > .nav-link.show {
-    border: 0 !important;
-    transition-property: color, background-color, letter-spacing;
-  }
-}
-
-/* ==========================================================
    SITE PREFERENCES: LANGUAGE + COLOUR MODE
    ========================================================== */
 
 /*
- * Colour comes directly from existing IOS tonal utilities:
+ * Canonical preference-control colour setup:
  *
  *   tray:
  *     cool-light-bg
  *
  *   selected language / selected colour mode:
- *     warm-light-bg
+ *     cool-light-bg
  *
- * The warm-light utility supplies its own background, text and
- * border colour from the central colour theme.
+ * Because the selected tile uses the same light tone as the tray,
+ * the selected state is indicated by its cool border and cool shadow.
+ *
+ * Drupal's own .is-active / aria-current state also receives the
+ * selected border and shadow directly, so the language indicator
+ * remains visible even if JavaScript has not added the tonal class.
  */
 
 .ios-preferences-block {
@@ -5332,8 +5313,8 @@ border-inline-start:
     transparent;
 
   /*
-   * Keep a 1px border in the box model at all times so the
-   * control does not jump when the selected warm border appears.
+   * Reserve the border width at all times so the selected tile
+   * does not change size when its border becomes visible.
    */
   border:
     1px solid transparent;
@@ -5363,7 +5344,8 @@ border-inline-start:
     transform 0.15s ease,
     background-color 0.15s ease,
     color 0.15s ease,
-    border-color 0.15s ease;
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .ios-preferences__option i {
@@ -5379,16 +5361,15 @@ border-inline-start:
 
 
 /*
- * Language options are links. When inactive, keep the site's global
- * link / visited-link rules from recolouring them independently of
- * the cool-light tray.
+ * Language options are links, so prevent global link and visited-link
+ * rules from recolouring them independently of the preference tray.
  */
 
-.ios-preferences__option--language:not(.warm-light-bg),
-.ios-preferences__option--language:not(.warm-light-bg):link,
-.ios-preferences__option--language:not(.warm-light-bg):visited,
-.ios-preferences__option--language:not(.warm-light-bg):hover,
-.ios-preferences__option--language:not(.warm-light-bg):focus-visible {
+.ios-preferences__option--language,
+.ios-preferences__option--language:link,
+.ios-preferences__option--language:visited,
+.ios-preferences__option--language:hover,
+.ios-preferences__option--language:focus-visible {
   color:
     inherit !important;
 
@@ -5397,42 +5378,34 @@ border-inline-start:
 }
 
 
-/*
- * The active language gets warm-light-bg directly from JavaScript.
- * Keep that tonal utility's own text colour in every link state.
- */
-
-.ios-preferences__option--language.warm-light-bg,
-.ios-preferences__option--language.warm-light-bg:link,
-.ios-preferences__option--language.warm-light-bg:visited,
-.ios-preferences__option--language.warm-light-bg:hover,
-.ios-preferences__option--language.warm-light-bg:focus-visible {
-  color:
-    var(--ios-theme-text) !important;
-
-  text-decoration:
-    none;
-}
-
+/* ==========================================================
+   SELECTED STATE
+   ========================================================== */
 
 /*
- * warm-light-bg already supplies:
- * - background-color: var(--ios-warm-light)
- * - text colour from the warm tonal system
- * - --ios-theme-border: var(--ios-warm)
+ * JavaScript adds cool-light-bg directly to the selected option.
  *
- * The transparent default border above supplies the width.
- * This selector only exposes the warm border on the selected tile.
+ * Drupal's native language state is also included below as a fallback,
+ * so the language selection remains visibly indicated even before or
+ * without the JavaScript-applied class.
  */
 
-.ios-preferences__option.warm-light-bg {
+.ios-preferences__option.cool-light-bg,
+.ios-preferences__item.is-active
+.ios-preferences__option--language,
+.ios-preferences__item[aria-current="page"]
+.ios-preferences__option--language,
+.ios-preferences__option--language.is-active,
+.ios-preferences__option--language[aria-current="page"],
+.ios-preferences__option--theme[aria-pressed="true"] {
   border-color:
     var(--ios-theme-border);
-    box-shadow:
+
+  box-shadow:
     0 0.125rem 0.3rem
     color-mix(
       in srgb,
-      var(--ios-warm) 25%,
+      var(--ios-cool) 35%,
       transparent
     );
 }
@@ -5440,8 +5413,9 @@ border-inline-start:
 
 /* Small non-colour hover cue for unselected options. */
 
-.ios-preferences__option--language:not(.warm-light-bg):hover,
-.ios-preferences__option--theme:not(.warm-light-bg):hover {
+.ios-preferences__item:not(.is-active):not([aria-current="page"])
+.ios-preferences__option--language:not(.is-active):not([aria-current="page"]):hover,
+.ios-preferences__option--theme[aria-pressed="false"]:hover {
   transform:
     translateY(-1px);
 }

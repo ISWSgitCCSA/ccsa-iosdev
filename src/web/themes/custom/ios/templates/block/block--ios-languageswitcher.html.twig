@@ -1,0 +1,85 @@
+{#
+/**
+ * @file
+ * Theme override for the IOS language switcher block.
+ *
+ * Combines:
+ * - Drupal's language switcher
+ * - the IOS light/dark colour-mode selector
+ *
+ * Canonical colour setup:
+ * - tray: cool-light-bg
+ * - selected options: cool-light-bg with cool border/shadow
+ */
+#}
+
+{%
+  set classes = [
+    'block',
+    'block-' ~ configuration.provider|clean_class,
+    'block-' ~ plugin_id|clean_class,
+    'ios-preferences-block',
+  ]
+%}
+
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+
+  {% if label %}
+    <h2{{ title_attributes.addClass('visually-hidden') }}>
+      {{ label }}
+    </h2>
+  {% endif %}
+
+  {{ title_suffix }}
+
+  {% block content %}
+    <div class="ios-preferences cool-light-bg">
+
+      <nav
+        class="ios-preferences__language"
+        aria-label="{{ 'Language'|t }}"
+      >
+        {{ content }}
+      </nav>
+
+      <span
+        class="ios-preferences__divider"
+        aria-hidden="true"
+      ></span>
+
+      <div
+        class="ios-preferences__theme"
+        role="group"
+        aria-label="{{ 'Colour mode'|t }}"
+      >
+        <button
+          type="button"
+          class="ios-preferences__option ios-preferences__option--theme"
+          data-ios-theme-mode="light"
+          aria-label="{{ 'Use light mode'|t }}"
+          aria-pressed="true"
+        >
+          <i
+            class="fa-solid fa-sun"
+            aria-hidden="true"
+          ></i>
+        </button>
+
+        <button
+          type="button"
+          class="ios-preferences__option ios-preferences__option--theme"
+          data-ios-theme-mode="dark"
+          aria-label="{{ 'Use dark mode'|t }}"
+          aria-pressed="false"
+        >
+          <i
+            class="fa-solid fa-moon"
+            aria-hidden="true"
+          ></i>
+        </button>
+      </div>
+
+    </div>
+  {% endblock %}
+</div>

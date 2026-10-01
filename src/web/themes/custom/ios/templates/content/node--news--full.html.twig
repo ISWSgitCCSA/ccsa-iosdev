@@ -1,0 +1,708 @@
+{#
+/**
+ * @file
+ * Full News node template.
+ *
+ * Content type:
+ *   News
+ *
+ * Machine name:
+ *   news
+ *
+ * Existing fields:
+ *   field_author
+ *   field_banner_image
+ *   body
+ *   field_media_contacts
+ *   field_meta_tags
+ *   field_featured_image
+ *   field_start_date
+ *   field_related_news
+ *   field_source
+ *   field_source_url
+ *
+ * Media image field:
+ *   field_media_image
+ *
+ * Additional variables:
+ *   news_related_cards
+ *     Related News nodes prepared by the theme.
+ *
+ *     If field_related_news contains manually selected items,
+ *     those items should be used.
+ *
+ *     Otherwise, the theme should populate this variable with
+ *     the most recent published News nodes in the current
+ *     language, excluding the current node.
+ *
+ * The banner image is decorative because the News headline
+ * provides the page identity as HTML text.
+ *
+ * The News Image is meaningful editorial content and therefore
+ * uses the alt text stored on the referenced Media image.
+ */
+#}
+
+
+{# ==========================================================
+   MEDIA REFERENCES
+   ========================================================== #}
+
+{% set banner_media = node.field_banner_image.entity %}
+
+{% set banner_image_item =
+  banner_media
+    ? banner_media.field_media_image.0
+    : null
+%}
+
+{% set banner_image_uri =
+  banner_image_item
+  and banner_image_item.entity
+    ? banner_image_item.entity.uri.value
+    : null
+%}
+
+
+{% set featured_media = node.field_featured_image.entity %}
+
+{% set featured_image_item =
+  featured_media
+    ? featured_media.field_media_image.0
+    : null
+%}
+
+{% set featured_image_uri =
+  featured_image_item
+  and featured_image_item.entity
+    ? featured_image_item.entity.uri.value
+    : null
+%}
+
+{% set featured_image_alt =
+  featured_image_item
+  and featured_image_item.alt
+    ? featured_image_item.alt
+    : node.label()
+%}
+
+
+{# ==========================================================
+   PUBLICATION DATE
+   ========================================================== #}
+
+{% if not node.field_start_date.isEmpty %}
+
+  {% set publication_date_iso =
+    node.field_start_date.value
+  %}
+
+  {% set publication_timestamp =
+    node.field_start_date.value|date('U')
+  %}
+
+{% else %}
+
+  {% set publication_date_iso =
+    node.getCreatedTime()|date('c')
+  %}
+
+  {% set publication_timestamp =
+    node.getCreatedTime()
+  %}
+
+{% endif %}
+
+
+{# ==========================================================
+   SOURCE
+   ========================================================== #}
+
+{% set source_url =
+  not node.field_source_url.isEmpty
+    ? node.field_source_url.0.url
+    : null
+%}
+
+
+{# ==========================================================
+   SOCIAL SHARING
+   ========================================================== #}
+
+{% set news_share_url =
+  url(
+    '<current>',
+    {},
+    {
+      'absolute': true
+    }
+  )
+%}
+
+{% set news_share_title =
+  label|render|striptags|trim
+%}
+
+{% set news_share_text =
+  news_share_title
+  ~ ' '
+  ~ news_share_url
+%}
+
+{% set news_share_url_encoded =
+  news_share_url|url_encode
+%}
+
+{% set news_share_title_encoded =
+  news_share_title|url_encode
+%}
+
+{% set news_share_text_encoded =
+  news_share_text|url_encode
+%}
+
+
+{# ==========================================================
+   NEWS PAGE
+   ========================================================== #}
+
+<article{{ attributes.addClass('ios-news-page') }}>
+
+
+  {# ========================================================
+     NEWS HEADER
+     ======================================================== #}
+
+  <header
+    class="
+      ios-page-header
+      ios-page-header--medium
+      ios-speaker-page__header
+      ios-news-page__header
+    "
+    aria-labelledby="news-page-title"
+  >
+
+    {% if banner_image_uri %}
+
+      <img
+        class="ios-page-header__image"
+        src="{{ file_url(banner_image_uri) }}"
+        alt=""
+        aria-hidden="true"
+      />
+
+    {% endif %}
+
+
+    <div
+      class="ios-page-header__overlay"
+      aria-hidden="true"
+    ></div>
+
+
+    <div class="ios-page-header__content">
+
+      <div class="ios-page-header__copy">
+
+
+        {# ==================================================
+           NEWS HEADER LAYOUT
+           ================================================== #}
+
+        <div
+          class="
+            ios-speaker-page__profile
+            {% if not featured_image_uri %}d-block{% endif %}
+          "
+        >
+
+          {% if featured_image_uri %}
+
+            <div
+              class="
+                ios-speaker-page__profile-media
+                d-flex
+                align-items-start
+                justify-content-start
+              "
+            >
+
+              <img
+                class="
+                  img-fluid
+                  rounded
+                "
+                src="{{ file_url(featured_image_uri) }}"
+                alt="{{ featured_image_alt }}"
+                style="
+                  width: auto;
+                  max-width: 100%;
+                  max-height: 22rem;
+                  object-fit: contain;
+                "
+              />
+
+            </div>
+
+          {% endif %}
+
+
+          <div
+            class="
+              ios-speaker-page__profile-copy
+              mw-100
+            "
+          >
+
+            <p
+              class="
+                warm
+                fw-bold
+                text-uppercase
+                mb-2
+                ios-page-header-text-outline
+              "
+            >
+              {{ 'News'|t }}
+            </p>
+
+
+            <h1
+              id="news-page-title"
+              class="
+                ios-page-header__title
+                ios-page-header-text-outline
+              "
+            >
+              {{ label }}
+            </h1>
+
+
+            {# ==============================================
+               SOCIAL SHARING
+               ============================================== #}
+
+            <nav
+              class="
+                d-flex
+                flex-wrap
+                align-items-center
+                gap-2
+                mb-4
+              "
+              aria-label="{{ 'Share this news'|t }}"
+            >
+
+              <a
+                class="
+                  d-inline-flex
+                  align-items-center
+                  justify-content-center
+                  p-2
+                  fs-5
+                  text-decoration-none
+                "
+                style="
+                  width: 2.75rem;
+                  height: 2.75rem;
+                "
+                href="https://www.linkedin.com/sharing/share-offsite/?url={{ news_share_url_encoded }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ 'Share on LinkedIn (opens in a new window)'|t }}"
+                title="{{ 'Share on LinkedIn'|t }}"
+              >
+                <i
+                  class="fa-brands fa-linkedin"
+                  aria-hidden="true"
+                ></i>
+
+                <span class="visually-hidden">
+                  {{ 'Share on LinkedIn'|t }}
+                </span>
+              </a>
+
+
+              <a
+                class="
+                  d-inline-flex
+                  align-items-center
+                  justify-content-center
+                  p-2
+                  fs-5
+                  text-decoration-none
+                "
+                style="
+                  width: 2.75rem;
+                  height: 2.75rem;
+                "
+                href="https://www.facebook.com/sharer/sharer.php?u={{ news_share_url_encoded }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ 'Share on Facebook (opens in a new window)'|t }}"
+                title="{{ 'Share on Facebook'|t }}"
+              >
+                <i
+                  class="fa-brands fa-square-facebook"
+                  aria-hidden="true"
+                ></i>
+
+                <span class="visually-hidden">
+                  {{ 'Share on Facebook'|t }}
+                </span>
+              </a>
+
+
+              <a
+                class="
+                  d-inline-flex
+                  align-items-center
+                  justify-content-center
+                  p-2
+                  fs-5
+                  text-decoration-none
+                "
+                style="
+                  width: 2.75rem;
+                  height: 2.75rem;
+                "
+                href="https://bsky.app/intent/compose?text={{ news_share_text_encoded }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ 'Share on Bluesky (opens in a new window)'|t }}"
+                title="{{ 'Share on Bluesky'|t }}"
+              >
+                <i
+                  class="fa-solid fa-cloud"
+                  aria-hidden="true"
+                ></i>
+
+                <span class="visually-hidden">
+                  {{ 'Share on Bluesky'|t }}
+                </span>
+              </a>
+
+
+              <a
+                class="
+                  d-inline-flex
+                  align-items-center
+                  justify-content-center
+                  p-2
+                  fs-5
+                  text-decoration-none
+                "
+                style="
+                  width: 2.75rem;
+                  height: 2.75rem;
+                "
+                href="https://twitter.com/intent/tweet?text={{ news_share_text_encoded }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ 'Share on X (opens in a new window)'|t }}"
+                title="{{ 'Share on X'|t }}"
+              >
+                <i
+                  class="fa-brands fa-square-x-twitter"
+                  aria-hidden="true"
+                ></i>
+
+                <span class="visually-hidden">
+                  {{ 'Share on X'|t }}
+                </span>
+              </a>
+
+
+              <a
+                class="
+                  d-inline-flex
+                  align-items-center
+                  justify-content-center
+                  p-2
+                  fs-5
+                  text-decoration-none
+                "
+                style="
+                  width: 2.75rem;
+                  height: 2.75rem;
+                "
+                href="mailto:?subject={{ news_share_title_encoded }}&body={{ news_share_text_encoded }}"
+                aria-label="{{ 'Share by email'|t }}"
+                title="{{ 'Share by email'|t }}"
+              >
+                <i
+                  class="fa-solid fa-envelope"
+                  aria-hidden="true"
+                ></i>
+
+                <span class="visually-hidden">
+                  {{ 'Share by email'|t }}
+                </span>
+              </a>
+
+            </nav>
+
+
+            {# ==============================================
+               NEWS METADATA
+               ============================================== #}
+
+            <div class="ios-page-header__meta">
+
+              {% if not node.field_author.isEmpty %}
+
+                <div class="ios-page-header__meta-item">
+
+                  <span>
+                    <span class="fw-semibold">
+                      {{ 'By'|t }}
+                    </span>
+
+                    {{ node.field_author.value }}
+                  </span>
+
+                </div>
+
+              {% endif %}
+
+
+              {% if not node.field_source.isEmpty %}
+
+                <div class="ios-page-header__meta-item">
+
+                  <span>
+
+                    <span class="fw-semibold">
+                      {{ 'Source:'|t }}
+                    </span>
+
+                    {% if source_url %}
+
+                      <a href="{{ source_url }}">
+                        {{ node.field_source.value }}
+                      </a>
+
+                    {% else %}
+
+                      {{ node.field_source.value }}
+
+                    {% endif %}
+
+                  </span>
+
+                </div>
+
+              {% endif %}
+
+
+              <div class="ios-page-header__meta-item">
+
+                <i
+                  class="fa-regular fa-calendar-days"
+                  aria-hidden="true"
+                ></i>
+
+                <time datetime="{{ publication_date_iso }}">
+                  {{ publication_timestamp|format_date(
+                    'custom',
+                    'j F Y'
+                  ) }}
+                </time>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  {# ========================================================
+     ARTICLE CONTENT
+     ======================================================== #}
+
+  {% if not node.body.isEmpty %}
+
+    <div class="py-5">
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="row justify-content-center">
+
+          <div class="col-12 col-xl-10">
+
+            <div class="paragraph-text">
+              {{ content.body }}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  {% endif %}
+
+
+  {# ========================================================
+     MEDIA CONTACTS
+     ======================================================== #}
+
+  {% if not node.field_media_contacts.isEmpty %}
+
+    <section
+      class="py-5"
+      aria-labelledby="news-media-contacts-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="row justify-content-center">
+
+          <div class="col-12 col-xl-10">
+
+            <h2
+              id="news-media-contacts-heading"
+              class="h4 warm-dark mb-3"
+            >
+              {{ 'Media contacts'|t }}
+            </h2>
+
+
+            <div
+              class="
+                warm-dark-bg
+                rounded-pill
+                mb-4
+              "
+              style="width: 3rem; height: 0.2rem;"
+              aria-hidden="true"
+            ></div>
+
+
+            <div class="row g-4">
+
+              {% for delta, contact in node.field_media_contacts %}
+
+                <div class="col-12 col-md-6">
+
+                  <div
+                    class="
+                      cool-light-bg
+                      border
+                      rounded
+                      p-4
+                      h-100
+                    "
+                  >
+                    {{ content.field_media_contacts[delta] }}
+                  </div>
+
+                </div>
+
+              {% endfor %}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     RELATED NEWS
+     ========================================================
+
+     news_related_cards will be prepared in ios.theme.
+
+     Manually selected field_related_news items take priority.
+
+     When field_related_news is empty, ios.theme will instead
+     provide the newest published News items in the current
+     language, excluding this node.
+     ======================================================== #}
+
+  {% if news_related_cards %}
+
+    <section
+      class="py-5"
+      aria-labelledby="news-related-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="row justify-content-center">
+
+          <div class="col-12 col-xl-10">
+
+            <h2
+              id="news-related-heading"
+              class="h4 warm-dark mb-3"
+            >
+              {{ 'Related news'|t }}
+            </h2>
+
+
+            <div
+              class="
+                warm-dark-bg
+                rounded-pill
+                mb-4
+              "
+              style="width: 3rem; height: 0.2rem;"
+              aria-hidden="true"
+            ></div>
+
+
+            <div
+              class="
+                row
+                g-4
+                align-items-stretch
+              "
+            >
+
+              {% for news_card in news_related_cards %}
+
+                <div class="col-12 col-md-6 col-xl-4">
+                  {{ news_card }}
+                </div>
+
+              {% endfor %}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     NON-VISUAL METADATA
+     ======================================================== #}
+
+  {{ content.field_meta_tags }}
+
+</article>

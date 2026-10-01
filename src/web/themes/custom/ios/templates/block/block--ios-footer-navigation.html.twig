@@ -1,0 +1,96 @@
+{#
+/**
+ * @file
+ * IOS presentation for the Drupal Footer menu block.
+ *
+ * Drupal owns the menu content and hierarchy.
+ * This template maps that content onto the footer layout already
+ * established in the IOS static prototype.
+ *
+ * First-level menu items become footer section headings.
+ * Second-level items become the links beneath each heading.
+ *
+ * Footer child links use Bootstrap's text-light utility so their
+ * colour remains accessible against the dark footer in normal,
+ * visited, hover and focus states. The existing IOS footer rules
+ * still provide the underline and other interaction feedback.
+ */
+#}
+
+{% set heading_colours = [
+  'ccsa-magenta-text-only',
+  'ccsa-blue-text-only',
+  'ccsa-gold-text-only',
+  'ccsa-green-text-only'
+] %}
+
+<nav
+  {{ attributes }}
+  aria-label="{{ label|default('Footer navigation') }}"
+>
+
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {% if content['#items'] %}
+
+    <div class="row g-5">
+
+      {% for item in content['#items'] %}
+
+        {% set heading_colour =
+          heading_colours[loop.index0]
+          ?? 'ios-accent-color'
+        %}
+
+        <div class="col-12 col-sm-6">
+
+          <h2
+            class="
+              h5
+              {{ heading_colour }}
+              ios-mix-white
+              text-uppercase
+              border-bottom
+              pb-2
+            "
+          >
+            {{ item.title }}
+          </h2>
+
+          {% if item.below %}
+
+            <ul class="list-unstyled">
+
+              {% for child in item.below %}
+
+                <li>
+                {{ link(
+  child.title,
+  child.url,
+  {
+    'class': [
+      'text-light',
+      'small',
+      'd-inline-block',
+      'py-1'
+    ]
+  }
+) }}
+                </li>
+
+              {% endfor %}
+
+            </ul>
+
+          {% endif %}
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+  {% endif %}
+
+</nav>

@@ -1,0 +1,416 @@
+<?php
+
+/**
+ * @file
+ * Site-specific Session editing functionality for the IOS website.
+ *
+ * Enhances Session content by:
+ * - Grouping the Session Location Embed and Session Location Image fields.
+ * - Removing the unused link text input from the embed field.
+ * - Explaining that the two location options are mutually exclusive.
+ * - Preventing both location fields from being populated at the same time.
+ * - Resolving supported public embed URLs into their proper embed form.
+ * - Providing editor-friendly Start and End Date/Time defaults.
+ *
+ * Currently supported embed provider:
+ * - Infogram
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter() for node forms.
+ *
+ * Provides the custom Session editing experience for Session content.
+ */
+function ios_session_location_form_node_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id
+): void {
+  $node = $form_state
+    ->getFormObject()
+    ->getEntity();
+
+  if ($node->bundle() !== 'session') {
+    return;
+  }
+
+  /*
+   * --------------------------------------------------------
+   * SESSION LOCATION FIELD GROUP
+   * --------------------------------------------------------
+   */
+  $form['session_location_media'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Session Location'),
+    '#description' => t(
+      'Choose either a Session Location Embed or a Session Location Image. If neither is provided, no session location media will appear on the session page.'
+    ),
+    '#weight' => 50,
+  ];
+
+  /*
+   * Session Location Embed.
+   */
+  if (isset($form['field_session_location_embed'])) {
+    $form['field_session_location_embed']['#group'] =
+      'session_location_media';
+
+    /*
+     * The site uses only the URL value.
+     * Editors do not need to provide Link text.
+     */
+    if (
+      isset(
+        $form['field_session_location_embed']['widget'][0]['title']
+      )
+    ) {
+      $form['field_session_location_embed']['widget'][0]['title']['#access'] =
+        FALSE;
+    }
+  }
+
+  /*
+   * Session Location Image.
+   */
+  if (isset($form['field_session_location_image'])) {
+    $form['field_session_location_image']['#group'] =
+      'session_location_media';
+  }
+
+  /*
+   * Add the site-specific location validation rule.
+   */
+  $form['#validate'][] =
+    'ios_session_location_validate_location_fields';
+
+  /*
+   * Add the Session form convenience JavaScript only when the
+   * Start and End Date/Time fields are present on the form.
+   */
+  if (
+    isset($form['field_start_date_time']) &&
+    isset($form['field_end_date_time'])
+  ) {
+    $form['#attached']['library'][] =
+      'ios_session_location/session_form';
+  }
+}
+
+/**
+ * Validates the mutually exclusive Session Location fields.
+ *
+ * A Session may contain:
+ *
+ * - Session Location Embed
+ * OR
+ * - Session Location Image
+ * OR
+ * - neither
+ *
+ * It may not contain both.
+ */
+function ios_session_location_validate_location_fields(
+  array &$form,
+  FormStateInterface $form_state
+): void {
+  $form_object = $form_state->getFormObject();
+
+  $node = $form_object->buildEntity(
+    $form,
+    $form_state
+  );
+
+  if (
+    !$node->hasField('field_session_location_embed') ||
+    !$node->hasField('field_session_location_image')
+  ) {
+    return;
+  }
+
+  $has_embed =
+    !$node
+      ->get('field_session_location_embed')
+      ->isEmpty();
+
+  $has_image =
+    !$node
+      ->get('field_session_location_image')
+      ->isEmpty();
+
+  if ($has_embed && $has_image) {
+    $form_state->setErrorByName(
+      'field_session_location_image',
+      t(
+        'Choose either Session Location Embed or Session Location Image, not both.'
+      )
+    );
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ * Resolves a public Session Location Embed URL into provider-specific
+ * embed information before the node template is rendered.
+ */
+function ios_session_location_preprocess_node(
+  array &$variables
+): void {
+  $node = $variables['node'] ?? NULL;
+  $view_mode = $variables['view_mode'] ?? '';
+
+  if (
+    !$node ||
+    $node->bundle() !== 'session' ||
+    $view_mode !== 'full'
+  ) {
+    return;
+  }
+
+  /*
+   * Always define these variables so Twig can safely test them.
+   */
+  $variables['session_location_embed_src'] = NULL;
+  $variables['session_location_embed_initial_height'] = 400;
+
+  if (
+    !$node->hasField('field_session_location_embed') ||
+    $node->get('field_session_location_embed')->isEmpty()
+  ) {
+    return;
+  }
+
+  $embed_item =
+    $node->get('field_session_location_embed')->first();
+
+  if (!$embed_item) {
+    return;
+  }
+
+  $public_url = trim((string) $embed_item->uri);
+
+  if ($public_url === '') {
+    return;
+  }
+
+  $embed = ios_session_location_resolve_embed($public_url);
+
+  if (!$embed) {
+    return;
+  }
+
+  $variables['session_location_embed_src'] =
+    $embed['src'];
+
+  $variables['session_location_embed_initial_height'] =
+    $embed['height'];
+}
+
+/**
+ * Resolves a supported public URL into embed information.
+ *
+ * Additional providers can be added here later without changing
+ * the Session content model.
+ */
+function ios_session_location_resolve_embed(
+  string $url
+): ?array {
+  $host = strtolower(
+    (string) parse_url($url, PHP_URL_HOST)
+  );
+
+  /*
+   * Infogram.
+   */
+  if (
+    $host === 'infogram.com' ||
+    $host === 'www.infogram.com'
+  ) {
+    return ios_session_location_resolve_infogram_embed($url);
+  }
+
+  /*
+   * Unsupported provider.
+   *
+   * Future providers can be handled above while preserving the same
+   * Session Location Embed field.
+   */
+  return NULL;
+}
+
+/**
+ * Resolves a public Infogram URL through Infogram's oEmbed service.
+ *
+ * Results are cached for 24 hours so ordinary page views do not
+ * continually make requests to Infogram.
+ */
+function ios_session_location_resolve_infogram_embed(
+  string $url
+): ?array {
+  $cache = \Drupal::cache('data');
+
+  $cache_id =
+    'ios_session_location:infogram:' .
+    hash('sha256', $url);
+
+  $cached = $cache->get($cache_id);
+
+  if (
+    $cached &&
+    is_array($cached->data)
+  ) {
+    return $cached->data;
+  }
+
+  try {
+    $response = \Drupal::httpClient()->request(
+      'GET',
+      'https://infogram.com/oembed_iframe',
+      [
+        'query' => [
+          'url' => $url,
+        ],
+        'headers' => [
+          'Accept' => 'application/json',
+        ],
+        'timeout' => 5,
+      ]
+    );
+
+    if ($response->getStatusCode() !== 200) {
+      return NULL;
+    }
+
+    $data = json_decode(
+      (string) $response->getBody(),
+      TRUE
+    );
+
+    if (
+      !is_array($data) ||
+      empty($data['html'])
+    ) {
+      return NULL;
+    }
+
+    $iframe = ios_session_location_extract_infogram_iframe(
+      $data['html']
+    );
+
+    if (!$iframe) {
+      return NULL;
+    }
+
+    /*
+     * oEmbed supplies an initial height.
+     *
+     * Infogram will subsequently tell the browser its exact required
+     * height through postMessage, which our JavaScript listens for.
+     */
+    $height = !empty($data['height'])
+      ? (int) $data['height']
+      : 400;
+
+    if ($height < 1) {
+      $height = 400;
+    }
+
+    $embed = [
+      'src' => $iframe['src'],
+      'height' => $height,
+    ];
+
+    /*
+     * Cache the resolved embed for 24 hours.
+     */
+    $cache->set(
+      $cache_id,
+      $embed,
+      time() + 86400
+    );
+
+    return $embed;
+  }
+  catch (\Throwable $exception) {
+    \Drupal::logger('ios_session_location')->warning(
+      'Unable to resolve Infogram embed URL @url: @message',
+      [
+        '@url' => $url,
+        '@message' => $exception->getMessage(),
+      ]
+    );
+
+    return NULL;
+  }
+}
+
+/**
+ * Extracts the iframe source from Infogram's oEmbed HTML.
+ */
+function ios_session_location_extract_infogram_iframe(
+  string $html
+): ?array {
+  $previous_state =
+    libxml_use_internal_errors(TRUE);
+
+  $document = new \DOMDocument();
+
+  $loaded = $document->loadHTML(
+    '<!DOCTYPE html><html><body>' .
+    $html .
+    '</body></html>'
+  );
+
+  libxml_clear_errors();
+  libxml_use_internal_errors($previous_state);
+
+  if (!$loaded) {
+    return NULL;
+  }
+
+  $iframes = $document->getElementsByTagName('iframe');
+
+  if ($iframes->length === 0) {
+    return NULL;
+  }
+
+  $iframe = $iframes->item(0);
+
+  if (!$iframe) {
+    return NULL;
+  }
+
+  $src = html_entity_decode(
+    trim($iframe->getAttribute('src')),
+    ENT_QUOTES | ENT_HTML5,
+    'UTF-8'
+  );
+
+  if ($src === '') {
+    return NULL;
+  }
+
+  /*
+   * Infogram's API may return a protocol-relative URL.
+   */
+  if (str_starts_with($src, '//')) {
+    $src = 'https:' . $src;
+  }
+
+  /*
+   * Only permit Infogram's actual embed host.
+   */
+  $host = strtolower(
+    (string) parse_url($src, PHP_URL_HOST)
+  );
+
+  if ($host !== 'e.infogram.com') {
+    return NULL;
+  }
+
+  return [
+    'src' => $src,
+  ];
+}

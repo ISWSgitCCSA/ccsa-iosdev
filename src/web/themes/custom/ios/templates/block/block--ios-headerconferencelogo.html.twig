@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Theme override for the IOS conference header logo block.
+ *
+ * The block content is maintained through Drupal so conference
+ * staff can replace the logo without editing the theme.
+ */
+#}
+
+<div{{
+  attributes.addClass(
+    classes,
+    'ios-header-conference-logo',
+    'd-block',
+    'w-100',
+    'm-0',
+    'p-0'
+  )
+}}>
+  {{ title_prefix }}
+  {{ title_suffix }}
+
+  {% block content %}
+    {{ content }}
+  {% endblock %}
+</div>

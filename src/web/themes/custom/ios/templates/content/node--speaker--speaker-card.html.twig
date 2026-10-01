@@ -1,0 +1,256 @@
+{#
+/**
+ * @file
+ * Speaker Card view mode.
+ *
+ * Content type:
+ *   Speaker
+ *
+ * View mode:
+ *   Speaker Card
+ *
+ * Machine names:
+ *   Content type: speaker
+ *   View mode: speaker_card
+ *
+ * Fields used:
+ *   field_featured_image
+ *   field_speaker_type
+ *   field_role
+ *   field_organization_role
+ *
+ * Speaker Type taxonomy fields:
+ *   field_speaker_type_key
+ *
+ * Media image field:
+ *   field_media_image
+ *
+ * Intentionally NOT rendered:
+ *   body
+ *   field_banner_image
+ *   field_activity_session
+ *   field_meta_tags
+ */
+#}
+
+
+{# ==========================================================
+   SPEAKER IMAGE
+   ========================================================== #}
+
+{% set speaker_media =
+  node.field_featured_image.entity
+%}
+
+{% set speaker_image_item =
+  speaker_media
+  and speaker_media.field_media_image.0
+    ? speaker_media.field_media_image.0
+    : null
+%}
+
+{% set speaker_image_file =
+  speaker_image_item
+  and speaker_image_item.entity
+    ? speaker_image_item.entity
+    : null
+%}
+
+{% set speaker_image_uri =
+  speaker_image_file
+    ? speaker_image_file.uri.value
+    : null
+%}
+
+
+{# ==========================================================
+   SPEAKER TYPE
+   ========================================================== #}
+
+{% set speaker_type =
+  node.field_speaker_type.entity
+%}
+
+{% set speaker_type_key =
+  speaker_type
+  and speaker_type.field_speaker_type_key.value
+    ? speaker_type.field_speaker_type_key.value
+    : ''
+%}
+
+
+{# ==========================================================
+   SPEAKER TYPE COLOUR
+   ==========================================================
+
+   Colour is based on the stable taxonomy key rather than
+   the visible taxonomy term label.
+
+   This means the visible label can be translated or renamed
+   without affecting its presentation.
+
+   primary
+     → gold
+
+   secondary
+     → magenta
+
+   speaker
+     → blue
+
+   Unknown / legacy values use the existing medium accent.
+   ========================================================== #}
+
+{% set speaker_type_class =
+  'ccsa-medium-accent-bg'
+%}
+
+{% if speaker_type_key == 'primary' %}
+
+  {% set speaker_type_class =
+    'ccsa-gold'
+  %}
+
+{% elseif speaker_type_key == 'secondary' %}
+
+  {% set speaker_type_class =
+    'ccsa-magenta'
+  %}
+
+{% elseif speaker_type_key == 'speaker' %}
+
+  {% set speaker_type_class =
+    'ccsa-blue'
+  %}
+
+{% endif %}
+
+
+{# ==========================================================
+   SPEAKER CARD
+   ========================================================== #}
+
+<article{{ attributes.addClass('ios-speaker-card--compact') }}>
+
+
+  {# ========================================================
+     SPEAKER IMAGE
+     ======================================================== #}
+
+  {% if speaker_image_uri %}
+
+    <a
+      href="{{ url }}"
+      tabindex="-1"
+      aria-hidden="true"
+    >
+      <img
+        class="ios-speaker-card__image"
+        src="{{ file_url(speaker_image_uri) }}"
+        alt=""
+      />
+    </a>
+
+  {% endif %}
+
+
+  <div class="ios-speaker-card__content">
+
+
+    {# ======================================================
+       SPEAKER TYPE PILL
+       ====================================================== #}
+
+    {% if speaker_type %}
+
+      <div class="ios-tag mb-2">
+
+        <span
+          class="badge rounded-pill {{ speaker_type_class }}"
+        >
+          {{ speaker_type.label }}
+        </span>
+
+      </div>
+
+    {% endif %}
+
+
+    {# ======================================================
+       SPEAKER NAME
+       ====================================================== #}
+
+    {{ title_prefix }}
+
+    <h3 class="ios-speaker-card__title">
+      {{ label }}
+    </h3>
+
+    {{ title_suffix }}
+
+
+    {# ======================================================
+       ROLE + ORGANIZATION
+       ====================================================== #}
+
+    {% if
+      not node.field_role.isEmpty
+      or not node.field_organization_role.isEmpty
+    %}
+
+      <div class="ios-speaker-card__meta">
+
+        {% if not node.field_role.isEmpty %}
+
+          <div>
+            {{ node.field_role.value }}
+          </div>
+
+        {% endif %}
+
+
+        {% if not node.field_organization_role.isEmpty %}
+
+          <div>
+            {{ node.field_organization_role.value }}
+          </div>
+
+        {% endif %}
+
+      </div>
+
+    {% endif %}
+
+
+    {# ======================================================
+       VIEW SPEAKER
+       ======================================================
+
+       This is interface text rather than editable content.
+
+       Drupal's translation filter allows the label to follow
+       the site's active interface language.
+       ====================================================== #}
+
+    <a
+      class="
+        btn
+        btn-ios
+        btn-ios-view-more
+        cool-light-bg
+        ms-0
+        text-start
+      "
+      href="{{ url }}"
+    >
+      {{ 'View speaker'|t }}
+
+      <i
+        class="fa-solid fa-arrow-right-long"
+        aria-hidden="true"
+      ></i>
+    </a>
+
+  </div>
+
+</article>
