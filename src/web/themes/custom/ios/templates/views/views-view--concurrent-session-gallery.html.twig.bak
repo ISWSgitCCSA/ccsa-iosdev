@@ -1,0 +1,89 @@
+{#
+/**
+ * @file
+ * Exposed filters for the Concurrent Session Gallery.
+ *
+ * Drupal provides the enclosing form element.
+ * Dynamic taxonomy pills are prepared in ios.theme.
+ *
+ * The search field retains its accessible label, displayed
+ * visually hidden, and uses the existing Bootstrap input group.
+ *
+ * The Program Gallery block does not expose the gallery filters,
+ * so this template only renders the filter interface when the
+ * title search field is available.
+ */
+#}
+
+{% if form.title is defined and form.title is not null %}
+
+  {% set search_attributes = form.title['#attributes']|default({})|merge({
+    'placeholder': 'Search sessions'|t,
+    'type': 'search'
+  }) %}
+
+  {% set search_field = form.title|merge({
+    '#title_display': 'invisible',
+    '#attributes': search_attributes
+  }) %}
+
+  <div class="py-3">
+
+    <div class="row g-3 align-items-center">
+
+      {# Dynamic taxonomy pills. #}
+      <div class="col-12 col-lg">
+
+        {{ form.gallery_pills }}
+
+        {{ form.field_activity_type_target_id }}
+
+      </div>
+
+      {# Search field and decorative icon. #}
+      <div class="col-12 col-lg-4">
+
+        <div class="input-group">
+
+          {{ search_field }}
+
+          <span
+            class="input-group-text"
+            aria-hidden="true"
+          >
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+
+        </div>
+
+      </div>
+
+      {# Drupal's existing functional submit button. #}
+      <div class="col-12 col-lg-auto">
+
+        {{ form.actions }}
+
+      </div>
+
+    </div>
+
+  </div>
+
+  {# Preserve hidden values and additional exposed controls. #}
+  {{ form|without(
+    'gallery_pills',
+    'field_activity_type_target_id',
+    'title',
+    'actions'
+  ) }}
+
+{% else %}
+
+  {#
+    The Program Gallery block has no exposed gallery controls.
+    Preserve any hidden form values Drupal may still provide,
+    but do not render the gallery filter interface.
+  #}
+  {{ form }}
+
+{% endif %}

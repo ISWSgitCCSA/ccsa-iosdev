@@ -1,0 +1,5 @@
+name: IOS Editor
+type: module
+description: 'Provides editorial workflow improvements for IOS conference content.'
+package: 'IOS Custom'
+core_version_requirement: ^10 || ^11

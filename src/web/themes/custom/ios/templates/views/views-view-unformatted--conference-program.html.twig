@@ -1,0 +1,19 @@
+{#
+/**
+ * @file
+ * Unformatted row wrapper for the Conference Program View.
+ *
+ * The View owns the overall schedule collection.
+ * Each Activity Program Card owns its individual schedule slot.
+ */
+#}
+
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+
+<div class="ios-conference-program__schedule">
+  {% for row in rows %}
+    {{ row.content }}
+  {% endfor %}
+</div>

@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * @file
+ * Editorial workflow improvements for IOS conference content.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function ios_editor_form_node_form_alter(array &$form, FormStateInterface $form_state, $form_id): void {
+  $node = $form_state->getFormObject()->getEntity();
+
+  // Only apply these editorial improvements to Activity and Session forms.
+  if (!in_array($node->bundle(), ['activity', 'session'], TRUE)) {
+    return;
+  }
+
+  // Attach the date/time helper.
+  $form['#attached']['library'][] = 'ios_editor/datetime-helper';
+
+  // Limit Activity Type choices according to the content type being edited.
+  $allowed_types = [];
+
+  if ($node->bundle() === 'activity') {
+    $allowed_types = [
+      'Concurrent Session',
+      'General Activity',
+      'Keynote',
+      'Meal',
+      'Registration',
+      'Special Session',
+    ];
+  }
+
+  if ($node->bundle() === 'session') {
+    $allowed_types = [
+      'Keynote',
+      'Oral Presentation',
+      'Panel',
+      'Special Session',
+      'Workshop',
+    ];
+  }
+
+  if (
+    $allowed_types &&
+    isset($form['field_activity_type']['widget']['#options'])
+  ) {
+    foreach ($form['field_activity_type']['widget']['#options'] as $key => $label) {
+      // Preserve Drupal's empty "- None -" option.
+      if ($key === '_none') {
+        continue;
+      }
+
+      if (!in_array((string) $label, $allowed_types, TRUE)) {
+        unset($form['field_activity_type']['widget']['#options'][$key]);
+      }
+    }
+  }
+}

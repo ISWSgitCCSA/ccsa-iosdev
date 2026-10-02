@@ -1,0 +1,6 @@
+datetime-helper:
+  js:
+    js/datetime-helper.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

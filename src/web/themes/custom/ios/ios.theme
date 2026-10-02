@@ -187,6 +187,149 @@ function ios_preprocess_node(array &$variables): void {
     return;
   }
 
+  /*
+   * --------------------------------------------------------
+   * ACTIVITY PROGRAM CARD
+   * --------------------------------------------------------
+   *
+   * Concurrent-session Activities reference a term from the
+   * Concurrent Session vocabulary. Pass that term ID to the
+   * existing Program Gallery block as its contextual argument.
+   *
+   * This creates a normal Drupal render array only. The View is
+   * rendered later by Drupal's render system rather than being
+   * executed directly during node preprocessing.
+   */
+  if (
+    $node->bundle() === 'activity' &&
+    $view_mode === 'program_card'
+  ) {
+    $variables['activity_concurrent_gallery'] = [];
+
+    /*
+     * Date/time values for the program rail.
+     *
+     * Keep the same UTC-to-local-time handling used by full Session pages so
+     * the visible time is formatted by Drupal in the site's current timezone.
+     */
+    $variables['activity_start_timestamp'] =
+      ios_get_datetime_timestamp(
+        $node,
+        'field_start_date_time'
+      );
+
+    $variables['activity_end_timestamp'] =
+      ios_get_datetime_timestamp(
+        $node,
+        'field_end_date_time'
+      );
+
+    $variables['activity_start_datetime'] =
+      ios_get_datetime_iso(
+        $node,
+        'field_start_date_time'
+      );
+
+    $variables['activity_end_datetime'] =
+      ios_get_datetime_iso(
+        $node,
+        'field_end_date_time'
+      );
+
+    /*
+     * Activity Type label for the left-hand program rail.
+     */
+    $variables['activity_type_label'] = '';
+    $variables['activity_type_icon'] = 'fa-calendar-day';
+
+    if (
+      $node->hasField('field_activity_type') &&
+      !$node->get('field_activity_type')->isEmpty()
+    ) {
+      $activity_type =
+        $node->get('field_activity_type')->entity;
+
+      if ($activity_type) {
+        $entity_repository =
+          \Drupal::service('entity.repository');
+
+        $translated_activity_type =
+          $entity_repository->getTranslationFromContext(
+            $activity_type
+          );
+
+        $variables['activity_type_label'] =
+          $translated_activity_type->label();
+
+        /*
+         * Use the untranslated taxonomy label for the icon mapping so the
+         * icon remains stable when the visible term label is translated.
+         */
+        $activity_type_source_label = strtolower(
+          trim(
+            $activity_type
+              ->getUntranslated()
+              ->label()
+          )
+        );
+
+        $activity_type_icons = [
+          'concurrent session' => 'fa-layer-group',
+          'general activity' => 'fa-calendar-day',
+          'keynote' => 'fa-microphone-lines',
+          'meal' => 'fa-utensils',
+          'registration' => 'fa-mug-hot',
+          'special session' => 'fa-star',
+        ];
+
+        if (isset($activity_type_icons[$activity_type_source_label])) {
+          $variables['activity_type_icon'] =
+            $activity_type_icons[$activity_type_source_label];
+        }
+      }
+    }
+
+    /*
+     * Concurrent Session label and existing embedded Session gallery.
+     */
+    $variables['activity_concurrent_session_label'] = '';
+
+    if (
+      $node->hasField('field_concurrent_session') &&
+      !$node->get('field_concurrent_session')->isEmpty()
+    ) {
+      $concurrent_session =
+        $node->get('field_concurrent_session')->entity;
+
+      if ($concurrent_session) {
+        $entity_repository =
+          \Drupal::service('entity.repository');
+
+        $translated_concurrent_session =
+          $entity_repository->getTranslationFromContext(
+            $concurrent_session
+          );
+
+        $variables['activity_concurrent_session_label'] =
+          $translated_concurrent_session->label();
+      }
+
+      $concurrent_session_id =
+        (int) $node->get('field_concurrent_session')->target_id;
+
+      if ($concurrent_session_id > 0) {
+        $variables['activity_concurrent_gallery'] = [
+          '#type' => 'view',
+          '#name' => 'concurrent_session_gallery',
+          '#display_id' => 'block_1',
+          '#arguments' => [$concurrent_session_id],
+        ];
+      }
+    }
+
+    return;
+  }
+
   if ($node->bundle() !== 'session') {
     return;
   }
@@ -1802,7 +1945,7 @@ function ios_form_views_exposed_form_alter(array &$form, \Drupal\Core\Form\FormS
 
     // This exclusion is specific to the concurrent gallery. The taxonomy
     // term and its gold badge remain available elsewhere on the site.
-    if ($term && mb_strtolower(trim($term->getUntranslated()->label())) === 'special presentation') {
+    if ($term && mb_strtolower(trim($term->getUntranslated()->label())) === 'special session') {
       $excluded_values[] = (string) $value;
       continue;
     }
@@ -1914,7 +2057,7 @@ function ios_session_type_colour(\Drupal\taxonomy\TermInterface $term): string {
     'workshop' => 'ccsa-green',
     'keynote' => 'ccsa-gold',
     'keynote session' => 'ccsa-gold',
-    'special presentation' => 'ccsa-gold',
+    'special session' => 'ccsa-gold',
     'panel' => 'ccsa-magenta',
   ];
   if (isset($known[$source_label])) {

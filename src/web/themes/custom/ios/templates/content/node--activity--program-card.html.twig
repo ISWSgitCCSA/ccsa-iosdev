@@ -15,84 +15,189 @@
  *
  * Additional variables supplied by ios.theme:
  *   activity_concurrent_gallery
+ *   activity_start_timestamp
+ *   activity_end_timestamp
+ *   activity_start_datetime
+ *   activity_end_datetime
+ *   activity_type_label
+ *   activity_type_icon
+ *   activity_concurrent_session_label
  */
 #}
 
 {# ==========================================================
-   CARD VALUES
+   ACTIVITY VALUES
    ========================================================== #}
 
 {% set activity_title = node.label %}
 {% set card_title_id = 'activity-card-title-' ~ node.id %}
 
+{% set start_timestamp = activity_start_timestamp|default(null) %}
+{% set end_timestamp = activity_end_timestamp|default(null) %}
+{% set start_datetime = activity_start_datetime|default(null) %}
+{% set end_datetime = activity_end_datetime|default(null) %}
+
+{% set type_label = activity_type_label|default('') %}
+{% set type_icon = activity_type_icon|default('fa-calendar-day') %}
+{% set concurrent_label = activity_concurrent_session_label|default('') %}
+
+{% set room = node.field_room.value|default('') %}
+
 
 {# ==========================================================
-   ACTIVITY CARD
+   PROGRAM SCHEDULE SLOT
    ========================================================== #}
 
-<article
-  {{ attributes.addClass(
-    'card',
-    'ios-card',
-    'h-100'
-  ) }}
-  aria-labelledby="{{ card_title_id }}"
->
+<div class="ios-conference-program__slot">
 
-  <div class="card-body d-flex flex-column p-3">
+  {# ========================================================
+     TIME RAIL
+     ======================================================== #}
+
+  <div class="ios-conference-program__time">
+
+    {% if start_timestamp %}
+      <div class="ios-conference-program__time-range">
+        <time
+          class="fw-bold"
+          {% if start_datetime %}datetime="{{ start_datetime }}"{% endif %}
+        >
+          {{ start_timestamp|format_date('custom', 'g:i A') }}
+        </time>
+
+        {% if end_timestamp %}
+          <span class="small text-body-secondary">
+            {{ 'to'|t }}
+            <time
+              {% if end_datetime %}datetime="{{ end_datetime }}"{% endif %}
+            >
+              {{ end_timestamp|format_date('custom', 'g:i A') }}
+            </time>
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if type_label or concurrent_label %}
+      <div class="ios-conference-program__time-label small fw-bold text-uppercase warm">
+        {% if type_label %}
+          <span class="d-block">
+            {{ type_label }}
+          </span>
+        {% endif %}
+
+        {% if concurrent_label %}
+          <span class="d-block">
+            {{ concurrent_label }}
+          </span>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
 
 
-    {# ======================================================
-       ACTIVITY TITLE
-       ====================================================== #}
+  {# ========================================================
+     ACTIVITY CONTENT
+     ======================================================== #}
 
-    {{ title_prefix }}
-
-    <h3
-      id="{{ card_title_id }}"
-      class="card-title cool h6 mb-2"
-    >
-      {{ label }}
-    </h3>
-
-    {{ title_suffix }}
-
-
-    {# ======================================================
-       CONCURRENT SESSION GALLERY
-       ====================================================== #}
+  <div class="ios-conference-program__slot-content">
 
     {% if activity_concurrent_gallery %}
 
-      <div class="mt-3">
-        {{ activity_concurrent_gallery }}
-      </div>
+      <article
+        {{ attributes.addClass(
+          'card',
+          'ios-card',
+          'h-100'
+        ) }}
+        aria-labelledby="{{ card_title_id }}"
+      >
+        <div class="card-body d-flex flex-column p-3">
+
+          {{ title_prefix }}
+
+          <h3
+            id="{{ card_title_id }}"
+            class="card-title cool h6 mb-2"
+          >
+            {{ label }}
+          </h3>
+
+          {{ title_suffix }}
+
+          <div class="mt-3">
+            {{ activity_concurrent_gallery }}
+          </div>
+
+        </div>
+      </article>
 
     {% else %}
 
-
       {# ====================================================
-         STANDARD ACTIVITY LINK
+         STANDARD ACTIVITY CARD
          ==================================================== #}
 
-      <a
-        class="small text-uppercase text-decoration-none mt-auto"
-        href="{{ url }}"
+      <article
+        {{ attributes.addClass(
+          'card',
+          'ios-card',
+          'ios-program-card--event'
+        ) }}
+        aria-labelledby="{{ card_title_id }}"
       >
-        {{ 'View activity'|t }}
+        <div class="card-body p-4">
 
-        <span class="visually-hidden">
-          : {{ activity_title }}
-        </span>
+          {% if type_label %}
+            <p class="small text-uppercase fw-bold warm mb-2">
+              <i
+                class="fa-solid {{ type_icon }} me-2"
+                aria-hidden="true"
+              ></i>
+              {{ type_label }}
+            </p>
+          {% endif %}
 
-        <i
-          class="fa-solid fa-arrow-right-long ms-2"
+          {{ title_prefix }}
+
+          <h3
+            id="{{ card_title_id }}"
+            class="card-title h5 cool-dark"
+          >
+            {{ label }}
+          </h3>
+
+          {{ title_suffix }}
+
+          {% if content.body %}
+            <div class="card-text">
+              {{ content.body }}
+            </div>
+          {% endif %}
+
+          {% if room %}
+            <p class="small text-body-secondary mb-0">
+              <i
+                class="fa-solid fa-location-dot me-1"
+                aria-hidden="true"
+              ></i>
+              {{ room }}
+            </p>
+          {% endif %}
+
+        </div>
+
+        <div
+          class="ios-program-card__icon warm-light-bg rounded-circle me-4"
           aria-hidden="true"
-        ></i>
-      </a>
+        >
+          <i class="fa-solid {{ type_icon }} warm"></i>
+        </div>
+      </article>
 
     {% endif %}
 
   </div>
 
-</article>
+</div>
