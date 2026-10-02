@@ -1,0 +1,34 @@
+{{ attach_library('ios/global-styling') }}
+
+<header class="home-header"> <div class="home-header__content">
+{% if countdown_date %}
+  <div
+    class="countdown"
+    data-countdown-date="{{ countdown_date }}"
+    aria-label="{{ 'Countdown'|t }}"
+  >
+
+    <div class="countdown__unit">
+      <span class="countdown__days">00</span>
+      <span class="countdown__label">{{ 'Days'|t }}</span>
+    </div>
+
+    <div class="countdown__unit">
+      <span class="countdown__hours">00</span>
+      <span class="countdown__label">{{ 'Hours'|t }}</span>
+    </div>
+
+    <div class="countdown__unit">
+      <span class="countdown__mins">00</span>
+      <span class="countdown__label">{{ 'Minutes'|t }}</span>
+    </div>
+
+    <div class="countdown__unit">
+      <span class="countdown__secs">00</span>
+      <span class="countdown__label">{{ 'Seconds'|t }}</span>
+    </div>
+
+  </div>
+{% endif %}
+
+</div> </header>

@@ -1,11 +1,11 @@
 global-styling:
-  header: true
-
   css:
     theme:
       css/style.css: {}
       css/universal-ios.css: {}
       css/ios-colour-theme.css: {}
-
   js:
+    js/countdown.js: {}
     js/ios-theme-preferences.js: {}
+  dependencies:
+    - core/drupal
