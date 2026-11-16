@@ -33,9 +33,12 @@
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/media_folders": "^1.0",
         "drupal/metatag": "^2.2",
+        "drupal/pathauto": "^1.16",
         "drupal/registration": "^3.4",
+        "drupal/responsive_tables_filter": "^2.1",
         "drupal/symfony_mailer_log": "^1.2",
         "drupal/webform": "^6.3@beta",
+        "drupal/xmlsitemap": "^2.0",
         "drush/drush": "^13.7"
     },
     "conflict": {

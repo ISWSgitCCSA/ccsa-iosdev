@@ -1,0 +1,1420 @@
+{#
+/**
+ * @file
+ * Full Home page node template.
+ *
+ * Content type:
+ *   Home page
+ *
+ * Machine name:
+ *   home_page
+ *
+ * Homepage fields:
+ *   field_banner_image
+ *   field_conference_start
+ *   field_conference_end
+ *   field_hero_heading
+ *   field_hero_highlighted_text
+ *   field_hero_copy
+ *   field_hero_location
+ *   field_hero_venue
+ *   field_hero_primary_link
+ *   field_hero_secondary_link
+ *
+ *   field_at_a_glance_block
+ *   field_secondary_text
+ *
+ *   field_speakers_intro
+ *   field_speakers_heading
+ *   field_speakers_copy
+ *   field_speakers_link
+ *
+ *   field_destination_intro
+ *   field_destination_heading
+ *   field_destination_copy
+ *   field_destination_primary_image
+ *   field_destination_supporting_ima
+ *   field_destination_link
+ *
+ *   field_program_intro
+ *   field_program_heading
+ *   field_program_copy
+ *   field_program_link
+ *
+ *   field_call_to_action
+ *
+ * Additional variables supplied by ios.theme:
+ *   homepage_featured_speakers
+ *     Render array for the Homepage Featured Speakers View, block_1.
+ *     The View selects, filters, sorts and renders each Speaker using the
+ *     existing Speaker Card view mode. Its unformatted-list template owns
+ *     the three-per-slide carousel markup.
+ *
+ *   homepage_program_preview
+ *     Render array for the Homepage Program Preview View, block_1.
+ *     The View selects, language-filters, sorts and groups Activities.
+ *
+ *   homepage_news
+ *     Render array for the Homepage News View, block_1.
+ *     The View selects published News in the current interface language,
+ *     sorts newest first and renders each result using the News Card view mode.
+ *
+ *   homepage_sponsors
+ *     Render array for the Sponsor Gallery View, block_5.
+ *     The View sorts by Sponsor Level taxonomy weight; display-specific
+ *     Views templates create linked logo/name items and the carousel.
+ *
+ *   homepage_banner_photo_credit
+ *   homepage_destination_primary_photo_credit
+ *   homepage_destination_supporting_photo_credits
+ *     Optional translated Media photo credits prepared in ios.theme.
+ *     Supporting credits are keyed to their Media reference delta.
+ *
+ * Not yet wired into this template:
+ *   - Random featured Session
+ *   - Mailing list content block
+ *
+ * The live countdown appears in the homepage hero and uses
+ * the existing ios/countdown library and .ios-hero-countdown styles.
+ */
+#}
+
+
+{# ==========================================================
+   HOMEPAGE SECTION VISIBILITY
+
+   These settings apply to the published homepage in every language.
+   Set a value to true when that section is ready to appear again.
+   ========================================================== #}
+
+{% set show_featured_speakers = false %}
+{% set show_partners = false %}
+
+
+{# ==========================================================
+   BASIC FIELD VALUES
+   ========================================================== #}
+
+{% set hero_heading =
+  node.field_hero_heading.value|default('')
+%}
+
+{% set hero_highlight =
+  node.field_hero_highlighted_text.value|default('')
+%}
+
+{% set hero_location =
+  node.field_hero_location.value|default('')
+%}
+
+{% set hero_venue =
+  node.field_hero_venue.value|default('')
+%}
+
+
+{% set speakers_intro =
+  node.field_speakers_intro.value|default('')
+%}
+
+{% set speakers_heading =
+  node.field_speakers_heading.value|default('')
+%}
+
+
+{% set destination_intro =
+  node.field_destination_intro.value|default('')
+%}
+
+{% set destination_heading =
+  node.field_destination_heading.value|default('')
+%}
+
+
+{% set program_intro =
+  node.field_program_intro.value|default('')
+%}
+
+{% set program_heading =
+  node.field_program_heading.value|default('')
+%}
+
+
+{# ==========================================================
+   HERO BANNER IMAGE
+   ========================================================== #}
+
+{% set banner_media =
+  node.field_banner_image.entity
+%}
+
+{% set banner_image_item =
+  banner_media
+    ? banner_media.field_media_image.0
+    : null
+%}
+
+{% set banner_image_file =
+  banner_image_item
+  and banner_image_item.entity
+    ? banner_image_item.entity
+    : null
+%}
+
+{% set banner_image_uri =
+  banner_image_file
+    ? banner_image_file.uri.value
+    : null
+%}
+
+
+{# ==========================================================
+   HERO LINKS
+   ========================================================== #}
+
+{% set hero_primary_link =
+  not node.field_hero_primary_link.isEmpty
+    ? node.field_hero_primary_link.0
+    : null
+%}
+
+{% set hero_secondary_link =
+  not node.field_hero_secondary_link.isEmpty
+    ? node.field_hero_secondary_link.0
+    : null
+%}
+
+
+{# ==========================================================
+   CONFERENCE DATES
+   ========================================================== #}
+
+{% set conference_start =
+  node.field_conference_start.value|default('')
+%}
+
+{% set conference_end =
+  node.field_conference_end.value|default('')
+%}
+
+{% set page_langcode =
+  node.langcode.value|default('en')
+%}
+
+{% set is_french =
+  page_langcode == 'fr'
+  or page_langcode == 'fr-ca'
+%}
+
+{% set conference_start_timestamp =
+  conference_start
+    ? conference_start|date('U', 'UTC')
+    : null
+%}
+
+{% set conference_end_timestamp =
+  conference_end
+    ? conference_end|date('U', 'UTC')
+    : null
+%}
+
+{% set conference_same_year =
+  conference_start
+  and conference_end
+  and conference_start|slice(0, 4) == conference_end|slice(0, 4)
+%}
+
+{% set conference_same_month =
+  conference_start
+  and conference_end
+  and conference_start|slice(0, 7) == conference_end|slice(0, 7)
+%}
+
+
+{# ==========================================================
+   DESTINATION IMAGES
+   ========================================================== #}
+
+{% set destination_primary_media =
+  node.field_destination_primary_image.entity
+%}
+
+{% set destination_primary_image_item =
+  destination_primary_media
+    ? destination_primary_media.field_media_image.0
+    : null
+%}
+
+{% set destination_primary_image_file =
+  destination_primary_image_item
+  and destination_primary_image_item.entity
+    ? destination_primary_image_item.entity
+    : null
+%}
+
+{% set destination_primary_image_uri =
+  destination_primary_image_file
+    ? destination_primary_image_file.uri.value
+    : null
+%}
+
+{% set destination_primary_image_alt =
+  destination_primary_image_item
+  and destination_primary_image_item.alt
+    ? destination_primary_image_item.alt
+    : ''
+%}
+
+
+{# ==========================================================
+   DESTINATION LINK
+   ========================================================== #}
+
+{% set destination_link =
+  not node.field_destination_link.isEmpty
+    ? node.field_destination_link.0
+    : null
+%}
+
+
+{# ==========================================================
+   SPEAKERS LINK
+   ========================================================== #}
+
+{% set speakers_link =
+  not node.field_speakers_link.isEmpty
+    ? node.field_speakers_link.0
+    : null
+%}
+
+
+{# ==========================================================
+   PROGRAM LINK
+   ========================================================== #}
+
+{% set program_link =
+  not node.field_program_link.isEmpty
+    ? node.field_program_link.0
+    : null
+%}
+
+
+{{ attach_library('ios/countdown') }}
+
+<article{{ attributes.addClass('ios-home-page') }}>
+
+
+  {# ========================================================
+     HOME PAGE HERO
+     ======================================================== #}
+
+  <section
+    class="ios-hero position-relative overflow-hidden"
+    aria-labelledby="home-hero-title"
+  >
+
+    {% if banner_image_uri %}
+
+      <img
+        class="ios-hero__image"
+        src="{{ file_url(banner_image_uri) }}"
+        alt=""
+        aria-hidden="true"
+      />
+
+    {% endif %}
+
+
+    <div
+      class="ios-hero__overlay"
+      aria-hidden="true"
+    ></div>
+
+
+    <div
+      class="
+        container-fluid
+        position-relative
+        px-4
+        px-xl-5
+        pb-5
+        ios-hero__content
+      "
+    >
+
+      {# ========================================================
+         LIVE HOMEPAGE COUNTDOWN
+
+         This countdown uses the existing hero countdown styling,
+         Bootstrap classes, and the ios/countdown library.
+
+         The target preserves the date from the original
+         JS: November 8, 2027, 10 a.m. in Winnipeg (UTC-06).
+         Change this date only when the intended target is confirmed.
+
+         The numeric cards are visible in the initial HTML.
+         JavaScript updates them immediately and every second.
+
+         data-countdown-date="2027-11-08T10:00:00-06:00 - change this line to change the date/time on the countdown
+         ======================================================== #}
+
+      <div class="row justify-content-end">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <aside
+            class="countdown ios-hero-countdown bg-white p-3 mb-5"
+            data-countdown-date="2027-11-08T10:00:00-06:00"
+            aria-labelledby="ios-hero-countdown-title"
+          >
+            <p id="ios-hero-countdown-title" class="fw-bold text-uppercase small text-center mb-2">
+              {{ 'The call for abstracts officially opens in:'|t }}
+            </p>
+
+            <div
+              class="row g-2 align-items-center text-center"
+              role="timer"
+              aria-live="off"
+              aria-label="{{ 'Time remaining until the conference'|t }}"
+            >
+              <div class="col d-none d-sm-block">
+                <div class="ios-hero-countdown__calendar cool-light-bg rounded p-2">
+                  <i
+                    class="fa-regular fa-calendar-days cool fs-2"
+                    aria-hidden="true"
+                  ></i>
+                </div>
+              </div>
+
+              <div class="col mx-1 cool-light-bg rounded shadow py-1">
+                <strong class="countdown__days cool display-6 d-block">00</strong>
+                <small class="text-uppercase">{{ 'Days'|t }}</small>
+              </div>
+
+              <div class="col mx-1 cool-light-bg rounded shadow py-1">
+                <strong class="countdown__hours cool display-6 d-block">00</strong>
+                <small class="text-uppercase">{{ 'Hours'|t }}</small>
+              </div>
+
+              <div class="col mx-1 cool-light-bg rounded shadow py-1">
+                <strong class="countdown__mins cool display-6 d-block">00</strong>
+                <small class="text-uppercase">{{ 'Min'|t }}</small>
+              </div>
+
+              <div class="col mx-1 cool-light-bg rounded shadow py-1">
+                <strong class="countdown__secs cool display-6 d-block">00</strong>
+                <small class="text-uppercase">{{ 'Sec'|t }}</small>
+              </div>
+            </div>
+
+            <p class="visually-hidden">
+              {{ 'Target: November 3, 2027 at 10:00 a.m. Winnipeg time.'|t }}
+            </p>
+
+            <noscript>
+              <p class="small text-center mt-2 mb-0">
+                {{ 'Enable JavaScript to update this countdown automatically.'|t }}
+              </p>
+            </noscript>
+          </aside>
+        </div>
+      </div>
+
+      {# The existing hero copy, date and actions are unchanged. #}
+
+      <div class="row">
+
+        <div class="col-12 col-lg-8 col-xl-7">
+
+          <div class="ios-hero__copy">
+
+
+            {# ==================================================
+               CONFERENCE DATE
+               ================================================== #}
+
+            {% if conference_start_timestamp %}
+
+              <p
+                class="
+                  warm
+                  small
+                  fw-semibold
+                  mb-4
+                  ios-hero-text-outline
+                "
+              >
+
+                {% if conference_end_timestamp
+                  and conference_start != conference_end %}
+
+                  {% if conference_same_month %}
+
+                    {% if is_french %}
+
+                      <time datetime="{{ conference_start }}">
+                        {{ conference_start_timestamp|format_date(
+                          'custom',
+                          'j',
+                          'UTC'
+                        ) }}
+                      </time>–<time datetime="{{ conference_end }}">
+                        {{ conference_end_timestamp|format_date(
+                          'custom',
+                          'j F Y',
+                          'UTC'
+                        ) }}
+                      </time>
+
+                    {% else %}
+
+                      <time datetime="{{ conference_start }}">
+                        {{ conference_start_timestamp|format_date(
+                          'custom',
+                          'F j',
+                          'UTC'
+                        ) }}
+                      </time>–<time datetime="{{ conference_end }}">
+                        {{ conference_end_timestamp|format_date(
+                          'custom',
+                          'j, Y',
+                          'UTC'
+                        ) }}
+                      </time>
+
+                    {% endif %}
+
+                  {% elseif conference_same_year %}
+
+                    {% if is_french %}
+
+                      <time datetime="{{ conference_start }}">
+                        {{ conference_start_timestamp|format_date(
+                          'custom',
+                          'j F',
+                          'UTC'
+                        ) }}
+                      </time> – <time datetime="{{ conference_end }}">
+                        {{ conference_end_timestamp|format_date(
+                          'custom',
+                          'j F Y',
+                          'UTC'
+                        ) }}
+                      </time>
+
+                    {% else %}
+
+                      <time datetime="{{ conference_start }}">
+                        {{ conference_start_timestamp|format_date(
+                          'custom',
+                          'F j',
+                          'UTC'
+                        ) }}
+                      </time> – <time datetime="{{ conference_end }}">
+                        {{ conference_end_timestamp|format_date(
+                          'custom',
+                          'F j, Y',
+                          'UTC'
+                        ) }}
+                      </time>
+
+                    {% endif %}
+
+                  {% else %}
+
+                    {% if is_french %}
+
+                      <time datetime="{{ conference_start }}">
+                        {{ conference_start_timestamp|format_date(
+                          'custom',
+                          'j F Y',
+                          'UTC'
+                        ) }}
+                      </time> – <time datetime="{{ conference_end }}">
+                        {{ conference_end_timestamp|format_date(
+                          'custom',
+                          'j F Y',
+                          'UTC'
+                        ) }}
+                      </time>
+
+                    {% else %}
+
+                      <time datetime="{{ conference_start }}">
+                        {{ conference_start_timestamp|format_date(
+                          'custom',
+                          'F j, Y',
+                          'UTC'
+                        ) }}
+                      </time> – <time datetime="{{ conference_end }}">
+                        {{ conference_end_timestamp|format_date(
+                          'custom',
+                          'F j, Y',
+                          'UTC'
+                        ) }}
+                      </time>
+
+                    {% endif %}
+
+                  {% endif %}
+
+                {% else %}
+
+                  <time datetime="{{ conference_start }}">
+
+                    {% if is_french %}
+
+                      {{ conference_start_timestamp|format_date(
+                        'custom',
+                        'j F Y',
+                        'UTC'
+                      ) }}
+
+                    {% else %}
+
+                      {{ conference_start_timestamp|format_date(
+                        'custom',
+                        'F j, Y',
+                        'UTC'
+                      ) }}
+
+                    {% endif %}
+
+                  </time>
+
+                {% endif %}
+
+              </p>
+
+            {% endif %}
+
+
+            {# ==================================================
+               HERO HEADING
+               ================================================== #}
+
+            {% if hero_heading or hero_highlight %}
+
+              <h1
+                class="
+                  ios-hero__heading
+                  cool-dark
+                  display-4
+                  mb-4
+                  ios-hero-text-outline
+                "
+                id="home-hero-title"
+              >
+
+                {% if hero_heading %}
+                  {{ hero_heading }}
+                {% endif %}
+
+                {% if hero_heading and hero_highlight %}
+                  <br />
+                {% endif %}
+
+                {% if hero_highlight %}
+
+                  <span class="cool display-1">
+                    {{ hero_highlight }}
+                  </span>
+
+                {% endif %}
+
+              </h1>
+
+            {% endif %}
+
+
+            {# ==================================================
+               HERO COPY
+               ================================================== #}
+
+            {% if not node.field_hero_copy.isEmpty %}
+
+              <div
+                class="
+                  col-lg-10
+                  ios-hero-text-outline
+                "
+              >
+                {{ content.field_hero_copy.0 }}
+              </div>
+
+            {% endif %}
+
+
+            {# ==================================================
+               CONFERENCE DETAILS
+               ================================================== #}
+
+            {% if hero_location or hero_venue %}
+
+              <div
+                class="
+                  d-flex
+                  flex-wrap
+                  gap-4
+                  small
+                  my-4
+                  ios-hero-text-outline
+                "
+                aria-label="{{ 'Conference details'|t }}"
+              >
+
+                {% if hero_location %}
+
+                  <span>
+
+                    <i
+                      class="fa-solid fa-location-dot warm me-2"
+                      aria-hidden="true"
+                    ></i>
+
+                    {{ hero_location }}
+
+                  </span>
+
+                {% endif %}
+
+
+                {% if hero_venue %}
+
+                  <span>
+
+                    <i
+                      class="fa-solid fa-building warm me-2"
+                      aria-hidden="true"
+                    ></i>
+
+                    {{ hero_venue }}
+
+                  </span>
+
+                {% endif %}
+
+              </div>
+
+            {% endif %}
+
+          </div>
+
+
+          {# ==================================================
+             HERO ACTIONS
+             ================================================== #}
+
+          {% if hero_primary_link or hero_secondary_link %}
+
+            <div class="d-flex flex-wrap gap-3 mt-4">
+
+              {% if hero_primary_link
+                and hero_primary_link.title %}
+
+                <a
+                  class="btn btn-ios cool-bg"
+                  href="{{ hero_primary_link.url }}"
+                >
+                  {{ hero_primary_link.title }}
+
+                  <i
+                    class="
+                      fa-solid
+                      fa-arrow-right-long
+                      ms-3
+                    "
+                    aria-hidden="true"
+                  ></i>
+                </a>
+
+              {% endif %}
+
+
+              {% if hero_secondary_link
+                and hero_secondary_link.title %}
+
+                <a
+                  class="btn btn-ios cool-light-bg"
+                  href="{{ hero_secondary_link.url }}"
+                >
+                  {{ hero_secondary_link.title }}
+
+                  <i
+                    class="
+                      fa-solid
+                      fa-arrow-right-long
+                      ms-3
+                    "
+                    aria-hidden="true"
+                  ></i>
+                </a>
+
+              {% endif %}
+
+            </div>
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {# The credit is visible only when the banner's Media item has one. #}
+    {% if homepage_banner_photo_credit|default('') %}
+      <div class="ios-photo-credit ios-photo-credit--hero">
+         {{ banner_media and banner_media.hasTranslation(page_langcode) ? banner_media.translation(page_langcode).field_photo_credit.value : homepage_banner_photo_credit }}
+      </div>
+    {% endif %}
+
+  </section>
+
+
+  {# ========================================================
+     AT A GLANCE
+     ======================================================== #}
+
+  {% if not node.field_at_a_glance_block.isEmpty %}
+
+    {{ content.field_at_a_glance_block }}
+
+  {% endif %}
+
+  {# ========================================================
+    SECONDARY TEXT
+     ======================================================== #}
+{% if not node.field_secondary_text.isEmpty %}
+
+  <div class="container-fluid px-4 px-xl-5 my-4">
+
+    <div class="row">
+
+      <div class="col-12">
+
+        {{ content.field_secondary_text.0 }}
+
+      </div>
+
+    </div>
+
+  </div>
+
+{% endif %}
+
+
+  {# ========================================================
+     FEATURED SPEAKERS
+     ======================================================== #}
+
+  {% if show_featured_speakers and (
+    speakers_intro
+    or speakers_heading
+    or not node.field_speakers_copy.isEmpty
+    or speakers_link
+  ) %}
+
+    <section
+      class="ios-featured-speakers py-5"
+      aria-labelledby="featured-speakers-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="row g-4 align-items-stretch">
+
+
+          <div class="col-12 col-lg-3 d-flex">
+
+            <div class="d-flex flex-column w-100 h-100">
+
+              {% if speakers_intro %}
+
+                <p
+                  class="
+                    warm
+                    text-uppercase
+                    small
+                    fw-bold
+                    mb-2
+                  "
+                >
+                  {{ speakers_intro }}
+                </p>
+
+              {% endif %}
+
+
+              {% if speakers_heading %}
+
+                <h2
+                  class="h3 cool mb-3"
+                  id="featured-speakers-heading"
+                >
+                  {{ speakers_heading }}
+                </h2>
+
+              {% endif %}
+
+
+              {% if not node.field_speakers_copy.isEmpty %}
+
+                <div>
+                  {{ content.field_speakers_copy.0 }}
+                </div>
+
+              {% endif %}
+
+
+              {% if speakers_link
+                and speakers_link.title %}
+
+                <p class="mt-auto mb-0">
+
+                  <a
+                    class="
+                      btn
+                      btn-ios
+                      warm-light-bg
+                      btn-arrow
+                      w-100
+                      btn-ios-view-more
+                    "
+                    href="{{ speakers_link.url }}"
+                  >
+                    {{ speakers_link.title }}
+                  </a>
+
+                </p>
+
+              {% endif %}
+
+            </div>
+
+          </div>
+
+
+          <div class="col-12 col-lg-9 d-flex">
+
+            {% if homepage_featured_speakers %}
+
+              <div class="w-100">
+                {{ homepage_featured_speakers }}
+              </div>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     DESTINATION
+     ======================================================== #}
+
+  {% set has_destination_content =
+    destination_intro
+    or destination_heading
+    or not node.field_destination_copy.isEmpty
+    or destination_primary_image_uri
+    or not node.field_destination_supporting_ima.isEmpty
+    or destination_link
+  %}
+
+  {% set has_destination_images =
+    destination_primary_image_uri
+    or not node.field_destination_supporting_ima.isEmpty
+  %}
+
+  {% if has_destination_content %}
+
+    <section
+      class="py-5"
+      {% if destination_heading %}
+        aria-labelledby="destination-heading"
+      {% else %}
+        aria-label="{{ 'Destination information'|t }}"
+      {% endif %}
+    >
+
+      <div class="container-fluid px-4 px-xl-5 py-lg-4">
+
+        <div class="row g-4 align-items-center">
+
+          {% if has_destination_images %}
+
+            <div class="col-12 col-lg-7">
+
+              <div class="row g-3 align-items-center">
+
+                {% if destination_primary_image_uri %}
+
+                  <div class="col-12 col-md-8">
+
+                    <figure class="m-0">
+
+                      <div
+                        class="
+                          ios-media-crop
+                          ios-media-crop--4x3
+                          w-100
+                        "
+                      >
+
+                        <img
+                          src="{{ file_url(destination_primary_image_uri) }}"
+                          alt="{{ destination_primary_image_alt }}"
+                          loading="lazy"
+                        />
+
+                      </div>
+
+                      {% if homepage_destination_primary_photo_credit|default('') %}
+                        <figcaption class="ios-photo-credit ios-photo-credit--caption">
+                           {{ homepage_destination_primary_photo_credit }}
+                        </figcaption>
+                      {% endif %}
+
+                    </figure>
+
+                  </div>
+
+                {% endif %}
+
+
+                {% if not node.field_destination_supporting_ima.isEmpty %}
+
+                  <div class="col-12 col-md-4">
+
+                    <div class="d-flex flex-column gap-3">
+
+                      {% for supporting_item
+                        in node.field_destination_supporting_ima %}
+
+                        {% set supporting_media =
+                          supporting_item.entity
+                        %}
+
+                        {% set supporting_image_item =
+                          supporting_media
+                            ? supporting_media.field_media_image.0
+                            : null
+                        %}
+
+                        {% set supporting_image_file =
+                          supporting_image_item
+                          and supporting_image_item.entity
+                            ? supporting_image_item.entity
+                            : null
+                        %}
+
+                        {% set supporting_image_uri =
+                          supporting_image_file
+                            ? supporting_image_file.uri.value
+                            : null
+                        %}
+
+                        {% set supporting_image_alt =
+                          supporting_image_item
+                          and supporting_image_item.alt
+                            ? supporting_image_item.alt
+                            : ''
+                        %}
+
+
+                        {% if supporting_image_uri %}
+
+                          {% set supporting_photo_credit =
+                            homepage_destination_supporting_photo_credits[loop.index0]|default('')
+                          %}
+
+                          <figure class="m-0">
+
+                            <div
+                              class="
+                                ios-media-crop
+                                ios-media-crop--16x9
+                              "
+                            >
+
+                              <img
+                                src="{{ file_url(supporting_image_uri) }}"
+                                alt="{{ supporting_image_alt }}"
+                                loading="lazy"
+                              />
+
+                            </div>
+
+                            {% if supporting_photo_credit %}
+                              <figcaption class="ios-photo-credit ios-photo-credit--caption">
+                                 {{ supporting_photo_credit }}
+                              </figcaption>
+                            {% endif %}
+
+                          </figure>
+
+                        {% endif %}
+
+                      {% endfor %}
+
+                    </div>
+
+                  </div>
+
+                {% endif %}
+
+              </div>
+
+            </div>
+
+          {% endif %}
+
+
+          <div class="col-12{% if has_destination_images %} col-lg-5{% else %} col-lg-8{% endif %}">
+
+            <div
+              class="
+                d-flex
+                flex-column
+                justify-content-center
+                align-items-start
+                px-lg-3
+                py-3
+                py-lg-0
+              "
+            >
+
+              {% if destination_intro %}
+
+                <p
+                  class="
+                    cool
+                    small
+                    text-uppercase
+                    fw-bold
+                    mb-2
+                  "
+                >
+                  {{ destination_intro }}
+                </p>
+
+              {% endif %}
+
+
+              {% if destination_heading %}
+
+                <h2
+                  class="
+                    cool-dark
+                    display-5
+                    fw-normal
+                    lh-1
+                    mb-3
+                  "
+                  id="destination-heading"
+                >
+                  {{ destination_heading }}
+                </h2>
+
+              {% endif %}
+
+
+              {% if not node.field_destination_copy.isEmpty %}
+
+                <div class="mb-4">
+                  {{ content.field_destination_copy.0 }}
+                </div>
+
+              {% endif %}
+
+
+              {% if destination_link
+                and destination_link.title %}
+
+                <p class="mb-0">
+
+                  <a
+                    class="btn btn-ios cool-bg"
+                    href="{{ destination_link.url }}"
+                  >
+                    {{ destination_link.title }}
+
+                    <i
+                      class="
+                        fa-solid
+                        fa-arrow-right-long
+                        ms-3
+                      "
+                      aria-hidden="true"
+                    ></i>
+                  </a>
+
+                </p>
+
+              {% endif %}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     PROGRAM PREVIEW
+     ======================================================== #}
+
+  {% if program_intro
+    or program_heading
+    or not node.field_program_copy.isEmpty
+    or program_link %}
+
+    <section
+      class="container-fluid px-0 my-5"
+      {% if program_heading %}
+        aria-labelledby="program-preview-heading"
+      {% else %}
+        aria-label="{{ 'Program preview'|t }}"
+      {% endif %}
+    >
+
+      <div
+        class="
+          row
+          g-0
+          align-items-stretch
+          cool-light-bg
+        "
+      >
+
+        <div class="col-12 col-lg-3 p-4 p-xl-5">
+
+          <div
+            class="
+              h-100
+              d-flex
+              flex-column
+              align-items-start
+            "
+          >
+
+            {% if program_intro %}
+
+              <p
+                class="
+                  warm-dark
+                  small
+                  text-uppercase
+                  fw-bold
+                  mb-3
+                "
+              >
+                {{ program_intro }}
+              </p>
+
+            {% endif %}
+
+
+            {% if program_heading %}
+
+              <h2
+                class="cool-dark fw-normal mb-3"
+                id="program-preview-heading"
+              >
+                {{ program_heading }}
+              </h2>
+
+            {% endif %}
+
+
+            {% if not node.field_program_copy.isEmpty %}
+
+              <div class="mb-4">
+                {{ content.field_program_copy.0 }}
+              </div>
+
+            {% endif %}
+
+
+            {% if program_link
+              and program_link.title %}
+
+              <p class="mt-auto mb-0">
+
+                <a
+                  class="
+                    btn
+                    btn-ios
+                    btn-arrow
+                    cool-light-bg
+                  "
+                  href="{{ program_link.url }}"
+                >
+                  <small>
+                    {{ program_link.title }}
+                  </small>
+                </a>
+
+              </p>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+
+
+        <div class="col-12 col-lg-9 p-3 p-xl-4 d-flex">
+
+          {% if homepage_program_preview %}
+
+            <div
+              class="
+                ios-home-program-preview
+                bg-white
+                rounded-3
+                shadow
+                w-100
+                h-100
+                overflow-hidden
+                p-3
+                p-xl-4
+              "
+            >
+              {{ homepage_program_preview }}
+            </div>
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     WHAT'S NEW
+     ======================================================== #}
+
+  {% if homepage_news %}
+
+    <section
+      class="py-5"
+      aria-labelledby="homepage-news-heading"
+    >
+
+      <div class="container">
+
+        <div class="row justify-content-center">
+
+          <div class="col-12 col-xl-10">
+
+            <div class="warm-light-bg rounded-4 p-3 p-md-4">
+
+              <h2
+                class="h3 fw-bold warm mb-4"
+                id="homepage-news-heading"
+              >
+                <i
+                  class="fa-solid fa-newspaper me-2"
+                  aria-hidden="true"
+                ></i>
+                {{ "What's new?"|t }}
+              </h2>
+
+              {{ homepage_news }}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+
+
+  {# ========================================================
+     CALL TO ACTION
+     ======================================================== #}
+
+  {% if not node.field_call_to_action.isEmpty %}
+
+<section class="ios-home-cta py-5">
+
+  <div class="container-fluid px-4 px-xl-5">
+
+    <div
+      class="
+        cool-light-bg
+        rounded-4
+        p-4
+        p-lg-5
+        shadow
+      "
+    >
+
+      <div class="row justify-content-center">
+
+        <div class="col-12 col-xl-9">
+
+          <div class="fs-5">
+            {{ content.field_call_to_action.0 }}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     OUR PARTNERS
+     ======================================================== #}
+
+  {% if show_partners and homepage_sponsors %}
+
+    <section class="py-5" aria-labelledby="partners-heading">
+      <div class="container-fluid px-4 px-xl-5 py-lg-4">
+
+        <h2
+          id="partners-heading"
+          class="cool text-uppercase text-center fw-bold mb-5 ios-stacked-text-shadow"
+        >
+          {{ 'Our Partners'|t }}
+        </h2>
+
+        {{ homepage_sponsors }}
+
+      </div>
+    </section>
+
+  {% endif %}
+
+</article>

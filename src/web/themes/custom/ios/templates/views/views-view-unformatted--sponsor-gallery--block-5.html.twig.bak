@@ -1,0 +1,148 @@
+{#
+/**
+ * @file
+ * Responsive homepage partner carousel.
+ *
+ * View: sponsor_gallery
+ * Display: block_5 (Homepage Sponsors)
+ *
+ * Views continues to select, language-filter and sort partners by Sponsor
+ * Level taxonomy weight. The existing Views fields template renders each
+ * linked logo and translated partner name.
+ *
+ * Display sizes:
+ *   - Mobile (< 768px): two partners per slide
+ *   - Tablet (768px to 1199.98px): three partners per slide
+ *   - Desktop (>= 1200px): five partners per slide
+ *
+ * Twig cannot detect viewport width, so the three layouts have their own
+ * uniquely identified Bootstrap carousels. Bootstrap's display utilities
+ * keep the other two versions hidden from both sighted visitors and
+ * assistive technology. No JavaScript changes are needed.
+ *
+ * No autoplay. Navigation is omitted when there is only one slide.
+ */
+#}
+
+{% if rows %}
+
+  {#
+   * These three configurations share one template below. The existing
+   * desktop design stays five-across; tablet and mobile never wrap a slide
+   * into multiple rows.
+   #}
+  {% set partner_layouts = [
+    {
+      'id': 'partnersCarouselMobile',
+      'per_slide': 2,
+      'display_classes': 'd-block d-md-none',
+      'grid_classes': 'row-cols-2'
+    },
+    {
+      'id': 'partnersCarouselTablet',
+      'per_slide': 3,
+      'display_classes': 'd-none d-md-block d-xl-none',
+      'grid_classes': 'row-cols-3'
+    },
+    {
+      'id': 'partnersCarousel',
+      'per_slide': 5,
+      'display_classes': 'd-none d-xl-block',
+      'grid_classes': 'row-cols-5'
+    }
+  ] %}
+
+  {% for layout in partner_layouts %}
+
+    {% set partner_groups = rows|batch(layout.per_slide) %}
+    {% set partner_group_count = partner_groups|length %}
+
+    <div
+      id="{{ layout.id }}"
+      class="carousel slide ios-carousel px-5 {{ layout.display_classes }}"
+      data-bs-interval="false"
+      role="region"
+      aria-roledescription="{{ 'carousel'|t }}"
+      aria-label="{{ 'Partner organizations'|t }}"
+    >
+
+      {% if partner_group_count > 1 %}
+        <div class="carousel-indicators">
+          {% for group in partner_groups %}
+            <button
+              type="button"
+              data-bs-target="#{{ layout.id }}"
+              data-bs-slide-to="{{ loop.index0 }}"
+              style="width: 1.5rem; height: 1.5rem; background-color: transparent; position: relative;"
+              {% if loop.first %}
+                class="active"
+                aria-current="true"
+              {% endif %}
+              aria-label="{{ 'Show partner group @number of @total'|t({'@number': loop.index, '@total': partner_group_count}) }}"
+            >
+              <span
+                class="position-absolute top-50 start-50 translate-middle rounded-circle warm-bg"
+                style="width: 0.65rem; height: 0.65rem;"
+                aria-hidden="true"
+              ></span>
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="carousel-inner px-2" aria-live="polite">
+
+        {% for group in partner_groups %}
+          <div
+            class="carousel-item{% if loop.first %} active{% endif %}"
+            role="group"
+            aria-roledescription="{{ 'slide'|t }}"
+            aria-label="{{ 'Partner group @number of @total'|t({'@number': loop.index, '@total': partner_group_count}) }}"
+          >
+
+            <div class="row {{ layout.grid_classes }} g-4 align-items-stretch justify-content-center">
+
+              {% for row in group %}
+                {% set row_classes = ['col', 'd-flex'] %}
+                {% if default_row_class|default(false) %}
+                  {% set row_classes = row_classes|merge(['views-row']) %}
+                {% endif %}
+
+                <div{{ row.attributes.addClass(row_classes) }}>
+                  {{ row.content }}
+                </div>
+              {% endfor %}
+
+            </div>
+          </div>
+        {% endfor %}
+
+      </div>
+
+      {% if partner_group_count > 1 %}
+        <button
+          class="carousel-control-prev start-0"
+          type="button"
+          data-bs-target="#{{ layout.id }}"
+          data-bs-slide="prev"
+        >
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          <span class="visually-hidden">{{ 'Previous partners'|t }}</span>
+        </button>
+
+        <button
+          class="carousel-control-next end-0"
+          type="button"
+          data-bs-target="#{{ layout.id }}"
+          data-bs-slide="next"
+        >
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          <span class="visually-hidden">{{ 'Next partners'|t }}</span>
+        </button>
+      {% endif %}
+
+    </div>
+
+  {% endfor %}
+
+{% endif %}

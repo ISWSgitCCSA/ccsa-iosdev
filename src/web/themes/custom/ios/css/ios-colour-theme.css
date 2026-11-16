@@ -1947,6 +1947,35 @@ html[data-ios-theme="dark"] .btn-ios.cool-dark {
     var(--ios-theme-border);
 }
 
+/*
+ * Dark mode: saturated IOS button hover and focus.
+ * Ensures both the text and background switch together.
+ */
+
+html[data-ios-theme="dark"] a.btn-ios:is(
+  .warm-bg,
+  .warm-dark-bg,
+  .cool-bg,
+  .cool-dark-bg,
+  .warm,
+  .warm-dark,
+  .cool,
+  .cool-dark
+):hover,
+html[data-ios-theme="dark"] a.btn-ios:is(
+  .warm-bg,
+  .warm-dark-bg,
+  .cool-bg,
+  .cool-dark-bg,
+  .warm,
+  .warm-dark,
+  .cool,
+  .cool-dark
+):focus-visible {
+  color: var(--ios-btn-hover-color);
+  background-color: var(--ios-btn-hover-bg);
+  border-color: var(--ios-btn-hover-border);
+}
 
 /* ==========================================================
    LIGHT PALETTE BACKGROUNDS BECOME NIGHT SURFACES
@@ -2756,4 +2785,13 @@ html[data-ios-theme="dark"] .carousel-indicators [data-bs-target]:focus-visible 
 
   outline-offset:
     3px;
+}
+
+/* ==========================================================
+   DARK MODE - LOGO BACKGROUND
+   ========================================================== */
+
+html[data-ios-theme="dark"] .ios-brand-surface {
+  background-color: var(--ios-palette-night-cool-light);
+  border-radius: 1.5em;
 }

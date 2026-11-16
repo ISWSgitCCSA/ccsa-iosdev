@@ -1,0 +1,71 @@
+{#
+/**
+ * @file
+ * Field layout for each Activity in the Homepage Program Preview View.
+ *
+ * View:
+ *   Homepage Program Preview
+ *
+ * Machine name:
+ *   homepage_program_preview
+ *
+ * Display:
+ *   block_1
+ *
+ * The hidden first Start Date/Time field is used by Views for grouping.
+ * The visible duplicate normally receives the _1 suffix, with a fallback
+ * to the unsuffixed field for resilience if the View field order changes.
+ */
+#}
+
+{% set start_time =
+  fields.field_start_date_time_1
+  ?? fields.field_start_date_time
+  ?? null
+%}
+
+{% set end_time =
+  fields.field_end_date_time
+  ?? null
+%}
+
+{% set activity_title =
+  fields.title
+  ?? null
+%}
+
+<div class="row g-2 align-items-center">
+
+  <div class="col-4 col-sm-3">
+
+    {% if start_time %}
+      <div class="small fw-semibold cool-dark lh-sm">
+        <span class="visually-hidden">
+          {{ 'Start time:'|t }}
+        </span>
+        {{ start_time.content }}
+      </div>
+    {% endif %}
+
+    {% if end_time %}
+      <div class="small text-body-secondary lh-sm mt-1">
+        <span class="visually-hidden">
+          {{ 'End time:'|t }}
+        </span>
+        {{ end_time.content }}
+      </div>
+    {% endif %}
+
+  </div>
+
+  <div class="col-8 col-sm-9">
+
+    {% if activity_title %}
+      <div class="fw-semibold lh-sm">
+        {{ activity_title.content }}
+      </div>
+    {% endif %}
+
+  </div>
+
+</div>

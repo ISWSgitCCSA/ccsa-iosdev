@@ -129,6 +129,7 @@
    SOCIAL SHARING
    ========================================================== #}
 
+{# Render Drupal's URL render array to a string before encoding it. #}
 {% set news_share_url =
   url(
     '<current>',
@@ -136,7 +137,7 @@
     {
       'absolute': true
     }
-  )
+  )|render|trim
 %}
 
 {% set news_share_title =
@@ -177,7 +178,6 @@
     class="
       ios-page-header
       ios-page-header--medium
-      ios-speaker-page__header
       ios-news-page__header
     "
     aria-labelledby="news-page-title"
@@ -203,57 +203,35 @@
 
     <div class="ios-page-header__content">
 
-      <div class="ios-page-header__copy">
+      {#
+        When an editorial image is present, keep it beside the title.
+        The title itself retains the universal medium header's width limit.
+      #}
+      {% if featured_image_uri %}
 
+        <div class="row g-4 align-items-center">
 
-        {# ==================================================
-           NEWS HEADER LAYOUT
-           ================================================== #}
+          <div class="col-12 col-md-4 col-lg-3">
 
-        <div
-          class="
-            ios-speaker-page__profile
-            {% if not featured_image_uri %}d-block{% endif %}
-          "
-        >
-
-          {% if featured_image_uri %}
-
-            <div
-              class="
-                ios-speaker-page__profile-media
-                d-flex
-                align-items-start
-                justify-content-start
+            <img
+              class="img-fluid rounded"
+              src="{{ file_url(featured_image_uri) }}"
+              alt="{{ featured_image_alt }}"
+              style="
+                width: auto;
+                max-width: 100%;
+                max-height: 22rem;
+                object-fit: contain;
               "
-            >
+            />
 
-              <img
-                class="
-                  img-fluid
-                  rounded
-                "
-                src="{{ file_url(featured_image_uri) }}"
-                alt="{{ featured_image_alt }}"
-                style="
-                  width: auto;
-                  max-width: 100%;
-                  max-height: 22rem;
-                  object-fit: contain;
-                "
-              />
+          </div>
 
-            </div>
+          <div class="col-12 col-md-8 col-lg-9">
 
-          {% endif %}
+      {% endif %}
 
-
-          <div
-            class="
-              ios-speaker-page__profile-copy
-              mw-100
-            "
-          >
+      <div class="ios-page-header__copy">
 
             <p
               class="
@@ -514,11 +492,15 @@
 
             </div>
 
+      </div>
+
+      {% if featured_image_uri %}
+
           </div>
 
         </div>
 
-      </div>
+      {% endif %}
 
     </div>
 

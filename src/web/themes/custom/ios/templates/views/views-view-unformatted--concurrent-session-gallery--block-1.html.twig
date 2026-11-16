@@ -1,0 +1,145 @@
+{#
+/**
+ * @file
+ * Unformatted-list output for the Concurrent Session Gallery block.
+ *
+ * View:
+ *   Concurrent Session Gallery
+ *
+ * Machine name:
+ *   concurrent_session_gallery
+ *
+ * Display:
+ *   block_1
+ *
+ * The View owns:
+ *   - selecting Sessions for the current Concurrent Session taxonomy term
+ *   - language filtering
+ *   - published-status filtering
+ *   - sorting
+ *   - rendering each result using the Session Card view mode
+ *
+ * This template owns only the reusable card-carousel presentation.
+ *
+ * Accessibility:
+ *   - no auto-advance
+ *   - previous/next controls are real buttons
+ *   - off-screen cards are managed by the shared carousel JS
+ *   - indicators and status text are generated accessibly
+ */
+#}
+
+{{ attach_library('ios/card-carousel') }}
+
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+
+{% if rows %}
+
+  {% set session_count = rows|length %}
+
+  {#
+    The contextual taxonomy argument makes this value different
+    for Concurrent Session A, B, C, etc., so multiple carousels
+    on the same program page do not share an ID.
+  #}
+  {% set concurrent_session_argument =
+    view.args[0]|default('sessions')
+  %}
+
+  {% set carousel_id =
+    'concurrentSessionCarousel-' ~ concurrent_session_argument
+  %}
+
+  <div
+    id="{{ carousel_id }}"
+    class="ios-carousel ios-carousel--cards w-100"
+    data-ios-card-carousel
+    data-ios-card-carousel-label="{{ 'sessions'|t }}"
+    role="region"
+    aria-roledescription="{{ 'carousel'|t }}"
+    aria-label="{{ 'Concurrent sessions'|t }}"
+  >
+
+    <div
+      class="ios-card-carousel__viewport"
+      data-ios-card-carousel-viewport
+    >
+
+      <div
+        class="ios-card-carousel__track"
+        data-ios-card-carousel-track
+      >
+
+        {% for row in rows %}
+
+          {% set row_classes = [
+            default_row_class ? 'views-row',
+            'ios-card-carousel__item'
+          ] %}
+
+          <div
+            {{ row.attributes.addClass(row_classes) }}
+            data-ios-card-carousel-item
+            role="group"
+            aria-roledescription="{{ 'slide'|t }}"
+            aria-label="{{ 'Session'|t }} {{ loop.index }} {{ 'of'|t }} {{ session_count }}"
+          >
+            {{ row.content }}
+          </div>
+
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+    <div
+      class="carousel-indicators"
+      data-ios-card-carousel-indicators
+      aria-label="{{ 'Choose session page'|t }}"
+    ></div>
+
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-ios-card-carousel-prev
+      aria-controls="{{ carousel_id }}"
+    >
+      <i
+        class="fa-solid fa-chevron-left"
+        aria-hidden="true"
+      ></i>
+
+      <span class="visually-hidden">
+        {{ 'Previous sessions'|t }}
+      </span>
+    </button>
+
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-ios-card-carousel-next
+      aria-controls="{{ carousel_id }}"
+    >
+      <i
+        class="fa-solid fa-chevron-right"
+        aria-hidden="true"
+      ></i>
+
+      <span class="visually-hidden">
+        {{ 'Next sessions'|t }}
+      </span>
+    </button>
+
+    <div
+      class="ios-card-carousel__status"
+      data-ios-card-carousel-status
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+
+  </div>
+
+{% endif %}

@@ -59,10 +59,18 @@
 {% macro add_link(item, attributes, menu_level) %}
   {% import _self as menus %}
 
+  {#
+    Use item.below, rather than item.is_expanded, to determine whether
+    this rendered menu item owns a visible submenu.
+
+    This matters for second-level parents. The CSS that exposes a
+    third-level submenu on desktop expects the parent <li> to have
+    the .dropdown class.
+  #}
   {%
     set list_item_classes = [
       'nav-item',
-      item.is_expanded ? 'dropdown'
+      item.below ? 'dropdown'
     ]
   %}
 
@@ -70,8 +78,7 @@
     set link_class = [
       menu_level == 0 ? 'nav-link',
       item.in_active_trail ? 'active',
-      menu_level == 0 and (item.is_expanded or item.is_collapsed)
-        ? 'dropdown-toggle',
+      menu_level == 0 and item.below ? 'dropdown-toggle',
       menu_level > 0 ? 'dropdown-item',
     ]
   %}
@@ -94,12 +101,6 @@
         )
       }}
 
-      {{ menus.build_menu(
-        item.below,
-        attributes,
-        menu_level + 1
-      ) }}
-
     {% else %}
 
       {{
@@ -112,6 +113,21 @@
         )
       }}
 
+    {% endif %}
+
+    {#
+      Recurse at every level.
+
+      The earlier version only rendered item.below for top-level items,
+      so third-level links never reached the HTML. This call keeps
+      rendering descendants for any item Drupal has supplied.
+    #}
+    {% if item.below %}
+      {{ menus.build_menu(
+        item.below,
+        attributes,
+        menu_level + 1
+      ) }}
     {% endif %}
 
   </li>

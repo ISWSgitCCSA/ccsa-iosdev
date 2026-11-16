@@ -7,8 +7,32 @@
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Drupal\media\MediaInterface;
 use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_preprocess_html().
+ *
+ * Loads Google Analytics only on production domains.
+ */
+function ios_preprocess_html(array &$variables): void {
+  $production_hosts = [
+    'issuesofsubstance.ca',
+    'www.issuesofsubstance.ca',
+  ];
+
+  $hostname = \Drupal::request()->getHost();
+
+  $variables['load_google_analytics'] = in_array(
+    $hostname,
+    $production_hosts,
+    TRUE
+  );
+}
+
 
 /**
  * Implements hook_preprocess_page().
@@ -114,7 +138,7 @@ function ios_theme_suggestions_block_alter(
 /**
  * Implements hook_preprocess_node().
  *
- * Provides presentation data for Session, Speaker and News templates.
+ * Provides presentation data for Program Page, Session, Speaker and News templates.
  */
 function ios_preprocess_node(array &$variables): void {
   $node = $variables['node'] ?? NULL;
@@ -122,6 +146,42 @@ function ios_preprocess_node(array &$variables): void {
 
   if (!$node instanceof NodeInterface) {
     return;
+  }
+
+  /*
+   * --------------------------------------------------------
+   * OPTIONAL BANNER PHOTO CREDIT, ALL FULL NODE PAGES
+   * --------------------------------------------------------
+   *
+   * Make the Media credit available to any full-node Twig template that
+   * references field_banner_image. Templates are responsible for placing
+   * the credit visibly in their particular banner layout.
+   *
+   * Use the URL language on a bilingual /fr page. This avoids a mismatch
+   * when the current content language is still negotiated as English.
+   */
+  if ($view_mode === 'full') {
+    $variables['ios_banner_photo_credit'] = '';
+    $variables['elements']['#cache']['contexts'][] = 'languages:language_url';
+
+    if (
+      $node->hasField('field_banner_image') &&
+      !$node->get('field_banner_image')->isEmpty()
+    ) {
+      $banner_media = $node->get('field_banner_image')->first()->entity;
+
+      if ($banner_media instanceof MediaInterface) {
+        $banner_langcode = \Drupal::languageManager()
+          ->getCurrentLanguage(LanguageInterface::TYPE_URL)
+          ->getId();
+
+        $variables['ios_banner_photo_credit'] = ios_get_media_photo_credit(
+          $banner_media,
+          $banner_langcode,
+          $variables['elements']
+        );
+      }
+    }
   }
 
   /*
@@ -136,6 +196,8 @@ function ios_preprocess_node(array &$variables): void {
     $node->bundle() === 'speaker' &&
     $view_mode === 'full'
   ) {
+    // Related cards can contain unpublished content visible to this editor.
+    $variables['elements']['#cache']['contexts'][] = 'user';
     $variables['speaker_session_cards'] = [];
 
     if (
@@ -145,6 +207,35 @@ function ios_preprocess_node(array &$variables): void {
       $variables['speaker_session_cards'] =
         ios_build_session_cards(
           $node->get('field_activity_session')->referencedEntities()
+        );
+    }
+
+    return;
+  }
+
+  /*
+   * --------------------------------------------------------
+   * FULL SPONSOR
+   * --------------------------------------------------------
+   *
+   * Sponsor editors manually select Speaker nodes through
+   * field_speakers. Render those references using the existing
+   * Speaker Card view mode so the same card component is reused
+   * everywhere on the site.
+   */
+  if (
+    $node->bundle() === 'sponsor' &&
+    $view_mode === 'full'
+  ) {
+    $variables['sponsor_speaker_cards'] = [];
+
+    if (
+      $node->hasField('field_speakers') &&
+      !$node->get('field_speakers')->isEmpty()
+    ) {
+      $variables['sponsor_speaker_cards'] =
+        ios_build_speaker_cards(
+          $node->get('field_speakers')->referencedEntities()
         );
     }
 
@@ -205,6 +296,15 @@ function ios_preprocess_node(array &$variables): void {
     $view_mode === 'program_card'
   ) {
     $variables['activity_concurrent_gallery'] = [];
+
+    /*
+     * Concise Body text for collection-card use.
+     *
+     * Prefer an editor-written Body summary. Otherwise create a word-safe
+     * plain-text excerpt so a long Activity Body cannot dominate the program.
+     */
+    $variables['activity_program_summary'] =
+      ios_get_card_summary($node, 180);
 
     /*
      * Date/time values for the program rail.
@@ -330,6 +430,160 @@ function ios_preprocess_node(array &$variables): void {
     return;
   }
 
+  /*
+   * --------------------------------------------------------
+   * FULL PROGRAM PAGE
+   * --------------------------------------------------------
+   *
+   * The Program Page node owns the editable page content and hero.
+   * The existing Conference Program View continues to own schedule
+   * selection, filtering, sorting and row rendering.
+   */
+  if (
+    $node->bundle() === 'program_page' &&
+    $view_mode === 'full'
+  ) {
+    $variables['conference_program'] = [
+      '#type' => 'view',
+      '#name' => 'conference_program',
+      '#display_id' => 'block_1',
+    ];
+
+    return;
+  }
+
+  /*
+   * --------------------------------------------------------
+   * FULL SPONSOR GALLERY PAGE
+   * --------------------------------------------------------
+   *
+   * The Sponsor Gallery node owns the editable page content and hero.
+   * The Sponsor Gallery View owns sponsor selection, taxonomy filtering,
+   * grouping and row rendering. Separate block displays preserve the
+   * four established levels of visual prominence.
+   */
+  if (
+    $node->bundle() === 'sponsor_gallery' &&
+    $view_mode === 'full'
+  ) {
+    $sponsor_displays = [
+      'sponsor_gallery_national' => 'block_1',
+      'sponsor_gallery_provincial' => 'block_2',
+      'sponsor_gallery_silver' => 'block_3',
+      'sponsor_gallery_other' => 'block_4',
+    ];
+
+    foreach ($sponsor_displays as $variable_name => $display_id) {
+      $variables[$variable_name] = [
+        '#type' => 'view',
+        '#name' => 'sponsor_gallery',
+        '#display_id' => $display_id,
+      ];
+    }
+
+    return;
+  }
+
+  /*
+   * --------------------------------------------------------
+   * FULL HOME PAGE
+   * --------------------------------------------------------
+   *
+   * Homepage Views own their content selection, language filtering,
+   * ordering and field output. The Home page template is responsible
+   * only for placing those render arrays in the established layout.
+   */
+  if (
+    $node->bundle() === 'home_page' &&
+    $view_mode === 'full'
+  ) {
+    /*
+     * The homepage banner is handled by the common full-page logic above.
+     * Preserve the existing Twig variable name for backward compatibility.
+     * Destination images use the same URL-language selection.
+     */
+    $photo_credit_langcode = \Drupal::languageManager()
+      ->getCurrentLanguage(LanguageInterface::TYPE_URL)
+      ->getId();
+    $variables['homepage_banner_photo_credit'] =
+      $variables['ios_banner_photo_credit'];
+
+    $homepage_single_photo_fields = [
+      'field_destination_primary_image' => 'homepage_destination_primary_photo_credit',
+    ];
+
+    foreach ($homepage_single_photo_fields as $field_name => $variable_name) {
+      $variables[$variable_name] = '';
+
+      if (
+        !$node->hasField($field_name) ||
+        $node->get($field_name)->isEmpty()
+      ) {
+        continue;
+      }
+
+      $media = $node->get($field_name)->first()->entity;
+
+      if ($media instanceof MediaInterface) {
+        $variables[$variable_name] = ios_get_media_photo_credit(
+          $media,
+          $photo_credit_langcode,
+          $variables['elements']
+        );
+      }
+    }
+
+    $variables['homepage_destination_supporting_photo_credits'] = [];
+
+    if (
+      $node->hasField('field_destination_supporting_ima') &&
+      !$node->get('field_destination_supporting_ima')->isEmpty()
+    ) {
+      foreach (
+        $node->get('field_destination_supporting_ima') as $delta => $item
+      ) {
+        $media = $item->entity;
+
+        $variables['homepage_destination_supporting_photo_credits'][$delta] =
+          $media instanceof MediaInterface
+            ? ios_get_media_photo_credit(
+              $media,
+              $photo_credit_langcode,
+              $variables['elements']
+            )
+            : '';
+      }
+    }
+
+    $variables['homepage_featured_speakers'] = [
+      '#type' => 'view',
+      '#name' => 'homepage_featured_speakers',
+      '#display_id' => 'block_1',
+    ];
+
+    $variables['homepage_program_preview'] = [
+      '#type' => 'view',
+      '#name' => 'homepage_program_preview',
+      '#display_id' => 'block_1',
+    ];
+
+    $variables['homepage_news'] = [
+      '#type' => 'view',
+      '#name' => 'homepage_news',
+      '#display_id' => 'block_1',
+    ];
+
+    // Homepage logo carousel: one Sponsor Gallery display, ordered by
+    // Sponsor Level taxonomy weight in the View configuration.
+    $variables['homepage_sponsors'] = [
+      '#type' => 'view',
+      '#name' => 'sponsor_gallery',
+      '#display_id' => 'block_5',
+    ];
+
+    return;
+  }
+
   if ($node->bundle() !== 'session') {
     return;
   }
@@ -340,6 +594,11 @@ function ios_preprocess_node(array &$variables): void {
    * --------------------------------------------------------
    */
   if ($view_mode === 'full') {
+    // Draft visibility is permission-specific. Never share this rendered
+    // related-content result between users with different access rights.
+    $variables['elements']['#cache']['contexts'][] = 'user';
+    // Invalidate recommendations when Sessions or Speakers are saved.
+    $variables['elements']['#cache']['tags'][] = 'node_list';
     $variables['session_speakers'] = [];
     $variables['related_session_cards'] = [];
 
@@ -391,11 +650,78 @@ function ios_preprocess_node(array &$variables): void {
      * Related Sessions.
      *
      * Manual selections take priority. When the field is empty, the theme
-     * falls back to automatic relationships based on Concurrent Track and
-     * shared Speakers.
+     * falls back to automatic relationships based on the Concurrent Session
+     * taxonomy reference and shared Speakers.
      */
     $variables['related_session_cards'] =
       ios_build_related_session_cards($node);
+
+    return;
+  }
+
+  /*
+   * --------------------------------------------------------
+   * SESSION PROGRAM CARD
+   * --------------------------------------------------------
+   *
+   * Standalone Sessions participate directly in the Conference Program
+   * View. Prepare the same localized date/time values used elsewhere, plus
+   * the translated Activity Type and speaker names needed by the rail card.
+   */
+  if ($view_mode === 'program_card') {
+    $variables['session_start_timestamp'] =
+      ios_get_datetime_timestamp(
+        $node,
+        'field_start_date_time'
+      );
+
+    $variables['session_end_timestamp'] =
+      ios_get_datetime_timestamp(
+        $node,
+        'field_end_date_time'
+      );
+
+    $variables['session_start_datetime'] =
+      ios_get_datetime_iso(
+        $node,
+        'field_start_date_time'
+      );
+
+    $variables['session_end_datetime'] =
+      ios_get_datetime_iso(
+        $node,
+        'field_end_date_time'
+      );
+
+    $variables['session_program_speaker'] =
+      ios_get_primary_session_speaker((int) $node->id());
+
+    $variables['session_program_summary'] =
+      ios_get_card_summary($node, 250);
+
+    $variables['session_activity_type_label'] = '';
+    $variables['session_activity_type_class'] =
+      'ccsa-medium-accent-bg';
+
+    if (
+      $node->hasField('field_activity_type') &&
+      !$node->get('field_activity_type')->isEmpty()
+    ) {
+      $activity_type =
+        $node->get('field_activity_type')->entity;
+
+      if ($activity_type) {
+        $translated_activity_type =
+          \Drupal::service('entity.repository')
+            ->getTranslationFromContext($activity_type);
+
+        $variables['session_activity_type_label'] =
+          $translated_activity_type->label();
+
+        $variables['session_activity_type_class'] =
+          ios_session_type_colour($activity_type);
+      }
+    }
 
     return;
   }
@@ -408,6 +734,9 @@ function ios_preprocess_node(array &$variables): void {
   if ($view_mode === 'session_card') {
     $variables['session_card_speaker_names'] =
       ios_get_session_speaker_names((int) $node->id());
+
+    $variables['session_card_summary'] =
+      ios_get_card_summary($node, 180);
 
     $variables['session_activity_type_label'] = '';
     $variables['session_activity_type_class'] =
@@ -442,6 +771,41 @@ function ios_preprocess_node(array &$variables): void {
 }
 
 /**
+ * Returns the optional Photo credit from a Media item in the page language.
+ *
+ * This helper is reusable in other IOS templates that output a raw image
+ * URL instead of rendering a complete Media entity/view mode.
+ *
+ * The Media entity remains the single place editors maintain the credit.
+ * Cache dependencies are attached to the current node render array so a
+ * change to the Media item invalidates its displayed credit.
+ */
+function ios_get_media_photo_credit(
+  MediaInterface $media,
+  string $langcode,
+  array &$elements
+): string {
+  CacheableMetadata::createFromObject($media)->applyTo($elements);
+
+  // Prefer the exact requested translation when it exists. In particular,
+  // a French URL should not accidentally display the English Media field.
+  $translated_media = $media->hasTranslation($langcode)
+    ? $media->getTranslation($langcode)
+    : \Drupal::service('entity.repository')
+      ->getTranslationFromContext($media, $langcode);
+
+  if (
+    !$translated_media instanceof MediaInterface ||
+    !$translated_media->hasField('field_photo_credit') ||
+    $translated_media->get('field_photo_credit')->isEmpty()
+  ) {
+    return '';
+  }
+
+  return trim((string) $translated_media->get('field_photo_credit')->value);
+}
+
+/**
  * Prepares presentation data for the reusable News Card view mode.
  *
  * The card uses:
@@ -472,7 +836,7 @@ function ios_prepare_news_card_variables(
     ios_get_news_publication_datetime($node);
 
   $variables['news_card_summary'] =
-    ios_get_news_card_summary($node);
+    ios_get_card_summary($node, 180);
 
   if (
     !$node->hasField('field_news_category') ||
@@ -614,12 +978,13 @@ function ios_get_news_publication_datetime(
 }
 
 /**
- * Gets the concise blurb used by News cards.
+ * Gets concise plain-text Body content for collection cards.
  *
- * Editors can write an intentional Body summary. If they leave Summary blank,
- * the theme creates a word-safe plain-text excerpt from the Body.
+ * An editor-written Body summary takes priority. If Summary is empty, the
+ * theme creates a word-safe plain-text excerpt from the Body. Full node pages
+ * continue to render the complete Body and are not affected by this helper.
  */
-function ios_get_news_card_summary(
+function ios_get_card_summary(
   NodeInterface $node,
   int $length = 180
 ): string {
@@ -630,17 +995,13 @@ function ios_get_news_card_summary(
     return '';
   }
 
-  $body_item =
-    $node->get('body')->first();
+  $body_item = $node->get('body')->first();
 
   if (!$body_item) {
     return '';
   }
 
-  $summary =
-    trim(
-      (string) ($body_item->summary ?? '')
-    );
+  $summary = trim((string) ($body_item->summary ?? ''));
 
   $source_text =
     $summary !== ''
@@ -652,9 +1013,8 @@ function ios_get_news_card_summary(
   }
 
   /*
-   * Preserve spacing between block-level elements before removing markup.
-   * Without this, adjacent paragraphs can collapse into strings such as
-   * "disturbances.Residents" in an automatically generated excerpt.
+   * Preserve spacing between common block-level elements before stripping
+   * markup so adjacent paragraphs do not collapse into one word.
    */
   $source_text =
     preg_replace(
@@ -682,8 +1042,7 @@ function ios_get_news_card_summary(
       $plain_text
     ) ?? $plain_text;
 
-  $plain_text =
-    trim($plain_text);
+  $plain_text = trim($plain_text);
 
   if ($plain_text === '') {
     return '';
@@ -1097,8 +1456,8 @@ function ios_get_datetime_iso(
  * Builds translated Speaker Card render arrays for a Session.
  *
  * Each Speaker node is loaded once by node ID. Drupal then selects the
- * translation appropriate to the current page language before the existing
- * Speaker Card view mode is rendered.
+ * translation appropriate to the current page language before the
+ * Speaker Compact Card view mode is rendered.
  *
  * Speakers are ordered by Speaker Type taxonomy weight, then translated name.
  */
@@ -1116,10 +1475,6 @@ function ios_build_session_speaker_cards(
       ->condition(
         'type',
         'speaker'
-      )
-      ->condition(
-        'status',
-        1
       )
       ->condition(
         'field_activity_session.target_id',
@@ -1161,7 +1516,7 @@ function ios_build_session_speaker_cards(
     if (
       !$speaker instanceof NodeInterface ||
       $speaker->bundle() !== 'speaker' ||
-      !$speaker->isPublished()
+      !$speaker->access('view')
     ) {
       continue;
     }
@@ -1244,6 +1599,8 @@ function ios_build_session_speaker_cards(
     '#attributes' => [
       'class' => [
         'ios-session-speaker-list',
+        'd-grid',
+        'gap-3',
       ],
     ],
   ];
@@ -1264,19 +1621,70 @@ function ios_build_session_speaker_cards(
 
       '#attributes' => [
         'class' => [
-          'mb-3',
+          'w-100',
         ],
       ],
 
       'card' =>
         $view_builder->view(
           $translated_speaker,
-          'speaker_card'
+          'speaker_compact_card'
         ),
     ];
   }
 
   return $build;
+}
+
+/**
+ * Builds Speaker Card render arrays from Speaker entities.
+ *
+ * Used by Sponsor pages for Speakers selected manually through
+ * field_speakers. The editor-selected order is preserved. Drupal selects
+ * the translation appropriate to the current page language before the
+ * existing Speaker Card view mode is rendered.
+ */
+function ios_build_speaker_cards(
+  array $speakers
+): array {
+  if (!$speakers) {
+    return [];
+  }
+
+  $entity_repository =
+    \Drupal::service(
+      'entity.repository'
+    );
+
+  $view_builder =
+    \Drupal::entityTypeManager()
+      ->getViewBuilder('node');
+
+  $cards = [];
+
+  foreach ($speakers as $speaker) {
+    if (
+      !$speaker instanceof NodeInterface ||
+      $speaker->bundle() !== 'speaker' ||
+      !$speaker->isPublished()
+    ) {
+      continue;
+    }
+
+    $translated_speaker =
+      $entity_repository
+        ->getTranslationFromContext(
+          $speaker
+        );
+
+    $cards[] =
+      $view_builder->view(
+        $translated_speaker,
+        'speaker_compact_card'
+      );
+  }
+
+  return $cards;
 }
 
 /**
@@ -1313,7 +1721,7 @@ function ios_build_session_cards(
       !$session instanceof NodeInterface ||
       $session->bundle()
         !== 'session' ||
-      !$session->isPublished()
+      !$session->access('view')
     ) {
       continue;
     }
@@ -1332,6 +1740,10 @@ function ios_build_session_cards(
           $session
         );
 
+    if (!$translated_session->access('view')) {
+      continue;
+    }
+
     $cards[] =
       $view_builder->view(
         $translated_session,
@@ -1348,7 +1760,7 @@ function ios_build_session_cards(
  * Manual field selections take priority. If there are no manual selections,
  * automatic candidates are scored using:
  *
- * - Same Concurrent Track: 2 points.
+ * - Same Concurrent Session taxonomy term: 2 points.
  * - Shared Speaker: 1 point.
  *
  * Automatic results exclude the current session, remove duplicates, and are
@@ -1428,12 +1840,12 @@ function ios_get_automatic_related_session_ids(
   $scores = [];
 
   /*
-   * Same Concurrent Track is the strongest automatic relationship.
+   * The same Concurrent Session taxonomy term is the strongest match.
    */
   foreach (
     ios_get_sessions_sharing_field(
       $node,
-      'field_concurrent_track'
+      'field_concurrent_session'
     ) as $session_id
   ) {
     $scores[$session_id] =
@@ -1490,7 +1902,7 @@ function ios_get_automatic_related_session_ids(
       !$candidate instanceof NodeInterface ||
       $candidate->bundle()
         !== 'session' ||
-      !$candidate->isPublished()
+      !$candidate->access('view')
     ) {
       continue;
     }
@@ -1565,9 +1977,9 @@ function ios_get_automatic_related_session_ids(
 /**
  * Finds other Sessions sharing a field value with this session.
  *
- * The field's main storage property is detected automatically, so this works
- * whether Concurrent Track is stored as an entity reference or another
- * single-value field type.
+ * The field's main storage property is detected automatically. For the
+ * Concurrent Session taxonomy reference, this is target_id.
+ * Only nodes the current user can view are returned.
  */
 function ios_get_sessions_sharing_field(
   NodeInterface $node,
@@ -1637,10 +2049,6 @@ function ios_get_sessions_sharing_field(
         'session'
       )
       ->condition(
-        'status',
-        1
-      )
-      ->condition(
         'nid',
         (int) $node->id(),
         '<>'
@@ -1680,10 +2088,6 @@ function ios_get_sessions_sharing_speakers(
         'speaker'
       )
       ->condition(
-        'status',
-        1
-      )
-      ->condition(
         'field_activity_session.target_id',
         (int) $node->id()
       )
@@ -1705,6 +2109,9 @@ function ios_get_sessions_sharing_speakers(
     as $speaker
   ) {
     if (
+      !$speaker instanceof NodeInterface ||
+      $speaker->bundle() !== 'speaker' ||
+      !$speaker->access('view') ||
       !$speaker->hasField(
         'field_activity_session'
       ) ||
@@ -1856,8 +2263,198 @@ function ios_get_session_speaker_names(
     $speaker_data,
     'name'
   );
-}/**
- * Adds the scheduled time span for the currently displayed concurrent term.
+}
+
+/**
+ * Gets the highest-priority translated Speaker associated with a Session.
+ *
+ * Speaker Type taxonomy weight determines priority. Lower taxonomy weights
+ * sort first. Speaker name is used only as a stable tie-breaker.
+ */
+function ios_get_primary_session_speaker(
+  int $session_id
+): ?NodeInterface {
+  $storage =
+    \Drupal::entityTypeManager()
+      ->getStorage('node');
+
+  $speaker_ids =
+    $storage
+      ->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'speaker')
+      ->condition('status', 1)
+      ->condition(
+        'field_activity_session.target_id',
+        $session_id
+      )
+      ->execute();
+
+  if (!$speaker_ids) {
+    return NULL;
+  }
+
+  $speakers =
+    $storage->loadMultiple($speaker_ids);
+
+  $entity_repository =
+    \Drupal::service('entity.repository');
+
+  $speaker_data = [];
+
+  foreach ($speakers as $speaker) {
+    if (
+      !$speaker instanceof NodeInterface ||
+      $speaker->bundle() !== 'speaker' ||
+      !$speaker->isPublished()
+    ) {
+      continue;
+    }
+
+    $translated_speaker =
+      $entity_repository->getTranslationFromContext($speaker);
+
+    $speaker_type_weight = 999;
+
+    if (
+      $translated_speaker->hasField('field_speaker_type') &&
+      !$translated_speaker->get('field_speaker_type')->isEmpty()
+    ) {
+      $speaker_type =
+        $translated_speaker->get('field_speaker_type')->entity;
+
+      if (
+        $speaker_type &&
+        method_exists($speaker_type, 'getWeight')
+      ) {
+        $speaker_type_weight = $speaker_type->getWeight();
+      }
+    }
+
+    $speaker_data[] = [
+      'entity' => $translated_speaker,
+      'weight' => $speaker_type_weight,
+      'name' => $translated_speaker->label(),
+    ];
+  }
+
+  if (!$speaker_data) {
+    return NULL;
+  }
+
+  usort(
+    $speaker_data,
+    static function (array $a, array $b): int {
+      $weight_comparison = $a['weight'] <=> $b['weight'];
+
+      if ($weight_comparison !== 0) {
+        return $weight_comparison;
+      }
+
+      return strcasecmp($a['name'], $b['name']);
+    }
+  );
+
+  return $speaker_data[0]['entity'];
+}
+
+/**
+ * Groups Conference Program View rows into date-based tab panels.
+ *
+ * The View remains responsible for filtering and chronological sorting. This
+ * preprocess step only groups the already-returned rows by the local calendar
+ * date of field_start_date_time so the template can build its day navigation.
+ */
+function ios_preprocess_views_view_unformatted(array &$variables): void {
+  $view = $variables['view'] ?? NULL;
+
+  if (
+    !$view ||
+    $view->id() !== 'conference_program' ||
+    !in_array(
+      $view->current_display,
+      ['page_1', 'block_1'],
+      TRUE
+    )
+  ) {
+    return;
+  }
+
+  $variables['conference_program_days'] = [];
+
+  if (empty($variables['rows']) || empty($view->result)) {
+    return;
+  }
+
+  $date_formatter = \Drupal::service('date.formatter');
+  $days = [];
+
+  foreach ($variables['rows'] as $index => $row) {
+    $result = $view->result[$index] ?? NULL;
+    $node = $result->_entity ?? NULL;
+
+    if (!$node instanceof NodeInterface) {
+      continue;
+    }
+
+    $timestamp = ios_get_datetime_timestamp(
+      $node,
+      'field_start_date_time'
+    );
+
+    if ($timestamp === NULL) {
+      continue;
+    }
+
+    // Drupal's date formatter applies the site's configured display timezone
+    // and translates weekday names for the current interface language.
+    $date_key = $date_formatter->format(
+      $timestamp,
+      'custom',
+      'Y-m-d'
+    );
+
+    if (!isset($days[$date_key])) {
+      $days[$date_key] = [
+        'id' => 'conference-program-day-' . str_replace('-', '', $date_key),
+        'tab_id' => 'conference-program-tab-' . str_replace('-', '', $date_key),
+        'label' => $date_formatter->format(
+          $timestamp,
+          'custom',
+          'D'
+        ),
+        'full_label' => $date_formatter->format(
+          $timestamp,
+          'custom',
+          'l, F j, Y'
+        ),
+        'rows' => [],
+      ];
+    }
+
+    $days[$date_key]['rows'][] = $row;
+  }
+
+  $variables['conference_program_days'] = array_values($days);
+
+  $variables['#attached']['library'][] = 'ios/conference-program-days';
+
+  $variables['#cache']['contexts'] = array_values(array_unique(array_merge(
+    $variables['#cache']['contexts'] ?? [],
+    [
+      'languages:language_interface',
+      'timezone',
+    ]
+  )));
+}
+
+/**
+ * Adds Activity metadata for the currently displayed concurrent term.
+ *
+ * The Concurrent Session Gallery is selected by a Concurrent Session
+ * taxonomy term. The matching Activity owns the scheduled block, so the
+ * gallery header uses the Activity's start/end values rather than deriving
+ * a range from the child Session nodes.
  */
 function ios_preprocess_views_view(array &$variables): void {
   $view = $variables['view'] ?? NULL;
@@ -1865,9 +2462,12 @@ function ios_preprocess_views_view(array &$variables): void {
     return;
   }
 
-  $variables['gallery_is_french'] = \Drupal::languageManager()->getCurrentLanguage()->getId() === 'fr';
+  $variables['gallery_is_french'] =
+    \Drupal::languageManager()->getCurrentLanguage()->getId() === 'fr';
   $variables['gallery_start'] = NULL;
   $variables['gallery_end'] = NULL;
+  $variables['gallery_room'] = '';
+
   $term_id = $view->args[0] ?? NULL;
   if (!ctype_digit((string) $term_id) || (int) $term_id < 1) {
     return;
@@ -1876,39 +2476,53 @@ function ios_preprocess_views_view(array &$variables): void {
   $storage = \Drupal::entityTypeManager()->getStorage('node');
   $ids = $storage->getQuery()
     ->accessCheck(TRUE)
-    ->condition('type', 'session')
+    ->condition('type', 'activity')
     ->condition('status', 1)
     ->condition('field_concurrent_session.target_id', (int) $term_id)
+    ->sort('field_start_date_time.value', 'ASC')
+    ->range(0, 1)
     ->execute();
 
   if (!$ids) {
+    $variables['view']->element['#cache']['tags'][] = 'node_list:activity';
     return;
   }
 
-  $starts = [];
-  $ends = [];
-  foreach ($storage->loadMultiple($ids) as $node) {
-    if (!$node->access('view')) {
-      continue;
-    }
-    $start = ios_get_datetime_timestamp($node, 'field_start_date_time');
-    $end = ios_get_datetime_timestamp($node, 'field_end_date_time');
-    if ($start !== NULL) {
-      $starts[] = $start;
-    }
-    if ($end !== NULL) {
-      $ends[] = $end;
-    }
-    $variables['view']->element['#cache']['tags'] = array_merge(
-      $variables['view']->element['#cache']['tags'] ?? [],
-      $node->getCacheTags()
-    );
+  $activity = $storage->load(reset($ids));
+  if (!$activity || !$activity->access('view')) {
+    $variables['view']->element['#cache']['tags'][] = 'node_list:activity';
+    return;
   }
-  if ($starts && $ends) {
-    $variables['gallery_start'] = min($starts);
-    $variables['gallery_end'] = max($ends);
+
+  $activity = \Drupal::service('entity.repository')
+    ->getTranslationFromContext($activity);
+
+  $variables['gallery_start'] =
+    ios_get_datetime_timestamp($activity, 'field_start_date_time');
+  $variables['gallery_end'] =
+    ios_get_datetime_timestamp($activity, 'field_end_date_time');
+
+  if (
+    $activity->hasField('field_room') &&
+    !$activity->get('field_room')->isEmpty()
+  ) {
+    $variables['gallery_room'] =
+      (string) $activity->get('field_room')->value;
   }
-  $variables['view']->element['#cache']['tags'][] = 'node_list:session';
+
+  $variables['view']->element['#cache']['tags'] = array_values(array_unique(array_merge(
+    $variables['view']->element['#cache']['tags'] ?? [],
+    $activity->getCacheTags(),
+    ['node_list:activity']
+  )));
+
+  $variables['view']->element['#cache']['contexts'] = array_values(array_unique(array_merge(
+    $variables['view']->element['#cache']['contexts'] ?? [],
+    [
+      'languages:language_interface',
+      'timezone',
+    ]
+  )));
 }
 
 /**
@@ -2050,8 +2664,8 @@ function ios_form_views_exposed_form_alter(array &$form, \Drupal\Core\Form\FormS
 function ios_session_type_colour(\Drupal\taxonomy\TermInterface $term): string {
   $source_label = strtolower(trim($term->getUntranslated()->label()));
   $known = [
-    'oral' => 'ccsa-magenta',
-    'oral presentation' => 'ccsa-magenta',
+    'oral' => 'ccsa-blue',
+    'oral presentation' => 'ccsa-blue',
     'plenary' => 'ccsa-blue',
     'plenary session' => 'ccsa-blue',
     'workshop' => 'ccsa-green',

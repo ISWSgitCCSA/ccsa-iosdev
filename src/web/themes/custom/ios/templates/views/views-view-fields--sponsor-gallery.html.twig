@@ -1,0 +1,156 @@
+{#
+/**
+ * @file
+ * Reusable Sponsor Gallery card, based on the working Bootstrap test page.
+ *
+ * View: sponsor_gallery
+ * Displays:
+ *   block_1 - National Sponsor (horizontal featured card)
+ *   block_2 - Provincial Sponsors (vertical cards)
+ *   block_3 - Silver Sponsors (vertical cards)
+ *   block_4 - Other Sponsors (vertical cards grouped by Sponsor Level)
+ *
+ * Expected fields in each Views display (Show: Fields):
+ *   Content: Title          (linked to the internal Sponsor node)
+ *   Content: Featured Image (rendered Media entity)
+ *
+ * The View determines which sponsors appear and how they are grouped.
+ * The existing display-specific Views templates arrange the card columns.
+ * This file controls only the individual card's Bootstrap markup.
+ *
+ * IMPORTANT: Website links are intentionally not used. Every card links to
+ * the Sponsor's internal node instead, with a translatable CTA label.
+ */
+#}
+
+{# Use the sponsor entity from the current Views result row. #}
+{% set sponsor = row._entity %}
+
+{# Use the result's language when Drupal provides a translated row. #}
+{% if sponsor and row.node_field_data_langcode is defined and row.node_field_data_langcode is not empty and sponsor.hasTranslation(row.node_field_data_langcode) %}
+  {% set sponsor = sponsor.getTranslation(row.node_field_data_langcode) %}
+{% endif %}
+
+{% if sponsor %}
+
+  {% set sponsor_name = sponsor.label() %}
+  {% set sponsor_url = path('entity.node.canonical', {'node': sponsor.id()}) %}
+  {% set national = view.current_display == 'block_1' %}
+  {% set other = view.current_display == 'block_4' %}
+  {% set contained_logo = view.current_display in ['block_3', 'block_4'] %}
+
+  {#
+    For Silver and Other Sponsors, use the original Media image directly.
+    Drupal's rendered Media field may introduce wrappers or image dimensions
+    that escape the fixed-ratio logo area on smaller screens.
+    The linked image is decorative: the link already has an accessible name.
+  #}
+  {% if contained_logo %}
+    {% set logo_media = sponsor.field_featured_image.entity %}
+    {% set logo_image_item = logo_media and logo_media.field_media_image.0 ? logo_media.field_media_image.0 : null %}
+    {% set logo_file = logo_image_item and logo_image_item.entity ? logo_image_item.entity : null %}
+    {% set logo_uri = logo_file ? logo_file.uri.value : null %}
+  {% endif %}
+
+  {# ========================================================
+     NATIONAL: HORIZONTAL FEATURED CARD
+     Mirrors the ratio-based Bootstrap treatment from the test page.
+     ======================================================== #}
+
+  {% if national %}
+
+    <article class="card border-0 shadow-sm overflow-hidden h-100 ios-sponsor-card ios-sponsor-card--national">
+      <div class="row g-0 align-items-stretch h-100">
+
+        <div class="col-lg-7">
+          <div class="ratio ratio-21x9 bg-body">
+            <a
+              href="{{ sponsor_url }}"
+              class="d-flex align-items-center justify-content-center p-4 p-lg-5 text-decoration-none"
+              aria-label="{{ 'Visit sponsor page: @name'|t({'@name': sponsor_name}) }}"
+            >
+              <span class="d-block w-100 text-center">
+                {{ fields.field_featured_image.content }}
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card-body d-flex flex-column justify-content-center h-100 p-4 p-lg-5">
+            <h3 class="h4 fw-bold mb-4">
+              {{ fields.title.content }}
+            </h3>
+
+            <div class="mt-auto">
+              <a class="fw-semibold text-decoration-underline" href="{{ sponsor_url }}">
+                {{ 'Visit sponsor page'|t }}
+                <span aria-hidden="true">→</span>
+                <span class="visually-hidden">: {{ sponsor_name }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </article>
+
+  {# ========================================================
+     PROVINCIAL, SILVER, OTHER: ONE SHARED VERTICAL CARD
+     Consistent 21:9 logo display area, matching the test page.
+     Silver and Other Sponsor images are contained within this area.
+     ======================================================== #}
+
+  {% else %}
+
+    <article class="card flex-fill border-0 shadow-sm overflow-hidden h-100 ios-sponsor-card">
+
+      <div class="ratio ratio-21x9 bg-body flex-shrink-0">
+        <a
+          href="{{ sponsor_url }}"
+          class="d-flex align-items-center justify-content-center p-4 text-decoration-none{% if contained_logo %} overflow-hidden{% endif %}"
+          aria-label="{{ 'Visit sponsor page: @name'|t({'@name': sponsor_name}) }}"
+        >
+          {% if contained_logo %}
+            {% if logo_uri %}
+              <img
+                src="{{ file_url(logo_uri) }}"
+                alt=""
+                class="d-block w-100 h-100 mw-100 mh-100 object-fit-contain"
+                loading="lazy"
+                decoding="async"
+              />
+            {% endif %}
+          {% else %}
+            <span class="d-block w-100 text-center">
+              {{ fields.field_featured_image.content }}
+            </span>
+          {% endif %}
+        </a>
+      </div>
+
+      <div class="card-body d-flex flex-column p-4">
+        {% if other %}
+          <h4 class="h6 fw-bold mb-4">
+            {{ fields.title.content }}
+          </h4>
+        {% else %}
+          <h3 class="h5 fw-bold mb-4">
+            {{ fields.title.content }}
+          </h3>
+        {% endif %}
+
+        <div class="mt-auto">
+          <a class="fw-semibold text-decoration-underline" href="{{ sponsor_url }}">
+            {{ 'Visit sponsor page'|t }}
+            <span aria-hidden="true">→</span>
+            <span class="visually-hidden">: {{ sponsor_name }}</span>
+          </a>
+        </div>
+      </div>
+
+    </article>
+
+  {% endif %}
+
+{% endif %}

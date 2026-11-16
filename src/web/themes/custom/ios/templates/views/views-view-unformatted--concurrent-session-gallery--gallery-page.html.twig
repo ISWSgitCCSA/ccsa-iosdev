@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Unformatted results for the Concurrent Session Gallery page.
+ *
+ * View:
+ *   concurrent_session_gallery
+ *
+ * Display:
+ *   gallery_page
+ *
+ * Each result receives its Bootstrap column class through
+ * the Views UI. This template adds the responsive Bootstrap
+ * row around all results.
+ */
+#}
+
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+  {% for row in rows %}
+    <div{{ row.attributes }}>
+      {{ row.content }}
+    </div>
+  {% endfor %}
+</div>

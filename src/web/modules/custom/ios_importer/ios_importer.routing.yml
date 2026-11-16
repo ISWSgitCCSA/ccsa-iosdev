@@ -1,0 +1,7 @@
+ios_importer.import:
+  path: '/admin/content/ios-importer'
+  defaults:
+    _form: '\Drupal\ios_importer\Form\ImporterForm'
+    _title: 'IOS Importer'
+  requirements:
+    _permission: 'administer site configuration'

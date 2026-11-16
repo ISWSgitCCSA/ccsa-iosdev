@@ -1,0 +1,6 @@
+ios_importer.import:
+  title: 'IOS Importer'
+  description: 'Import and update conference content from CSV files.'
+  route_name: ios_importer.import
+  parent: system.admin_content
+  weight: 20

@@ -1,0 +1,148 @@
+{#
+/**
+ * @file
+ * Unformatted-list output for the Homepage Featured Speakers View.
+ *
+ * View:
+ *   Homepage Featured Speakers
+ *
+ * Machine name:
+ *   homepage_featured_speakers
+ *
+ * Display:
+ *   block_1
+ *
+ * The View owns:
+ *   - Speaker selection
+ *   - language filtering
+ *   - Speaker Type filtering
+ *   - taxonomy-weight/name sorting
+ *   - six-item limit
+ *   - rendering each result with the existing Speaker Card view mode
+ *
+ * This template owns only the Bootstrap carousel presentation.
+ * Slides contain up to three already-rendered View rows.
+ *
+ * Accessibility:
+ *   - the carousel does not auto-advance;
+ *   - controls have accessible names;
+ *   - slide position is exposed to assistive technology;
+ *   - decorative control icons are hidden from assistive technology.
+ */
+#}
+
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+
+{% if rows %}
+
+  {% set speaker_groups = rows|batch(3) %}
+  {% set speaker_group_count = speaker_groups|length %}
+
+  <div
+    class="carousel slide ios-carousel w-100"
+    id="featuredSpeakersCarousel"
+    data-bs-interval="false"
+    data-bs-touch="true"
+    role="region"
+    aria-roledescription="{{ 'carousel'|t }}"
+    aria-label="{{ 'Featured speakers'|t }}"
+  >
+
+    {% if speaker_group_count > 1 %}
+
+      <div class="carousel-indicators">
+
+        {% for speaker_group in speaker_groups %}
+
+          <button
+            {% if loop.first %}
+              class="active"
+              aria-current="true"
+            {% endif %}
+            type="button"
+            data-bs-target="#featuredSpeakersCarousel"
+            data-bs-slide-to="{{ loop.index0 }}"
+            aria-label="{{ 'Show speaker group'|t }} {{ loop.index }}"
+          ></button>
+
+        {% endfor %}
+
+      </div>
+
+    {% endif %}
+
+    <div class="carousel-inner" aria-live="polite">
+
+      {% for speaker_group in speaker_groups %}
+
+        <div
+          class="carousel-item{% if loop.first %} active{% endif %}"
+          role="group"
+          aria-label="{{ 'Speaker group'|t }} {{ loop.index }} {{ 'of'|t }} {{ speaker_group_count }}"
+        >
+
+          <div class="row g-3 align-items-stretch">
+
+            {% for row in speaker_group %}
+
+              {% set row_classes = [
+                default_row_class ? 'views-row',
+                'col-12',
+                'col-sm-6',
+                'col-xl-4',
+                'd-flex'
+              ] %}
+
+              <div{{ row.attributes.addClass(row_classes) }}>
+                {{ row.content }}
+              </div>
+
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+    {% if speaker_group_count > 1 %}
+
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#featuredSpeakersCarousel"
+        data-bs-slide="prev"
+      >
+        <i
+          class="fa-solid fa-chevron-left"
+          aria-hidden="true"
+        ></i>
+        <span class="visually-hidden">
+          {{ 'Previous speakers'|t }}
+        </span>
+      </button>
+
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#featuredSpeakersCarousel"
+        data-bs-slide="next"
+      >
+        <i
+          class="fa-solid fa-chevron-right"
+          aria-hidden="true"
+        ></i>
+        <span class="visually-hidden">
+          {{ 'Next speakers'|t }}
+        </span>
+      </button>
+
+    {% endif %}
+
+  </div>
+
+{% endif %}

@@ -861,8 +861,9 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 # }
 
 $settings['trusted_host_patterns'] = [
-				        '^2026dev\.issuesofsubstance\.ca',
-				      ];
+  '^([a-zA-Z0-9-]+\.)*issuesofsubstance\.ca$',
+];
+
 
 $databases['default']['default'] = array (
   'database' => 'ccsa_ios_2028',

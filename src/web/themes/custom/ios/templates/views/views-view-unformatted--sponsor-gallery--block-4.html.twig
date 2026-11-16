@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * Other Sponsors: row output for each Sponsor Level group.
+ *
+ * On Drupal versions that provide 'title' to this unformatted template,
+ * this file wraps the complete group panel.
+ * On newer versions where views-view-grouping receives the group title,
+ * this file renders only the cards inside that group's panel.
+ *
+ * The root block_4 View template provides the two-column Bootstrap grid.
+ */
+#}
+
+{% if title %}
+  {# Group title and cards are supplied together by this style template. #}
+  <section class="col">
+    <div class="cool-light-bg rounded-4 p-4 h-100">
+      <h3 class="h5 fw-bold cool-dark border-bottom pb-3 mb-4">
+        {{ title|striptags }}
+      </h3>
+
+      <div class="d-flex flex-column gap-3">
+        {% for row in rows %}
+          <div{{ row.attributes.addClass('views-row') }}>
+            {{ row.content }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% else %}
+  {# The enclosing views-view-grouping template already supplies the panel. #}
+  {% for row in rows %}
+    <div{{ row.attributes.addClass('views-row') }}>
+      {{ row.content }}
+    </div>
+  {% endfor %}
+{% endif %}

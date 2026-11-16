@@ -1,0 +1,5 @@
+name: 'IOS Importer'
+type: module
+description: 'Imports and updates IOS conference content from CSV files.'
+package: 'IOS Custom'
+core_version_requirement: ^10 || ^11

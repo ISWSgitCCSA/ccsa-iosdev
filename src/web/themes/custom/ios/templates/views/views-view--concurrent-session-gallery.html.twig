@@ -1,0 +1,266 @@
+{#
+/**
+ * @file
+ * Reusable Concurrent Session Gallery View wrapper.
+ *
+ * Standalone gallery page:
+ *   - Full page header
+ *   - Concurrent Session title
+ *   - Activity date/time/room
+ *
+ * Embedded gallery:
+ *   - Header is hidden because the surrounding Activity
+ *     already provides the Concurrent Session title and time.
+ *
+ * Schedule information is prepared in ios.theme from the
+ * matching Activity:
+ *   - gallery_start
+ *   - gallery_end
+ *   - gallery_room
+ *   - gallery_is_french
+ */
+#}
+
+{% set classes = [
+  'view',
+  'view-' ~ id|clean_class,
+  'view-id-' ~ id,
+  'view-display-id-' ~ display_id,
+] %}
+
+{% set gallery_title = view.getTitle() ?: ('Concurrent sessions'|t) %}
+
+{% set is_standalone_gallery = display_id == 'gallery_page' %}
+
+
+<div{{ attributes.addClass(classes) }}>
+
+  {{ title_prefix }}
+
+
+  {# ========================================================
+     STANDALONE GALLERY HEADER
+     ======================================================== #}
+
+  {% if is_standalone_gallery %}
+
+    <header
+      class="ios-page-header ios-page-header--medium"
+      aria-labelledby="concurrent-session-gallery-title"
+    >
+
+      <div
+        class="ios-page-header__overlay"
+        aria-hidden="true"
+      ></div>
+
+      <div class="ios-page-header__content">
+
+        <div class="ios-page-header__copy">
+
+          <h1
+            id="concurrent-session-gallery-title"
+            class="ios-page-header__title ios-page-header-text-outline"
+          >
+            {{ gallery_title }}
+          </h1>
+
+
+          {# ==================================================
+             ACTIVITY DATE / TIME / ROOM
+             ================================================== #}
+
+          {% if gallery_start is not null and gallery_end is not null %}
+
+            <div
+              class="ios-page-header__meta d-flex flex-wrap align-items-center gap-3"
+              aria-label="{{ 'Concurrent session details'|t }}"
+            >
+
+
+              {# Date #}
+
+              <span class="d-inline-flex align-items-center gap-1">
+
+                <i
+                  class="fa-regular fa-calendar"
+                  aria-hidden="true"
+                ></i>
+
+                {% if gallery_is_french %}
+
+                  <time datetime="{{ gallery_start|date('c') }}">
+                    {{ gallery_start|format_date('custom', 'j F Y') }}
+                  </time>
+
+                {% else %}
+
+                  <time datetime="{{ gallery_start|date('c') }}">
+                    {{ gallery_start|format_date('custom', 'F j, Y') }}
+                  </time>
+
+                {% endif %}
+
+              </span>
+
+
+              {# Time #}
+
+              <span class="d-inline-flex align-items-center gap-1">
+
+                <i
+                  class="fa-regular fa-clock"
+                  aria-hidden="true"
+                ></i>
+
+                {% if gallery_is_french %}
+
+                  <time datetime="{{ gallery_start|date('c') }}">
+                    {{ gallery_start|format_date('custom', 'G \\h i') }}
+                  </time>
+
+                  <span aria-hidden="true">–</span>
+
+                  <time datetime="{{ gallery_end|date('c') }}">
+                    {{ gallery_end|format_date('custom', 'G \\h i') }}
+                  </time>
+
+                {% else %}
+
+                  <time datetime="{{ gallery_start|date('c') }}">
+                    {{ gallery_start|format_date('custom', 'g:i A') }}
+                  </time>
+
+                  <span aria-hidden="true">–</span>
+
+                  <time datetime="{{ gallery_end|date('c') }}">
+                    {{ gallery_end|format_date('custom', 'g:i A') }}
+                  </time>
+
+                {% endif %}
+
+              </span>
+
+
+              {# Room #}
+
+              {% if gallery_room %}
+
+                <span class="d-inline-flex align-items-center gap-1">
+
+                  <i
+                    class="fa-solid fa-location-dot"
+                    aria-hidden="true"
+                  ></i>
+
+                  {{ gallery_room }}
+
+                </span>
+
+              {% endif %}
+
+            </div>
+
+          {% endif %}
+
+
+          {% if header %}
+
+            <div class="ios-page-header__meta">
+              {{ header }}
+            </div>
+
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+  {# ========================================================
+     EMBEDDED GALLERY
+     ======================================================== #}
+
+  {% else %}
+
+    <h2
+      id="concurrent-session-gallery-title"
+      class="d-none"
+    >
+      {{ gallery_title }}
+    </h2>
+
+  {% endif %}
+
+
+  {{ title_suffix }}
+
+
+  {# ========================================================
+     GALLERY CONTENT
+     ======================================================== #}
+
+  <div class="container py-4 py-lg-5">
+
+    {% if exposed %}
+
+      <div class="mb-4">
+        {{ exposed }}
+      </div>
+
+    {% endif %}
+
+
+    {% if attachment_before %}
+      {{ attachment_before }}
+    {% endif %}
+
+
+    {% if rows %}
+
+      {{ rows }}
+
+    {% elseif empty %}
+
+      <div role="status">
+        {{ empty }}
+      </div>
+
+    {% else %}
+
+      <p role="status">
+        {{ 'No sessions match your filters.'|t }}
+      </p>
+
+    {% endif %}
+
+
+    {% if pager %}
+      {{ pager }}
+    {% endif %}
+
+    {% if attachment_after %}
+      {{ attachment_after }}
+    {% endif %}
+
+    {% if more %}
+      {{ more }}
+    {% endif %}
+
+    {% if footer %}
+
+      <div class="mt-4">
+        {{ footer }}
+      </div>
+
+    {% endif %}
+
+    {% if feed_icons %}
+      {{ feed_icons }}
+    {% endif %}
+
+  </div>
+
+</div>

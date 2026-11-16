@@ -70,9 +70,9 @@
   {% if page.header %}
     <div class="ios-utility-header">
 
-      <div class="container-fluid px-4 px-xl-5">
+      <div class="container-xxl px-4 px-xl-5">
 
-        <div class="col-12 col-xxl-11 mx-auto">
+        <div class="col-12 mx-auto">
           {{ page.header }}
         </div>
 
@@ -96,12 +96,11 @@
       aria-label="Primary navigation"
     >
 
-      <div class="container-fluid px-4 px-xl-5">
+      <div class="container-xxl px-4 px-xl-5">
 
         <div
           class="
             col-12
-            col-xxl-11
             mx-auto
             d-flex
             flex-wrap
@@ -242,10 +241,12 @@
   %}
 
 
-  <div class="{{ b5_top_container }}">
+  <div class="{{ b5_top_container }} ios-main-layout">
 
     {% if page.breadcrumb %}
-      {{ page.breadcrumb }}
+      <div class="ios-breadcrumb-layer">
+        {{ page.breadcrumb }}
+      </div>
     {% endif %}
 
 

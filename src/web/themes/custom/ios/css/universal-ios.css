@@ -212,7 +212,7 @@ a:focus-visible {
     600;
 
   letter-spacing:
-    0.08rem;
+    0.06rem;
 
   text-transform:
     uppercase;
@@ -900,55 +900,158 @@ a.btn-ios:focus-visible {
    ========================================================== */
 
 @media (max-width: 991.98px) {
+
+  /*
+   * When the hamburger menu is open, use it as a full-screen
+   * mobile navigation layer. The background is deliberately
+   * almost opaque so page content can ghost through slightly
+   * without undermining white-text contrast.
+   */
   .ios-responsive-menu:has(.navbar-collapse.show),
   .ios-responsive-menu:has(.navbar-collapse.collapsing) {
+    position:
+      fixed;
+
+    z-index:
+      1050;
+
+    inset:
+      0;
+
+    min-block-size:
+      100dvh;
+
+    overflow-y:
+      auto;
+
     background:
-      linear-gradient(
-        0deg,
-        color-mix(
-          in srgb,
-          var(--_ios-menu-dark) 95%,
-          transparent
-        ),
-        color-mix(
-          in srgb,
-          var(--_ios-menu-base) 82%,
-          transparent
-        )
-      ),
-      var(--_ios-menu-base);
+      color-mix(
+        in srgb,
+        var(--_ios-menu-dark) 96%,
+        transparent
+      );
   }
 
-  .ios-responsive-menu__content {
+  /*
+   * Prevent the page underneath the full-screen menu from
+   * scrolling while the menu is open.
+   */
+  body:has(.ios-responsive-menu .navbar-collapse.show),
+  body:has(.ios-responsive-menu .navbar-collapse.collapsing) {
+    overflow:
+      hidden;
+  }
+
+  /*
+   * Hide the Drupal conference-logo block only while the mobile menu is open.
+   *
+   * This is the placed block wrapper, not the translated block content.
+   * Translating the same block in Drupal keeps this placement selector, so
+   * the rule applies to both English and French versions.
+   *
+   * The normal closed mobile header remains unchanged.
+   */
+  .ios-responsive-menu:has(.navbar-collapse.show)
+    #block-ios-headerconferencelogo,
+  .ios-responsive-menu:has(.navbar-collapse.collapsing)
+    #block-ios-headerconferencelogo {
     display:
-      grid;
-
-    grid-template-columns:
-      minmax(0, 1fr)
-      minmax(8rem, 42%);
-
-    gap:
-      1rem;
-
-    align-items:
-      start;
-
-    padding:
-      1rem;
+      none !important;
   }
 
-  .ios-menu {
-    flex-direction:
-      column;
+  /*
+   * Pull the open menu's inner container to the top of the viewport.
+   * This changes layout only; the existing X icon styling is untouched.
+   */
+  .ios-responsive-menu:has(.navbar-collapse.show) > .container-fluid,
+  .ios-responsive-menu:has(.navbar-collapse.collapsing) > .container-fluid {
+    position:
+      relative;
 
     align-items:
       flex-start;
+
+    min-block-size:
+      100dvh;
+
+    padding:
+      1rem 1.25rem 3.5rem !important;
+  }
+
+  /*
+   * Keep the existing close control in normal document flow.
+   *
+   * The X stays visually unchanged, but it now occupies the header row
+   * instead of floating over the navigation with absolute positioning.
+   */
+  .ios-responsive-menu:has(.navbar-collapse.show) .ios-menu-toggle,
+  .ios-responsive-menu:has(.navbar-collapse.collapsing) .ios-menu-toggle {
+    position:
+      static;
+
+    z-index:
+      auto;
+
+    margin-inline-start:
+      auto;
+
+    margin-block:
+      0;
+  }
+
+  /*
+   * Force the expanded Bootstrap collapse onto its own row beneath the
+   * header controls. This is the important part: the menu can no longer
+   * share horizontal space with the X, regardless of label length.
+   */
+  .ios-responsive-menu:has(.navbar-collapse.show) .navbar-collapse,
+  .ios-responsive-menu:has(.navbar-collapse.collapsing) .navbar-collapse {
+    flex-basis:
+      100%;
+
+    inline-size:
+      100%;
+  }
+
+  /*
+   * The navigation now begins below the header row naturally, with only
+   * modest breathing room rather than a guessed offset.
+   */
+  .ios-responsive-menu__content {
+    display:
+      block;
+
+    inline-size:
+      100%;
+
+    padding:
+      0.9rem 0 3.5rem;
+  }
+
+  .ios-menu {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      0.15rem;
+
+    align-items:
+      stretch;
 
     justify-content:
       flex-start;
 
     inline-size:
-      100%;
+      min(100%, 34rem);
+
+    margin:
+      0;
+
+    padding:
+      0;
 
     border:
       0;
@@ -959,14 +1062,30 @@ a.btn-ios:focus-visible {
       100%;
   }
 
-  .ios-menu .nav-link,
-  .ios-menu .nav-link:link,
-  .ios-menu .nav-link:visited {
+  /*
+   * Main mobile links.
+   * No cards, no heavy weight, no uppercase transformation.
+   */
+  .ios-menu > .nav-item > .nav-link,
+  .ios-menu > .nav-item > .nav-link:link,
+  .ios-menu > .nav-item > .nav-link:visited {
     display:
-      inline-block;
+      flex;
+
+    gap:
+      0.55rem;
+
+    align-items:
+      center;
+
+    inline-size:
+      100%;
+
+    min-block-size:
+      2.75rem;
 
     padding:
-      0.35rem 0;
+      0.65rem 0.25rem;
 
     color:
       var(--ios-white) !important;
@@ -980,54 +1099,101 @@ a.btn-ios:focus-visible {
     border-radius:
       0;
 
+    box-shadow:
+      none;
+
     font-size:
-      larger;
+      1.05rem;
 
     font-weight:
       400;
 
     letter-spacing:
-      0.09rem;
+      0.01rem;
+
+    line-height:
+      1.35;
 
     text-align:
       start;
-  }
-
-  .ios-menu .nav-link:hover,
-  .ios-menu .nav-link:focus-visible,
-  .ios-menu .nav-link.active,
-  .ios-menu .nav-link.active:link,
-  .ios-menu .nav-link.active:visited {
-    color:
-      var(--ios-white) !important;
-
-    background:
-      transparent;
 
     text-decoration:
-      underline;
+      none;
 
-    text-decoration-thickness:
-      1px;
+    text-transform:
+      none;
 
-    text-underline-offset:
-      0.2em;
+    transition:
+      background-color 0.18s ease,
+      box-shadow 0.18s ease;
   }
 
-  .ios-menu .nav-link.disabled,
-  .ios-menu .nav-link:disabled,
-  .ios-menu .nav-link.disabled:visited {
+  /*
+   * Hover and keyboard focus remain obvious without turning the
+   * item into a large button/card.
+   */
+  .ios-menu > .nav-item > .nav-link:hover,
+  .ios-menu > .nav-item > .nav-link:focus-visible {
+    color:
+      var(--ios-white) !important;
+
+    background-color:
+      color-mix(
+        in srgb,
+        var(--ios-white) 7%,
+        transparent
+      );
+
+    box-shadow:
+      inset 0 -0.16rem 0
+      var(--ios-warm);
+
+    text-decoration:
+      none;
+  }
+
+  /*
+   * Current page: a restrained accent line rather than a filled
+   * rectangle. This gives a non-colour state cue for WCAG/AODA.
+   */
+  .ios-menu > .nav-item > .nav-link.active,
+  .ios-menu > .nav-item > .nav-link.active:link,
+  .ios-menu > .nav-item > .nav-link.active:visited,
+  .ios-menu > .nav-item > .nav-link[aria-current="page"] {
     color:
       var(--ios-white) !important;
 
     background:
       transparent;
+
+    box-shadow:
+      inset 0 -0.16rem 0
+      var(--ios-warm);
+
+    font-weight:
+      400;
+
+    text-decoration:
+      none;
+  }
+
+  .ios-menu > .nav-item > .nav-link.disabled,
+  .ios-menu > .nav-item > .nav-link:disabled,
+  .ios-menu > .nav-item > .nav-link.disabled:visited {
+    color:
+      var(--ios-white) !important;
+
+    background:
+      transparent;
+
+    box-shadow:
+      none;
 
     opacity:
       0.5;
 
     font-weight:
-      300;
+      400;
 
     text-decoration:
       none;
@@ -1043,11 +1209,14 @@ a.btn-ios:focus-visible {
     float:
       none;
 
+    inline-size:
+      100%;
+
     margin:
       0;
 
     padding:
-      0 0 0.5rem 1rem;
+      0.1rem 0 0.65rem 1rem;
 
     background:
       transparent;
@@ -1062,8 +1231,14 @@ a.btn-ios:focus-visible {
   .ios-menu .dropdown-item,
   .ios-menu .dropdown-item:link,
   .ios-menu .dropdown-item:visited {
-    padding-inline:
-      0;
+    display:
+      block;
+
+    inline-size:
+      100%;
+
+    padding:
+      0.45rem 0.25rem;
 
     color:
       var(--ios-white) !important;
@@ -1071,8 +1246,35 @@ a.btn-ios:focus-visible {
     background:
       transparent;
 
+    border:
+      0;
+
+    border-inline-start:
+      0.14rem solid transparent;
+
+    border-radius:
+      0;
+
+    font-size:
+      0.9rem;
+
     font-weight:
       300;
+
+    letter-spacing:
+      0;
+
+    line-height:
+      1.35;
+
+    text-decoration:
+      none !important;
+
+    text-transform:
+      none;
+
+    white-space:
+      normal;
   }
 
   .ios-menu .dropdown-item:hover,
@@ -1080,14 +1282,37 @@ a.btn-ios:focus-visible {
     color:
       var(--ios-white) !important;
 
+    background-color:
+      color-mix(
+        in srgb,
+        var(--ios-white) 6%,
+        transparent
+      );
+
+    border-inline-start-color:
+      var(--ios-warm);
+
+    text-decoration:
+      none !important;
+  }
+
+  .ios-menu .dropdown-item.active,
+  .ios-menu .dropdown-item:active,
+  .ios-menu .dropdown-item[aria-current="page"] {
+    color:
+      var(--ios-white) !important;
+
     background:
       transparent;
 
-    text-decoration:
-      underline;
+    border-inline-start-color:
+      var(--ios-warm);
 
-    text-underline-offset:
-      0.2em;
+    font-weight:
+      400;
+
+    text-decoration:
+      none !important;
   }
 
   .ios-menu .dropdown-item.disabled,
@@ -1097,6 +1322,9 @@ a.btn-ios:focus-visible {
       var(--ios-white) !important;
 
     background:
+      transparent;
+
+    border-inline-start-color:
       transparent;
 
     opacity:
@@ -1110,56 +1338,17 @@ a.btn-ios:focus-visible {
     border-color:
       color-mix(
         in srgb,
-        var(--ios-white) 45%,
+        var(--ios-white) 28%,
         transparent
       );
   }
 
 
-  /* Mobile feature image */
+  /* Third-level mobile navigation */
 
-  .ios-responsive-menu__feature {
+  .ios-menu .dropdown-menu .dropdown-menu {
     position:
-      relative;
-
-    align-self:
-      stretch;
-
-    min-block-size:
-      15rem;
-  }
-
-  .ios-responsive-menu__feature::before {
-    position:
-      absolute;
-
-    inset:
-      1rem 0 0 1rem;
-
-    content:
-      "";
-
-    background-color:
-      color-mix(
-        in srgb,
-        var(--_ios-menu-dark) 65%,
-        transparent
-      );
-
-    border-radius:
-      0.5rem;
-
-    box-shadow:
-      0 0.75rem 1.5rem
-      rgb(0 0 0 / 0.25);
-  }
-
-  .ios-responsive-menu__feature img {
-    position:
-      relative;
-
-    z-index:
-      1;
+      static;
 
     display:
       block;
@@ -1167,23 +1356,44 @@ a.btn-ios:focus-visible {
     inline-size:
       100%;
 
-    block-size:
-      100%;
+    margin:
+      0;
 
-    min-block-size:
-      15rem;
+    padding:
+      0.1rem 0 0.4rem 0.85rem;
 
-    margin-block-end:
-      1rem;
+    background:
+      transparent;
 
-    object-fit:
-      cover;
+    border:
+      0;
 
-    border-radius:
-      0.5rem;
+    box-shadow:
+      none;
+  }
 
-    transform:
-      translate(1rem, -0.8rem);
+  .ios-menu .dropdown-menu .dropdown-menu .dropdown-item {
+    padding-block:
+      0.38rem;
+
+    font-size:
+      0.84rem;
+
+    font-weight:
+      300;
+
+    opacity:
+      0.9;
+  }
+
+
+  /*
+   * The decorative mobile feature image is intentionally removed
+   * from the open hamburger menu for the simpler full-screen design.
+   */
+  .ios-responsive-menu__feature {
+    display:
+      none;
   }
 }
 
@@ -1222,21 +1432,34 @@ a.btn-ios:focus-visible {
       100%;
   }
 
-  .ios-menu .nav-link,
-  .ios-menu .nav-link:link,
-  .ios-menu .nav-link:visited {
+  .ios-menu > .nav-item > .nav-link,
+  .ios-menu > .nav-item > .nav-link:link,
+  .ios-menu > .nav-item > .nav-link:visited {
     color:
       var(--ios-cool) !important;
 
-    border-block-end:
+    border:
       0;
+
+    box-shadow:
+      none;
 
     font-weight:
       700;
+
+    transition:
+      color 0.18s ease,
+      background-color 0.18s ease,
+      box-shadow 0.18s ease;
   }
 
-  .ios-menu .nav-link:hover,
-  .ios-menu .nav-link:focus-visible {
+  /*
+   * Hover / keyboard-focus marker.
+   * Uses an inset shadow rather than a border or letter-spacing,
+   * so long menu labels do not resize or shift neighbouring items.
+   */
+  .ios-menu > .nav-item > .nav-link:hover,
+  .ios-menu > .nav-item > .nav-link:focus-visible {
     color:
       var(--ios-warm) !important;
 
@@ -1246,36 +1469,50 @@ a.btn-ios:focus-visible {
     border:
       0;
 
-    letter-spacing:
-      0.03rem;
+    box-shadow:
+      inset 0 -0.2rem 0
+      currentColor;
+
+    text-decoration:
+      none;
   }
 
-  .ios-menu .nav-link.active,
-  .ios-menu .nav-link.active:link,
-  .ios-menu .nav-link.active:visited {
+  /*
+   * Current top-level page.
+   * Keep the same non-colour marker used by hover/focus.
+   */
+  .ios-menu > .nav-item > .nav-link.active,
+  .ios-menu > .nav-item > .nav-link.active:link,
+  .ios-menu > .nav-item > .nav-link.active:visited,
+  .ios-menu > .nav-item > .nav-link[aria-current="page"] {
     color:
       var(--ios-warm) !important;
 
     background-color:
-      var(--bs-body-bg);
+      var(--ios-cool-light);
 
-    border-color:
-      var(--_ios-menu-border)
-      var(--_ios-menu-border)
-      var(--bs-body-bg);
-
-    border-block-end:
+    border:
       0;
+
+    box-shadow:
+      inset 0 -0.2rem 0
+      currentColor;
+
+    text-decoration:
+      none;
   }
 
-  .ios-menu .nav-link.disabled,
-  .ios-menu .nav-link:disabled,
-  .ios-menu .nav-link.disabled:visited {
+  .ios-menu > .nav-item > .nav-link.disabled,
+  .ios-menu > .nav-item > .nav-link:disabled,
+  .ios-menu > .nav-item > .nav-link.disabled:visited {
     color:
       var(--_ios-menu-disabled) !important;
 
     background:
       transparent;
+
+    box-shadow:
+      none;
 
     opacity:
       1;
@@ -1286,6 +1523,11 @@ a.btn-ios:focus-visible {
 
 
   /* Desktop dropdown */
+
+  .ios-menu .dropdown {
+    position:
+      relative;
+  }
 
   .ios-menu .dropdown-menu {
     border-color:
@@ -1305,6 +1547,12 @@ a.btn-ios:focus-visible {
   .ios-menu .dropdown-item:visited {
     color:
       var(--ios-cool) !important;
+
+    border-inline-start:
+      0.2rem solid transparent;
+
+    white-space:
+      normal;
   }
 
   .ios-menu .dropdown-item:hover,
@@ -1314,6 +1562,35 @@ a.btn-ios:focus-visible {
 
     background-color:
       var(--ios-cool-light);
+
+    border-inline-start-color:
+      currentColor;
+
+    text-decoration:
+      none;
+  }
+
+  /*
+   * Current page inside a dropdown.
+   * Overrides Bootstrap's default blue active-item treatment.
+   */
+  .ios-menu .dropdown-item.active,
+  .ios-menu .dropdown-item:active,
+  .ios-menu .dropdown-item[aria-current="page"] {
+    color:
+      var(--ios-warm) !important;
+
+    background-color:
+      var(--ios-cool-light) !important;
+
+    border-inline-start-color:
+      currentColor;
+
+    font-weight:
+      700;
+
+    text-decoration:
+      none;
   }
 
   .ios-menu .dropdown-item.disabled,
@@ -1325,11 +1602,43 @@ a.btn-ios:focus-visible {
     background:
       transparent;
 
+    border-inline-start-color:
+      transparent;
+
     opacity:
       1;
 
     font-weight:
       300;
+  }
+
+  /*
+   * Third-level desktop dropdown support.
+   *
+   * If Drupal renders a nested .dropdown-menu, position it beside
+   * its parent and expose it for mouse, keyboard and Bootstrap's
+   * .show state.
+   */
+  .ios-menu .dropdown-menu .dropdown-menu {
+    inset-block-start:
+      -1px;
+
+    inset-inline-start:
+      100%;
+
+    margin:
+      0;
+
+    border-block-start:
+      1px solid
+      var(--_ios-menu-border);
+  }
+
+  .ios-menu .dropdown-menu .dropdown:hover > .dropdown-menu,
+  .ios-menu .dropdown-menu .dropdown:focus-within > .dropdown-menu,
+  .ios-menu .dropdown-menu .dropdown-menu.show {
+    display:
+      block;
   }
 
   .ios-responsive-menu__feature {
@@ -1379,7 +1688,7 @@ a.btn-ios:focus-visible {
     );
 
   letter-spacing:
-    0.05rem;
+    0.003rem;
 
   text-decoration:
     underline;
@@ -1771,6 +2080,267 @@ a.btn-ios:focus-visible {
 
 
 /* ==========================================================
+   IOS CARD CAROUSEL
+   Reusable single-row card carousel.
+
+   Responsive standard:
+   - under 768px: 1 visible card
+   - 768px to 1199.98px: 2 visible cards
+   - 1200px and up: 3 visible cards
+
+   The track never wraps. JavaScript controls paging while CSS
+   owns the number of visible cards.
+   ========================================================== */
+
+.ios-carousel--cards {
+  --ios-card-carousel-gap: 1rem;
+  --ios-card-carousel-columns: 1;
+
+  padding-inline:
+    2rem;
+}
+
+.ios-carousel--cards
+.ios-card-carousel__viewport {
+  overflow:
+    hidden;
+
+  inline-size:
+    100%;
+
+  /* Keep card bottom borders clear of the clipping edge. */
+  padding-block-end:
+    0.375rem;
+}
+.ios-carousel--cards
+.ios-card-carousel__track {
+  display:
+    flex;
+
+  flex-wrap:
+    nowrap;
+
+  gap:
+    var(--ios-card-carousel-gap);
+
+  inline-size:
+    100%;
+
+  transform:
+    translateX(0);
+
+  transition:
+    transform 0.35s ease;
+
+  will-change:
+    transform;
+}
+
+.ios-carousel--cards
+.ios-card-carousel__item {
+  flex:
+    0 0 calc(
+      (100% - ((var(--ios-card-carousel-columns) - 1) * var(--ios-card-carousel-gap)))
+      / var(--ios-card-carousel-columns)
+    );
+
+  min-inline-size:
+    0;
+
+  display:
+    flex;
+}
+
+.ios-carousel--cards
+.ios-card-carousel__item > * {
+  inline-size:
+    100%;
+}
+
+.ios-carousel--cards
+.ios-card-carousel__item
+.ios-card {
+  block-size:
+    100%;
+}
+/* ==========================================================
+   CONFERENCE PROGRAM: CAROUSEL CARD POLISH
+   ========================================================== */
+
+/* Provide breathing room for the card shadows. */
+.ios-conference-program__slot
+.ios-carousel--cards
+.ios-card-carousel__viewport {
+  padding-block:
+    0.375rem 0.75rem;
+}
+
+/* Slightly taller cards with a subtle Bootstrap shadow. */
+.ios-conference-program__slot
+.ios-carousel--cards
+.ios-card-carousel__item
+.ios-card {
+  min-block-size:
+    18rem;
+
+  box-shadow:
+    var(--bs-box-shadow-sm);
+}
+
+.ios-carousel--cards
+.carousel-control-prev,
+.ios-carousel--cards
+.carousel-control-next {
+  inset-block-start:
+    50%;
+}
+
+.ios-carousel--cards
+.carousel-control-prev:disabled,
+.ios-carousel--cards
+.carousel-control-next:disabled {
+  opacity:
+    1;
+
+  cursor:
+    not-allowed;
+}
+
+.ios-carousel--cards
+.carousel-indicators {
+  min-block-size:
+    0.65rem;
+}
+
+/*
+ * Custom card-carousel indicators are generated by JavaScript rather than
+ * Bootstrap, so they do not carry Bootstrap's data-bs-target attribute.
+ * Give them the same circular indicator treatment as the standard carousel.
+ */
+.ios-carousel--cards
+.carousel-indicators button {
+  inline-size:
+    0.65rem;
+
+  block-size:
+    0.65rem;
+
+  margin:
+    0;
+
+  padding:
+    0;
+
+  background-color:
+    var(--_ios-carousel-control-color);
+
+  border:
+    0;
+
+  border-radius:
+    50%;
+
+  opacity:
+    0.35;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.ios-carousel--cards
+.carousel-indicators button:hover {
+  opacity:
+    0.75;
+}
+
+.ios-carousel--cards
+.carousel-indicators button.active {
+  opacity:
+    1;
+}
+
+.ios-carousel--cards
+.carousel-indicators button:focus-visible {
+  outline:
+    3px solid
+    var(--_ios-carousel-control-focus);
+
+  outline-offset:
+    3px;
+}
+
+.ios-carousel--cards
+.ios-card-carousel__status {
+  position:
+    absolute;
+
+  inline-size:
+    1px;
+
+  block-size:
+    1px;
+
+  padding:
+    0;
+
+  margin:
+    -1px;
+
+  overflow:
+    hidden;
+
+  clip:
+    rect(0, 0, 0, 0);
+
+  white-space:
+    nowrap;
+
+  border:
+    0;
+}
+
+@media (min-width: 768px) {
+  .ios-carousel--cards {
+    --ios-card-carousel-columns: 2;
+  }
+}
+
+@media (min-width: 1200px) {
+  .ios-carousel--cards {
+    --ios-card-carousel-columns: 3;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .ios-carousel--cards {
+    padding-inline:
+      1.75rem;
+  }
+
+  .ios-carousel--cards
+  .carousel-control-prev {
+    inset-inline-start:
+      -0.15rem;
+  }
+
+  .ios-carousel--cards
+  .carousel-control-next {
+    inset-inline-end:
+      -0.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ios-carousel--cards
+  .ios-card-carousel__track {
+    transition:
+      none;
+  }
+}
+
+
+/* ==========================================================
    IOS UNIVERSAL PAGE HEADER
    ========================================================== */
 
@@ -1951,6 +2521,10 @@ a.btn-ios:focus-visible {
         transparent
       ) 100%
     );
+
+  
+  inset-inline-end: calc(-1 * var(--ios-banner-bleed-right));
+
 }
 
 
@@ -3578,6 +4152,23 @@ border-inline-start:
     1rem;
 }
 
+/* Keep all schedule rows within the same available width. */
+
+.ios-conference-program__schedule {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.ios-conference-program__slot,
+.ios-conference-program__slot-content,
+.ios-conference-program__slot-content > * {
+  min-inline-size: 0;
+  inline-size: 100%;
+}
+
+.ios-conference-program__slot-content {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 
 /* ==========================================================
    EVENT CARD LAYOUT
@@ -4142,11 +4733,11 @@ border-inline-start:
     transition: none !important;
   }
 
-  .ios-hero-stats #heroStatsPanel {
+  /* .ios-hero-stats #heroStatsPanel {
     box-shadow:
       inset 0 10px 12px -12px
       var(--_ios-hero-stats-shadow);
-  }
+  } */
 }
 
 
@@ -4874,30 +5465,25 @@ border-inline-start:
 
 /* Speaker portrait */
 
-.ios-speaker-page__portrait {
-  display:
-    block;
+/* Speaker image container: always square */
 
-  inline-size:
-    100%;
-
-  block-size:
-    auto;
-
-  aspect-ratio:
-    1 / 1;
-
-  object-fit:
-    cover;
-
-  object-position:
-    center top;
-
-  border-radius:
-    var(--bs-border-radius-lg, 0.5rem);
+.ios-speaker-page__profile-media {
+  min-inline-size: 0;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
 }
 
+/* Speaker image: fill the square without distortion */
 
+.ios-speaker-page__portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center center;
+  border-radius: var(--bs-border-radius-lg, 0.5rem);
+}
 /* Speaker role and organization grouping */
 
 .ios-speaker-page__position {
@@ -5134,7 +5720,15 @@ border-inline-start:
   margin: 0;
 }
 
-.ios-basic-page .ios-media-crop img {
+/* .ios-basic-page .ios-media-crop img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+} */
+.ios-media-crop img {
   display: block;
   width: 100%;
   height: 100%;
@@ -5142,7 +5736,6 @@ border-inline-start:
   object-position: center;
   border-radius: 0;
 }
-
 
 /* Small accordion polish.
    Existing .ios-accordion colour behaviour remains. */
@@ -5174,7 +5767,7 @@ border-inline-start:
 
 /* ==========================================================
    DESKTOP MAIN MENU: PREVENT BORDER FLASH ON MOUSE EXIT
-   Keep keyboard focus outlines intact.
+   Keep keyboard focus outlines and the inset menu marker intact.
    ========================================================== */
 @media (min-width: 992px) {
   .ios-menu > .nav-item > .nav-link,
@@ -5184,7 +5777,10 @@ border-inline-start:
   .ios-menu > .nav-item > .nav-link.active,
   .ios-menu > .nav-item > .nav-link.show {
     border: 0 !important;
-    transition-property: color, background-color, letter-spacing;
+    transition-property:
+      color,
+      background-color,
+      box-shadow;
   }
 }
 
@@ -5461,4 +6057,293 @@ border-inline-start:
 
   outline-offset:
     2px;
+}
+
+/* ==========================================================
+   SPONSOR PAGE — LOGO SIZING
+   ========================================================== */
+
+.ios-sponsor-page,
+.ios-sponsor-page__profile,
+.ios-sponsor-page__profile-media,
+.ios-sponsor-page__profile-copy {
+  min-inline-size: 0;
+}
+
+.ios-sponsor-page__header .ios-page-header__copy {
+  max-inline-size: none;
+}
+
+.ios-sponsor-page__profile-media {
+  inline-size: 100%;
+  max-inline-size: 20rem;
+}
+
+.ios-sponsor-page__logo {
+  display: block;
+
+  inline-size: 100%;
+  max-inline-size: 20rem;
+
+  block-size: auto;
+  max-block-size: 12rem;
+
+  object-fit: contain;
+  object-position: left center;
+
+  margin: 2rem 0;
+}
+
+
+/* ==========================================================
+   SPONSOR PAGE — MOBILE
+   ========================================================== */
+
+@media (max-width: 575.98px) {
+  .ios-sponsor-page__profile-media,
+  .ios-sponsor-page__logo {
+    inline-size: 100%;
+    max-inline-size: 100%;
+  }
+}
+
+/* ==========================================================
+   SOCIAL LINKS
+   ========================================================== */
+
+.ios-social-links__link {
+  min-inline-size: 2.5rem;
+  min-block-size: 2.5rem;
+
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* ==========================================================
+   OPTIONAL MEDIA PHOTO CREDITS
+   ========================================================== */
+
+/*
+ * Photo credits remain real, selectable text.
+ * Colours use existing IOS/Bootstrap tokens.
+ */
+
+.ios-photo-credit {
+  font-size: 0.7rem;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+/* Photo credit beneath an image */
+
+.ios-photo-credit--caption {
+  margin-block-start: 0.375rem;
+  color: var(--bs-body-color);
+font-size: 0.6rem;
+}
+
+/* Photo credit over the homepage banner */
+
+.ios-photo-credit--hero {
+  position: absolute;
+  inset-inline-end: clamp(1rem, 3vw, .3rem);
+ inset-block-end: 3rem;
+  z-index: 2;
+  width: max-content;
+max-width: calc(100% - 2rem);
+white-space: nowrap;
+  padding: 0.375rem 0.625rem;
+  color: var(--ios-white);
+ background-color: color-mix(
+  in srgb,
+  var(--ccsa-dark-accent) 40%,
+  transparent
+);
+  border-radius: 0.25rem;
+  text-align: end;
+}
+
+/* Reserve space for the credit on smaller screens */
+
+@media (max-width: 767.98px) {
+  .ios-hero:has(.ios-photo-credit--hero) {
+    padding-block-end: 7rem;
+  }
+   .ios-photo-credit--hero {
+    white-space: normal;
+  }
+}
+
+/* Photo credits in standard page banners */
+
+.ios-page-header__credit {
+  position: absolute;
+  inset-block-end: 1rem;
+  inset-inline-end: clamp(1rem, 3vw, 1rem);
+  z-index: 2;
+  max-width: calc(100% - 2rem);
+  margin: 0;
+  text-align: end;
+}
+
+.ios-page-header__credit .ios-photo-credit {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.375rem 0.625rem;
+  color: var(--ios-white);
+  background-color: color-mix(
+    in srgb,
+    var(--ccsa-dark-accent) 40%,
+    transparent
+  );
+  border-radius: 0.25rem;
+}
+
+
+
+/* ==========================================================
+   DRUPAL PAGE BANNERS: RIGHT-EDGE IMAGE BLEED
+   AND BREADCRUMB OVERLAY
+
+   Keep the original banner box and content positions intact.
+   Only its decorative image and gradient extend rightward.
+   Requires .ios-main-layout and .ios-breadcrumb-layer from
+   the updated page.html.twig.
+   ========================================================== */
+
+.ios-main-layout {
+  position: relative;
+}
+
+/* The breadcrumb block no longer creates a row above the banner. */
+.ios-main-layout > .ios-breadcrumb-layer {
+  position: absolute;
+  z-index: 5;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 1.5rem;
+  max-inline-size: calc(100% - 3rem);
+}
+
+.ios-breadcrumb-layer .breadcrumb {
+  flex-wrap: wrap;
+  margin-block-end: 0;
+}
+
+/* Only adjust breadcrumbs when Drupal editing tabs are present. */
+body:has(main .nav-tabs) .ios-main-layout > .ios-breadcrumb-layer {
+  inset-block-start: 3.5rem;
+}
+/* Allow decorative layers to escape right without moving any text. */
+.ios-main-layout .ios-hero,
+.ios-main-layout .ios-page-header {
+  overflow: visible !important;
+}
+
+/*
+ * Distance from the banner's right edge to the viewport's right edge.
+ * On full-width layouts this resolves to zero.
+ */
+.ios-main-layout .ios-hero__image {
+  inset-inline-end: min(0px, calc(50% - 50vw));
+  width: calc(72% + max(0px, 50vw - 50%));
+}
+
+.ios-main-layout .ios-page-header__image {
+  inset-inline-end: min(0px, calc(50% - 50vw));
+  inline-size: calc(var(--_ios-page-header-image-width) + max(0px, 50vw - 50%));
+}
+
+.ios-main-layout .ios-hero__overlay,
+.ios-main-layout .ios-page-header__overlay {
+  inset-inline-end: min(0px, calc(50% - 50vw));
+}
+
+@media (max-width: 767.98px) {
+  .ios-main-layout > .ios-breadcrumb-layer {
+    inset-block-start: 0.5rem;
+    inset-inline-start: 1rem;
+    max-inline-size: calc(100% - 2rem);
+  }
+
+  /* Retain the existing full-image mobile treatment. */
+  .ios-main-layout .ios-hero__image {
+    width: calc(100% + max(0px, 50vw - 50%));
+  }
+}
+
+
+/* ==========================================================
+   HOMEPAGE STATISTICS: FULL-VIEWPORT BACKGROUND
+   Keep the existing stats content and cards within their
+   current container; extend only the pale-blue background.
+   ========================================================== */
+
+.ios-hero-stats {
+  position: relative;
+  isolation: isolate;
+}
+
+.ios-hero-stats::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  inline-size: 100vw;
+  background-color: var(--ios-cool-light);
+  transform: translateX(-50%);
+  z-index: -1;
+  pointer-events: none;
+ box-shadow: inset 0 10px 12px -12px var(--_ios-hero-stats-shadow);
+}
+
+/* Header container bootstrap overwrite */
+@media (min-width: 1400px) {
+  .ios-site-header .container-xxl {
+    max-width: 1400px;
+  }
+}
+
+/* French quotation marks */
+
+html:lang(fr) .ios-basic-page__quote::before {
+  content: "\00AB\00A0";
+}
+
+html:lang(fr) .ios-basic-page__quote::after {
+  content: "\00A0\00BB";
+}
+
+
+/* Photo credit beneath embedded images */
+
+.ios-basic-page__media .ios-media-crop:has(.field--name-field-photo-credit) {
+  aspect-ratio: auto;
+  overflow: visible;
+  border-radius: 0;
+}
+
+.ios-basic-page__media .ios-media-crop:has(.field--name-field-photo-credit) .media {
+  height: auto;
+}
+
+.ios-basic-page__media .ios-media-crop--4x3:has(.field--name-field-photo-credit) img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.ios-basic-page__media .ios-media-crop .field--name-field-photo-credit {
+  position: static;
+  max-width: 100%;
+  margin-top: 0.375rem;
+  padding: 0;
+  color: var(--bs-secondary-color);
+  background: transparent;
+  border-radius: 0;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  text-align: end;
+  overflow-wrap: anywhere;
 }

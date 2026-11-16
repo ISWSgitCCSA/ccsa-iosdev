@@ -1,0 +1,133 @@
+(function (Drupal, once) {
+  'use strict';
+
+  Drupal.behaviors.iosConferenceProgramDays = {
+    attach(context) {
+      once(
+        'ios-conference-program-days',
+        '[data-ios-program-days]',
+        context
+      ).forEach((program) => {
+        const tabs = Array.from(
+          program.querySelectorAll('[role="tab"]')
+        );
+
+        const panels = Array.from(
+          program.querySelectorAll('[role="tabpanel"]')
+        );
+
+        if (!tabs.length || !panels.length) {
+          return;
+        }
+
+        /**
+         * Activate a program day.
+         *
+         * @param {HTMLElement} tab
+         *   The tab to activate.
+         * @param {boolean} moveFocus
+         *   Whether keyboard focus should move to the tab.
+         */
+        const activateTab = (tab, moveFocus = false) => {
+          const panelId = tab.getAttribute('aria-controls');
+
+          tabs.forEach((item) => {
+            const isActive = item === tab;
+
+            item.setAttribute(
+              'aria-selected',
+              isActive ? 'true' : 'false'
+            );
+
+            item.setAttribute(
+              'tabindex',
+              isActive ? '0' : '-1'
+            );
+
+            item.classList.toggle('active', isActive);
+            item.classList.toggle('cool-bg', isActive);
+            item.classList.toggle('text-white', isActive);
+          });
+
+          panels.forEach((panel) => {
+            panel.hidden = panel.id !== panelId;
+          });
+
+          if (moveFocus) {
+            tab.focus();
+          }
+        };
+
+        /**
+         * Prefer Monday as the initial conference day.
+         *
+         * Pre-conference events can therefore appear on Sunday
+         * without making Sunday the default program view.
+         *
+         * If Monday is absent, use the earliest available day.
+         */
+        const mondayTab = tabs.find((tab) => {
+          const label =
+            tab.dataset.programDayLabel || '';
+
+          return (
+            label === 'MON' ||
+            label === 'MONDAY'
+          );
+        });
+
+        const initialTab = mondayTab || tabs[0];
+
+        activateTab(initialTab);
+
+        /**
+         * Mouse and touch activation.
+         */
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            activateTab(tab);
+          });
+        });
+
+        /**
+         * Accessible horizontal tab keyboard navigation.
+         */
+        tabs.forEach((tab, index) => {
+          tab.addEventListener('keydown', (event) => {
+            let targetIndex = null;
+
+            switch (event.key) {
+              case 'ArrowLeft':
+                targetIndex =
+                  (index - 1 + tabs.length) % tabs.length;
+                break;
+
+              case 'ArrowRight':
+                targetIndex =
+                  (index + 1) % tabs.length;
+                break;
+
+              case 'Home':
+                targetIndex = 0;
+                break;
+
+              case 'End':
+                targetIndex = tabs.length - 1;
+                break;
+
+              default:
+                return;
+            }
+
+            event.preventDefault();
+
+            activateTab(
+              tabs[targetIndex],
+              true
+            );
+          });
+        });
+      });
+    },
+  };
+})(Drupal, once);

@@ -1,11 +1,39 @@
 global-styling:
+  header: true
+
   css:
     theme:
       css/style.css: {}
       css/universal-ios.css: {}
       css/ios-colour-theme.css: {}
+
   js:
-    js/countdown.js: {}
     js/ios-theme-preferences.js: {}
+
+card-carousel:
+  js:
+    js/ios-card-carousel.js: {}
   dependencies:
     - core/drupal
+    - core/once
+
+conference-program-days:
+  js:
+    js/conference-program-days.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+
+homepage-program-preview:
+  js:
+    js/homepage-program-preview.js: {}
+  dependencies:
+    - core/drupal
+    - core/once
+
+countdown:
+  js:
+    js/countdown.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

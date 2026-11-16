@@ -1,0 +1,17 @@
+{#
+/**
+ * @file
+ * Layout for Silver Sponsors (sponsor_gallery, block_3).
+ *
+ * A responsive two-column Bootstrap grid for standard sponsor cards.
+ * Each row's content comes from the shared sponsor card template.
+ */
+#}
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  {% for row in rows %}
+    <div{{ row.attributes.addClass(['col', 'd-flex']) }}>
+      {{ row.content }}
+    </div>
+  {% endfor %}
+</div>

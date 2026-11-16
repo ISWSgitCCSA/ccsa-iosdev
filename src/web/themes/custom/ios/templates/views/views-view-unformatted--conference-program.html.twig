@@ -3,8 +3,15 @@
  * @file
  * Unformatted row wrapper for the Conference Program View.
  *
- * The View owns the overall schedule collection.
- * Each Activity Program Card owns its individual schedule slot.
+ * The Conference Program View selects and sorts the schedule items.
+ * ios.theme groups those rows by their local start date and supplies
+ * conference_program_days.
+ *
+ * This template renders one accessible tab and panel per program day.
+ * conference-program-days.js handles initial selection, panel visibility,
+ * and keyboard interaction.
+ *
+ * Without JavaScript, all days and their headings remain visible.
  */
 #}
 
@@ -12,8 +19,74 @@
   <h3>{{ title }}</h3>
 {% endif %}
 
-<div class="ios-conference-program__schedule">
-  {% for row in rows %}
-    {{ row.content }}
-  {% endfor %}
-</div>
+{% if conference_program_days %}
+
+  <div data-ios-program-days>
+
+    {# JavaScript reveals the tabs only after they are functional. #}
+    <div class="ios-conference-program__days" data-program-day-nav hidden>
+
+      <div
+        class="nav gap-1"
+        role="tablist"
+        aria-label="{{ 'Conference program days'|t }}"
+      >
+
+        {% for day in conference_program_days %}
+          <button
+            id="{{ day.tab_id }}"
+            class="nav-link border rounded px-4 py-3 text-uppercase"
+            type="button"
+            role="tab"
+            aria-controls="{{ day.id }}"
+            aria-selected="false"
+            aria-label="{{ day.full_label }}"
+            tabindex="-1"
+            data-program-day-date="{{ day.id|replace({'conference-program-day-': ''}) }}"
+          >
+            {{ day.label }}
+          </button>
+        {% endfor %}
+
+      </div>
+
+    </div>
+
+    <div class="ios-conference-program__day-panels">
+
+      {% for day in conference_program_days %}
+        <section
+          id="{{ day.id }}"
+          class="ios-conference-program__day-panel"
+          role="tabpanel"
+          aria-labelledby="{{ day.tab_id }}"
+        >
+
+          {# Visible if JavaScript is unavailable; hidden once tabs work. #}
+          <h2 class="h5 cool-dark mb-3" data-program-day-heading>
+            {{ day.full_label }}
+          </h2>
+
+          <div class="ios-conference-program__schedule">
+            {% for row in day.rows %}
+              {{ row.content }}
+            {% endfor %}
+          </div>
+
+        </section>
+      {% endfor %}
+
+    </div>
+
+  </div>
+
+{% else %}
+
+  {# Graceful fallback if date grouping is unavailable. #}
+  <div class="ios-conference-program__schedule">
+    {% for row in rows %}
+      {{ row.content }}
+    {% endfor %}
+  </div>
+
+{% endif %}

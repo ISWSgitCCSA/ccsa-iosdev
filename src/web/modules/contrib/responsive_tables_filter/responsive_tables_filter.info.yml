@@ -1,0 +1,11 @@
+name: Responsive Tables Filter
+type: module
+description: Make tables in text format fields responsive
+core_version_requirement: '^10 || ^11 || ^12'
+package: Other
+configure: responsive_tables_filter.settings
+
+# Information added by Drupal.org packaging script on 2026-06-08
+version: '2.1.2'
+project: 'responsive_tables_filter'
+datestamp: 1780958149

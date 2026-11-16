@@ -81,24 +81,6 @@
 
 {# ==========================================================
    SPEAKER TYPE COLOUR
-   ==========================================================
-
-   Colour is based on the stable taxonomy key rather than
-   the visible taxonomy term label.
-
-   This means the visible label can be translated or renamed
-   without affecting its presentation.
-
-   primary
-     → gold
-
-   secondary
-     → magenta
-
-   speaker
-     → blue
-
-   Unknown / legacy values use the existing medium accent.
    ========================================================== #}
 
 {% set speaker_type_class =
@@ -130,36 +112,25 @@
    SPEAKER CARD
    ========================================================== #}
 
-<article{{ attributes.addClass('ios-speaker-card--compact') }}>
-
-
-  {# ========================================================
-     SPEAKER IMAGE
-     ======================================================== #}
+<article{{
+  attributes.addClass(
+    'card',
+    'ios-card',
+    'h-100'
+  )
+}}>
 
   {% if speaker_image_uri %}
 
-    <a
-      href="{{ url }}"
-      tabindex="-1"
-      aria-hidden="true"
-    >
-      <img
-        class="ios-speaker-card__image"
-        src="{{ file_url(speaker_image_uri) }}"
-        alt=""
-      />
-    </a>
+    <img
+      class="card-img-top"
+      src="{{ file_url(speaker_image_uri) }}"
+      alt=""
+    />
 
   {% endif %}
 
-
-  <div class="ios-speaker-card__content">
-
-
-    {# ======================================================
-       SPEAKER TYPE PILL
-       ====================================================== #}
+  <div class="card-body d-flex flex-column p-3">
 
     {% if speaker_type %}
 
@@ -175,82 +146,53 @@
 
     {% endif %}
 
-
-    {# ======================================================
-       SPEAKER NAME
-       ====================================================== #}
-
     {{ title_prefix }}
 
-    <h3 class="ios-speaker-card__title">
+    <h3 class="card-title h6 cool-dark mb-1">
       {{ label }}
     </h3>
 
     {{ title_suffix }}
-
-
-    {# ======================================================
-       ROLE + ORGANIZATION
-       ====================================================== #}
 
     {% if
       not node.field_role.isEmpty
       or not node.field_organization_role.isEmpty
     %}
 
-      <div class="ios-speaker-card__meta">
+      <p class="small text-secondary mb-3">
 
         {% if not node.field_role.isEmpty %}
-
-          <div>
-            {{ node.field_role.value }}
-          </div>
-
+          {{ node.field_role.value }}
         {% endif %}
 
+        {% if
+          not node.field_role.isEmpty
+          and not node.field_organization_role.isEmpty
+        %}
+          <br />
+        {% endif %}
 
         {% if not node.field_organization_role.isEmpty %}
-
-          <div>
-            {{ node.field_organization_role.value }}
-          </div>
-
+          {{ node.field_organization_role.value }}
         {% endif %}
 
-      </div>
+      </p>
 
     {% endif %}
 
+  </div>
 
-    {# ======================================================
-       VIEW SPEAKER
-       ======================================================
-
-       This is interface text rather than editable content.
-
-       Drupal's translation filter allows the label to follow
-       the site's active interface language.
-       ====================================================== #}
-
-    <a
-      class="
-        btn
-        btn-ios
-        btn-ios-view-more
-        cool-light-bg
-        ms-0
-        text-start
-      "
-      href="{{ url }}"
-    >
+  <a
+    class="btn btn-ios cool-bg ios-card__cta ms-0"
+    href="{{ url }}"
+  >
+    <span class="small">
       {{ 'View speaker'|t }}
 
-      <i
-        class="fa-solid fa-arrow-right-long"
-        aria-hidden="true"
-      ></i>
-    </a>
-
-  </div>
+      <span class="visually-hidden">
+        : {{ label }}
+      </span>
+    </span>
+  </a>
 
 </article>

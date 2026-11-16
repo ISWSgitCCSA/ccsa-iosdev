@@ -1,0 +1,60 @@
+{#
+/**
+ * @file
+ * A single linked sponsor logo and visible name in the homepage carousel.
+ *
+ * View: sponsor_gallery
+ * Display: block_5 (Homepage Sponsors)
+ *
+ * The View selects published Sponsor nodes in the current language and
+ * sorts them by their Sponsor Level taxonomy term weight.
+ *
+ * The logo is decorative here because the visible sponsor name provides
+ * the link's accessible text. This avoids announcing the same name twice.
+ *
+ * We read the existing referenced Image media entity directly so that the
+ * markup contains one link (no nested links from Views field formatters).
+ */
+#}
+
+{% set sponsor = row._entity %}
+
+{# Match the translated row selected by this Views display. #}
+{% if sponsor and row.node_field_data_langcode is defined and row.node_field_data_langcode is not empty and sponsor.hasTranslation(row.node_field_data_langcode) %}
+  {% set sponsor = sponsor.getTranslation(row.node_field_data_langcode) %}
+{% endif %}
+
+{% if sponsor %}
+
+  {% set sponsor_name = sponsor.label() %}
+  {% set sponsor_url = path('entity.node.canonical', {'node': sponsor.id()}) %}
+
+  {# Sponsor's existing Featured Image media reference. #}
+  {% set logo_media = sponsor.field_featured_image.entity %}
+  {% set logo_image_item = logo_media ? logo_media.field_media_image.0 : null %}
+  {% set logo_file = logo_image_item and logo_image_item.entity ? logo_image_item.entity : null %}
+  {% set logo_uri = logo_file ? logo_file.uri.value : null %}
+
+  <a
+    href="{{ sponsor_url }}"
+    class="w-100 h-100 p-2 p-lg-3 rounded d-flex flex-column align-items-center justify-content-center gap-2"
+  >
+
+    {% if logo_uri %}
+      <span class="ratio ratio-4x3 w-100 rounded bg-body">
+        <img
+          class="w-100 h-100 object-fit-contain p-2"
+          src="{{ file_url(logo_uri) }}"
+          alt=""
+          loading="lazy"
+        />
+      </span>
+    {% endif %}
+
+    <span class="d-block text-center small fw-semibold">
+      {{ sponsor_name }}
+    </span>
+
+  </a>
+
+{% endif %}

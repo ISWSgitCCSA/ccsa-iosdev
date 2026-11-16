@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Wrapper for the Other Sponsors View (sponsor_gallery, block_4).
+ *
+ * The grouped view renders one child template per Sponsor Level.
+ * A Bootstrap row gives those groups two columns on tablet and larger screens.
+ * This overrides only block_4, not other Views displays.
+ */
+#}
+
+{% set classes = [
+  dom_id ? 'js-view-dom-id-' ~ dom_id,
+] %}
+
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {{ title }}
+  {{ title_suffix }}
+
+  {% if header %}
+    <header>{{ header }}</header>
+  {% endif %}
+
+  {{ exposed }}
+  {{ attachment_before }}
+
+  {% if rows %}
+    <div class="row row-cols-1 row-cols-md-2 g-4 align-items-start">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    {{ empty }}
+  {% endif %}
+
+  {{ pager }}
+  {{ attachment_after }}
+  {{ more }}
+
+  {% if footer %}
+    <footer>{{ footer }}</footer>
+  {% endif %}
+
+  {{ feed_icons }}
+</div>

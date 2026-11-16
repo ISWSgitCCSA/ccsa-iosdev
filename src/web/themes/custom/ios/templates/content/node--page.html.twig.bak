@@ -1,0 +1,115 @@
+{#
+/**
+ * @file
+ * Full Basic Page node template.
+ *
+ * Provides:
+ * - Optional banner image from field_banner_image
+ * - Node title in the universal page-header treatment
+ * - Optional hero copy from field_hero_copy
+ * - Remaining Basic Page content below the hero
+ */
+#}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'ios-basic-page',
+  ]
+%}
+
+{{ attach_library('bootstrap5/node') }}
+
+{# =========================================================
+   BANNER IMAGE
+   field_banner_image references an Image media entity.
+   ========================================================= #}
+
+{% set banner_media = node.field_banner_image.entity ?? null %}
+
+{% set banner_image_item =
+  banner_media and banner_media.field_media_image is defined
+    ? banner_media.field_media_image.0
+    : null
+%}
+
+{% set banner_image_uri =
+  banner_image_item and banner_image_item.entity
+    ? banner_image_item.entity.uri.value
+    : null
+%}
+
+
+<article{{ attributes.addClass(classes) }}>
+
+  {{ title_prefix }}
+
+  {# =======================================================
+     PAGE HERO
+     ======================================================= #}
+
+  <header
+    class="ios-page-header ios-page-header--medium"
+    aria-labelledby="basic-page-title"
+  >
+
+    {% if banner_image_uri %}
+      <img
+        class="ios-page-header__image"
+        src="{{ file_url(banner_image_uri) }}"
+        alt=""
+        aria-hidden="true"
+      />
+    {% endif %}
+
+    <div
+      class="ios-page-header__overlay"
+      aria-hidden="true"
+    ></div>
+
+    <div class="ios-page-header__content">
+      <div class="ios-page-header__copy">
+
+        {% if label %}
+          <h1
+            id="basic-page-title"
+            class="ios-page-header__title ios-page-header-text-outline"
+            {{ title_attributes }}
+          >
+            {{ label }}
+          </h1>
+        {% endif %}
+
+       {% if node.field_hero_copy is defined
+  and not node.field_hero_copy.isEmpty
+%}
+  <div class="ios-page-header__intro lead ios-page-header-text-outline">
+    {{ node.field_hero_copy.processed }}
+  </div>
+{% endif %}
+
+      </div>
+    </div>
+
+  </header>
+
+  {{ title_suffix }}
+
+
+  {# =======================================================
+     MAIN PAGE CONTENT
+     ======================================================= #}
+
+  <div{{ content_attributes.addClass('node__content') }}>
+
+    {{ content|without(
+      'field_banner_image',
+      'field_hero_copy'
+    ) }}
+
+  </div>
+
+</article>

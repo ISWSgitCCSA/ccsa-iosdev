@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Layout for Provincial Sponsors (sponsor_gallery, block_2).
+ *
+ * The individual row content is the shared sponsor card template.
+ * A single provincial sponsor is centred; additional sponsors flow into rows.
+ */
+#}
+
+<div class="row g-4 justify-content-center">
+  {% for row in rows %}
+    {% set row_classes = [
+      'col-12',
+      'col-md-8',
+      'col-lg-6',
+      'col-xl-5',
+      'd-flex'
+    ] %}
+
+    <div{{ row.attributes.addClass(row_classes) }}>
+      {{ row.content }}
+    </div>
+  {% endfor %}
+</div>

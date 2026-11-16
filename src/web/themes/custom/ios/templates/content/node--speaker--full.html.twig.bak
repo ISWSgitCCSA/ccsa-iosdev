@@ -1,0 +1,334 @@
+{#
+/**
+ * @file
+ * Full Speaker node template.
+ *
+ * Content type:
+ *   Speaker
+ *
+ * Machine name:
+ *   speaker
+ *
+ * Existing fields:
+ *   field_banner_image
+ *   field_featured_image
+ *   field_role
+ *   field_organization_role
+ *   field_speaker_type
+ *   field_activity_session
+ *   body
+ *   field_meta_tags
+ *
+ * Media image field:
+ *   field_media_image
+ *
+ * Additional variables:
+ *   speaker_session_cards
+ *     Concurrent Sessions referenced by field_activity_session,
+ *     rendered using the existing Session Card view mode.
+ *
+ * The banner image is treated as decorative because the
+ * speaker name and other identifying information are provided
+ * as HTML text in the page header.
+ */
+#}
+
+
+{# ==========================================================
+   MEDIA REFERENCES
+   ========================================================== #}
+
+{% set banner_media = node.field_banner_image.entity %}
+
+{% set banner_image_item =
+  banner_media
+    ? banner_media.field_media_image.0
+    : null
+%}
+
+{% set banner_image_uri =
+  banner_image_item
+  and banner_image_item.entity
+    ? banner_image_item.entity.uri.value
+    : null
+%}
+
+
+{% set featured_media = node.field_featured_image.entity %}
+
+{% set featured_image_item =
+  featured_media
+    ? featured_media.field_media_image.0
+    : null
+%}
+
+{% set featured_image_uri =
+  featured_image_item
+  and featured_image_item.entity
+    ? featured_image_item.entity.uri.value
+    : null
+%}
+
+{% set featured_image_alt =
+  featured_image_item
+  and featured_image_item.alt
+    ? featured_image_item.alt
+    : node.label
+%}
+
+
+{# ==========================================================
+   SPEAKER PAGE
+   ========================================================== #}
+
+<article{{ attributes.addClass('ios-speaker-page') }}>
+
+
+  {# ========================================================
+     SPEAKER PROFILE HEADER
+     ======================================================== #}
+
+  <header
+    class="
+      ios-page-header
+      ios-page-header--medium
+      ios-speaker-page__header
+    "
+    aria-labelledby="speaker-page-title"
+  >
+
+    {% if banner_image_uri %}
+
+      <img
+        class="ios-page-header__image"
+        src="{{ file_url(banner_image_uri) }}"
+        alt=""
+        aria-hidden="true"
+      />
+
+    {% endif %}
+
+
+    <div
+      class="ios-page-header__overlay"
+      aria-hidden="true"
+    ></div>
+
+
+    <div class="ios-page-header__content">
+
+      <div class="ios-page-header__copy">
+
+
+        {# ==================================================
+           SPEAKER IDENTITY
+           ================================================== #}
+
+        <div
+          class="
+            ios-speaker-page__profile
+            {% if not featured_image_uri %}d-block{% endif %}
+          "
+        >
+
+          {% if featured_image_uri %}
+
+            <div class="ios-speaker-page__profile-media">
+
+              <img
+                class="ios-speaker-page__portrait"
+                src="{{ file_url(featured_image_uri) }}"
+                alt="{{ featured_image_alt }}"
+              />
+
+            </div>
+
+          {% endif %}
+
+
+          <div class="ios-speaker-page__profile-copy">
+
+            <h1
+              id="speaker-page-title"
+              class="
+                ios-page-header__title
+                ios-page-header-text-outline
+              "
+            >
+              {{ label }}
+            </h1>
+
+
+            {% if
+              not node.field_role.isEmpty
+              or not node.field_organization_role.isEmpty
+            %}
+
+              <div class="ios-speaker-page__position">
+
+                {% if not node.field_role.isEmpty %}
+
+                  <p
+                    class="
+                      cool
+                      fw-semibold
+                      mb-1
+                      ios-page-header-text-outline
+                    "
+                  >
+                    {{ node.field_role.value }}
+                  </p>
+
+                {% endif %}
+
+
+                {% if not node.field_organization_role.isEmpty %}
+
+                  <p
+                    class="
+                      cool
+                      fw-semibold
+                      mb-1
+                      ios-page-header-text-outline
+                    "
+                  >
+                    {{ node.field_organization_role.value }}
+                  </p>
+
+                {% endif %}
+
+              </div>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  {# ========================================================
+     ABOUT / BIOGRAPHY
+     ======================================================== #}
+
+  {% if not node.body.isEmpty %}
+
+    <section
+      class="py-5"
+      aria-labelledby="speaker-about-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="ios-speaker-page__content">
+
+          <div class="ios-speaker-page__about">
+
+            <h2
+              id="speaker-about-heading"
+              class="h4 warm-dark mb-3"
+            >
+              {{ 'About'|t }}
+            </h2>
+
+
+            <div
+          class="warm-dark-bg rounded-pill mb-4"
+          style="width: 3rem; height: 0.2rem;"
+          aria-hidden="true"
+        ></div>
+
+            <div class="paragraph-text">
+              {{ content.body }}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     SESSIONS
+     ========================================================
+
+     Sessions come directly from the Speaker's
+     field_activity_session references.
+
+     Each Concurrent Session is rendered using the same
+     Session Card view mode already used by Related Sessions.
+
+     If the Speaker has no Concurrent Sessions, this entire
+     section is omitted.
+     ======================================================== #}
+
+  {% if speaker_session_cards %}
+
+    <section
+      class="pb-5"
+      aria-labelledby="speaker-sessions-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="ios-speaker-page__content">
+
+          <h2
+            id="speaker-sessions-heading"
+            class="h4 warm-dark mb-3"
+          >
+            {{ 'Sessions'|t }}
+          </h2>
+
+
+         <div
+          class="warm-dark-bg rounded-pill mb-4"
+          style="width: 3rem; height: 0.2rem;"
+          aria-hidden="true"
+        ></div>
+
+          <div
+            class="
+              ios-speaker-page__sessions
+              row
+              g-4
+              align-items-stretch
+            "
+          >
+
+            {% for session_card in speaker_session_cards %}
+
+              <div class="col-12 col-md-6 col-xl-4">
+                {{ session_card }}
+              </div>
+
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     NON-VISUAL METADATA
+     ======================================================== #}
+
+  {{ content.field_meta_tags }}
+
+</article>

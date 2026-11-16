@@ -1,0 +1,139 @@
+{#
+/**
+ * @file
+ * Responsive carousel for Homepage Featured Speakers (block_1).
+ *
+ * View: homepage_featured_speakers
+ * Display: block_1
+ *
+ * The View controls speaker selection, language filtering, Speaker Type,
+ * sorting, and the six-item limit. Each result uses the existing Speaker
+ * Card view mode; this template changes only the carousel layout.
+ *
+ * Responsive presentation:
+ *   - Under 768px: one speaker per slide.
+ *   - 768px to 1199.98px: two speakers per slide.
+ *   - 1200px and above: three speakers per slide.
+ *
+ * Twig does not know the viewport width. The three Bootstrap carousel
+ * instances therefore have unique IDs and complementary Bootstrap display
+ * classes. Only the active breakpoint's carousel is exposed to users and
+ * assistive technology; the other two have display: none.
+ *
+ * Accessibility: manual advancement only, named controls and slides,
+ * visible focus styles from ios-carousel, and no autoplay.
+ */
+#}
+
+{% if title %}
+  <h3>{{ title }}</h3>
+{% endif %}
+
+{% if rows %}
+
+  {% set speaker_layouts = [
+    {
+      'id': 'featuredSpeakersCarouselMobile',
+      'per_slide': 1,
+      'display_classes': 'd-block d-md-none',
+      'grid_classes': 'row-cols-1'
+    },
+    {
+      'id': 'featuredSpeakersCarouselTablet',
+      'per_slide': 2,
+      'display_classes': 'd-none d-md-block d-xl-none',
+      'grid_classes': 'row-cols-2'
+    },
+    {
+      'id': 'featuredSpeakersCarousel',
+      'per_slide': 3,
+      'display_classes': 'd-none d-xl-block',
+      'grid_classes': 'row-cols-3'
+    }
+  ] %}
+
+  {% for layout in speaker_layouts %}
+
+    {% set speaker_groups = rows|batch(layout.per_slide) %}
+    {% set speaker_group_count = speaker_groups|length %}
+
+    <div
+      id="{{ layout.id }}"
+      class="carousel slide ios-carousel w-100 px-5 {{ layout.display_classes }}"
+      data-bs-interval="false"
+      data-bs-touch="true"
+      role="region"
+      aria-roledescription="{{ 'carousel'|t }}"
+      aria-label="{{ 'Featured speakers'|t }}"
+    >
+
+      {% if speaker_group_count > 1 %}
+        <div class="carousel-indicators">
+          {% for speaker_group in speaker_groups %}
+            <button
+              type="button"
+              data-bs-target="#{{ layout.id }}"
+              data-bs-slide-to="{{ loop.index0 }}"
+              {% if loop.first %}
+                class="active"
+                aria-current="true"
+              {% endif %}
+              aria-label="{{ 'Show speaker group @number of @total'|t({'@number': loop.index, '@total': speaker_group_count}) }}"
+            ></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="carousel-inner" aria-live="polite">
+        {% for speaker_group in speaker_groups %}
+          <div
+            class="carousel-item{% if loop.first %} active{% endif %}"
+            role="group"
+            aria-roledescription="{{ 'slide'|t }}"
+            aria-label="{{ 'Speaker group @number of @total'|t({'@number': loop.index, '@total': speaker_group_count}) }}"
+          >
+            <div class="row {{ layout.grid_classes }} g-3 align-items-stretch">
+              {% for row in speaker_group %}
+                {# Use the same card classes at all breakpoints, since the
+                   Views row attribute object is reused by each layout. #}
+                {% set row_classes = ['col', 'd-flex'] %}
+                {% if default_row_class|default(false) %}
+                  {% set row_classes = row_classes|merge(['views-row']) %}
+                {% endif %}
+
+                <div{{ row.attributes.addClass(row_classes) }}>
+                  {{ row.content }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if speaker_group_count > 1 %}
+        <button
+          class="carousel-control-prev start-0"
+          type="button"
+          data-bs-target="#{{ layout.id }}"
+          data-bs-slide="prev"
+        >
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          <span class="visually-hidden">{{ 'Previous speakers'|t }}</span>
+        </button>
+
+        <button
+          class="carousel-control-next end-0"
+          type="button"
+          data-bs-target="#{{ layout.id }}"
+          data-bs-slide="next"
+        >
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          <span class="visually-hidden">{{ 'Next speakers'|t }}</span>
+        </button>
+      {% endif %}
+
+    </div>
+
+  {% endfor %}
+
+{% endif %}

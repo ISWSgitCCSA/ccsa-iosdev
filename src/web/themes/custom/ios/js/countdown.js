@@ -4,7 +4,7 @@
     attach: function (context) {
 
       // Set the date we're counting down to.
-      var countDownDate = new Date("Nov 3, 2027 10:00:00").getTime();
+      var countDownDate = new Date("Dec 1, 2026 10:00:00").getTime();
 
       // Find the countdown elements.
       var daysElements = context.querySelectorAll('.countdown__days');

@@ -1,0 +1,86 @@
+{#
+/**
+ * @file
+ * Unformatted-list output for the Homepage Program Preview View.
+ *
+ * View:
+ *   Homepage Program Preview
+ *
+ * Machine name:
+ *   homepage_program_preview
+ *
+ * Display:
+ *   block_1
+ *
+ * The View owns Activity selection, language filtering,
+ * chronological sorting, and grouping by conference date.
+ *
+ * Progressive enhancement:
+ *   - without JavaScript, every conference day remains visible as a
+ *     heading followed by its Activity list;
+ *   - with JavaScript, the date groups become an accessible tab interface
+ *     matching the compact homepage navigation treatment.
+ *
+ * Accessibility:
+ *   - the no-JavaScript fallback preserves real h3 day headings;
+ *   - Activities remain a native list;
+ *   - the enhanced tabs expose role, selected state and panel relationships;
+ *   - Left/Right Arrow, Home and End keyboard navigation is provided by the
+ *     attached Drupal behavior.
+ */
+#}
+
+{{ attach_library('ios/homepage-program-preview') }}
+
+{% if title %}
+  <section class="ios-program-day mb-4">
+
+    <div class="ios-program-day__fallback-heading border-bottom">
+      <h3
+        class="
+          ios-program-day__heading
+          h6
+          d-inline-block
+          mb-0
+          px-3
+          py-2
+          border
+          border-bottom-0
+          rounded-top
+          bg-body
+          warm-dark
+          fw-bold
+        "
+      >
+        {{ title }}
+      </h3>
+    </div>
+{% endif %}
+
+{% if rows %}
+
+  <ul class="list-group list-group-flush mb-0">
+
+    {% for row in rows %}
+
+      {% set row_classes = [
+        default_row_class ? 'views-row',
+        'list-group-item',
+        'bg-transparent',
+        'px-0',
+        'py-3'
+      ] %}
+
+      <li{{ row.attributes.addClass(row_classes) }}>
+        {{ row.content }}
+      </li>
+
+    {% endfor %}
+
+  </ul>
+
+{% endif %}
+
+{% if title %}
+  </section>
+{% endif %}

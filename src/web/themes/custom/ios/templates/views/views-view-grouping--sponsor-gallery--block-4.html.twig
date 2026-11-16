@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Other Sponsors: a taxonomy group panel for Drupal versions where
+ * Views renders a separate grouping template (Drupal 11.4+).
+ *
+ * Receives the translated Sponsor Level title and the rendered cards.
+ * The accompanying unformatted row template emits only the card rows.
+ * On older Drupal versions this template is not used.
+ */
+#}
+
+<section class="col">
+  <div class="cool-light-bg rounded-4 p-4 h-100">
+    {% if title %}
+      <h3 class="h5 fw-bold cool-dark border-bottom pb-3 mb-4">
+        {{ title|striptags }}
+      </h3>
+    {% endif %}
+
+    <div class="d-flex flex-column gap-3">
+      {{ content }}
+    </div>
+  </div>
+</section>

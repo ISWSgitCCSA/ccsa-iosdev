@@ -1,0 +1,465 @@
+{#
+/**
+ * @file
+ * Full Sponsor node template.
+ *
+ * Content type:
+ *   Sponsor
+ *
+ * Machine name:
+ *   sponsor
+ *
+ * Fields used:
+ *   field_banner_image
+ *   field_featured_image
+ *   field_sponsor_level
+ *   body
+ *   field_website
+ *   field_social_links
+ *   field_speakers
+ *   field_meta_tags
+ *
+ * Media image field:
+ *   field_media_image
+ *
+ * Additional variables:
+ *   sponsor_speaker_cards
+ *     Speaker nodes manually referenced by field_speakers,
+ *     rendered using the existing Speaker Card view mode.
+ *
+ * The banner image is decorative because the Sponsor name is
+ * provided as HTML text in the page header.
+ */
+#}
+
+
+{# ==========================================================
+   MEDIA REFERENCES
+   ========================================================== #}
+
+{% set banner_media =
+  node.field_banner_image.entity
+%}
+
+{% set banner_image_item =
+  banner_media
+  and banner_media.field_media_image.0
+    ? banner_media.field_media_image.0
+    : null
+%}
+
+{% set banner_image_uri =
+  banner_image_item
+  and banner_image_item.entity
+    ? banner_image_item.entity.uri.value
+    : null
+%}
+
+
+{% set logo_media =
+  node.field_featured_image.entity
+%}
+
+{% set logo_image_item =
+  logo_media
+  and logo_media.field_media_image.0
+    ? logo_media.field_media_image.0
+    : null
+%}
+
+{% set logo_image_uri =
+  logo_image_item
+  and logo_image_item.entity
+    ? logo_image_item.entity.uri.value
+    : null
+%}
+
+{% set logo_image_alt =
+  logo_image_item
+  and logo_image_item.alt
+    ? logo_image_item.alt
+    : node.label
+%}
+
+
+{# ==========================================================
+   SPONSOR LEVEL
+   ========================================================== #}
+
+{% set sponsor_level =
+  node.field_sponsor_level.entity
+%}
+
+
+{# ==========================================================
+   SPONSOR PAGE
+   ========================================================== #}
+
+<article{{ attributes.addClass('ios-sponsor-page') }}>
+
+
+  {# ========================================================
+     SPONSOR PROFILE HEADER
+     ======================================================== #}
+
+  <header
+    class="
+      ios-page-header
+      ios-page-header--medium
+      ios-sponsor-page__header
+    "
+    aria-labelledby="sponsor-page-title"
+  >
+
+    {% if banner_image_uri %}
+
+      <img
+        class="ios-page-header__image"
+        src="{{ file_url(banner_image_uri) }}"
+        alt=""
+        aria-hidden="true"
+      />
+
+    {% endif %}
+
+
+    <div
+      class="ios-page-header__overlay"
+      aria-hidden="true"
+    ></div>
+
+
+    <div class="ios-page-header__content">
+
+      <div class="ios-page-header__copy">
+
+        <div
+          class="
+            ios-sponsor-page__profile
+            {% if not logo_image_uri %}d-block{% endif %}
+          "
+        >
+
+          {% if logo_image_uri %}
+
+            <div class="ios-sponsor-page__profile-media">
+
+              <img
+                class="ios-sponsor-page__logo"
+                src="{{ file_url(logo_image_uri) }}"
+                alt="{{ logo_image_alt }}"
+              />
+
+            </div>
+
+          {% endif %}
+
+
+          <div class="ios-sponsor-page__profile-copy">
+
+            {{ title_prefix }}
+
+            <h1
+              id="sponsor-page-title"
+              class="
+                ios-page-header__title
+                ios-page-header-text-outline
+              "
+            >
+              {{ label }}
+            </h1>
+
+            {{ title_suffix }}
+
+
+            {% if sponsor_level %}
+
+              <p
+                class="
+                  cool
+                  fw-semibold
+                  mb-0
+                  ios-page-header-text-outline
+                "
+              >
+                {{ sponsor_level.label }}
+              </p>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  {# ========================================================
+     ABOUT
+     ======================================================== #}
+
+  {% if not node.body.isEmpty %}
+
+    <section
+      class="py-5"
+      aria-labelledby="sponsor-about-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="row">
+
+          <div class="col-12 col-xl-9">
+
+            <h2
+              id="sponsor-about-heading"
+              class="h3 warm-dark mb-2"
+            >
+              {{ 'About'|t }}
+            </h2>
+
+            <div
+              class="warm-dark-bg rounded-pill mb-4"
+              style="width: 3rem; height: 0.2rem;"
+              aria-hidden="true"
+            ></div>
+
+            <div class="paragraph-text">
+              {{ content.body }}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     FIND US
+     ======================================================== #}
+
+  {% if
+    not node.field_website.isEmpty
+    or not node.field_social_links.isEmpty
+  %}
+
+    <section
+      class="pb-5"
+      aria-labelledby="sponsor-find-us-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <div class="row">
+
+          <div class="col-12 col-xl-9">
+
+            <h2
+              id="sponsor-find-us-heading"
+              class="h3 warm-dark mb-2"
+            >
+              {{ 'Find us'|t }}
+            </h2>
+
+            <div
+              class="warm-dark-bg rounded-pill mb-4"
+              style="width: 3rem; height: 0.2rem;"
+              aria-hidden="true"
+            ></div>
+
+            {% if not node.field_booth_number.isEmpty %}
+
+  <p class="mb-3">
+    <i
+      class="fa-solid fa-location-dot me-2"
+      aria-hidden="true"
+    ></i>
+
+    <strong>
+      {{ 'Booth'|t }}
+    </strong>
+
+    {{ node.field_booth_number.value }}
+  </p>
+
+{% endif %}
+
+
+            {% if not node.field_website.isEmpty %}
+
+              <div class="mb-3">
+                {{ content.field_website.0 }}
+              </div>
+
+            {% endif %}
+
+
+            {% if not node.field_social_links.isEmpty %}
+
+            <div
+              class="ios-social-links"
+              aria-label="{{ 'Social links'|t }}"
+            >
+
+              <ul class="list-unstyled d-flex flex-wrap gap-3 mb-0">
+
+                {% for social_link in node.field_social_links %}
+
+                  {% set social_uri =
+                    social_link.uri|default('')
+                  %}
+
+                  {% set social_uri_lower =
+                    social_uri|lower
+                  %}
+
+                  {% set social_label =
+                    'Social link'|t
+                  %}
+
+                  {% set social_icon =
+                    'fa-solid fa-link'
+                  %}
+
+
+                  {% if 'linkedin.com' in social_uri_lower %}
+
+                    {% set social_label = 'LinkedIn' %}
+                    {% set social_icon = 'fa-brands fa-linkedin' %}
+
+                  {% elseif 'instagram.com' in social_uri_lower %}
+
+                    {% set social_label = 'Instagram' %}
+                    {% set social_icon = 'fa-brands fa-instagram' %}
+
+                  {% elseif 'facebook.com' in social_uri_lower
+                    or 'fb.com' in social_uri_lower
+                  %}
+
+                    {% set social_label = 'Facebook' %}
+                    {% set social_icon = 'fa-brands fa-facebook' %}
+
+                  {% elseif 'youtube.com' in social_uri_lower
+                    or 'youtu.be' in social_uri_lower
+                  %}
+
+                    {% set social_label = 'YouTube' %}
+                    {% set social_icon = 'fa-brands fa-youtube' %}
+
+                  {% elseif 'bsky.app' in social_uri_lower %}
+
+                    {% set social_label = 'Bluesky' %}
+                    {% set social_icon = 'fa-brands fa-bluesky' %}
+
+                  {% elseif 'x.com' in social_uri_lower
+                    or 'twitter.com' in social_uri_lower
+                  %}
+
+                    {% set social_label = 'X' %}
+                    {% set social_icon = 'fa-brands fa-x-twitter' %}
+
+                  {% endif %}
+
+
+                  <li>
+
+                    <a
+                      class="
+                        ios-social-links__link
+                        d-inline-flex
+                        align-items-center
+                        justify-content-center
+                        text-decoration-none
+                      "
+                      href="{{ social_uri }}"
+                      aria-label="{{ social_label }}"
+                    >
+                      <i
+                        class="{{ social_icon }}"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+
+                  </li>
+
+                {% endfor %}
+
+              </ul>
+
+            </div>
+
+            {% endif %}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     SPEAKERS
+     ======================================================== #}
+
+  {% if sponsor_speaker_cards %}
+
+    <section
+      class="pb-5"
+      aria-labelledby="sponsor-speakers-heading"
+    >
+
+      <div class="container-fluid px-4 px-xl-5">
+
+        <h2
+          id="sponsor-speakers-heading"
+          class="h3 warm-dark mb-2"
+        >
+          {{ 'Our speakers'|t }}
+        </h2>
+
+        <div
+          class="warm-dark-bg rounded-pill mb-4"
+          style="width: 3rem; height: 0.2rem;"
+          aria-hidden="true"
+        ></div>
+
+
+        <div class="row g-4 align-items-stretch">
+
+          {% for speaker_card in sponsor_speaker_cards %}
+
+            <div class="col-12 col-md-6 col-xl-4">
+              {{ speaker_card }}
+            </div>
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+    </section>
+
+  {% endif %}
+
+
+  {# ========================================================
+     NON-VISUAL METADATA
+     ======================================================== #}
+
+  {{ content.field_meta_tags }}
+
+</article>

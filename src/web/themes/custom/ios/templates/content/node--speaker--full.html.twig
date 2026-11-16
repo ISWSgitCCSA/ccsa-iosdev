@@ -16,6 +16,7 @@
  *   field_organization_role
  *   field_speaker_type
  *   field_activity_session
+ *   field_social_links
  *   body
  *   field_meta_tags
  *
@@ -256,6 +257,94 @@
     </section>
 
   {% endif %}
+
+
+{# ========================================================
+   SOCIAL LINKS
+   ======================================================== #}
+
+{% if node.field_social_links is defined and not node.field_social_links.isEmpty %}
+
+  <section
+    class="pb-5"
+    aria-labelledby="speaker-social-links-heading"
+  >
+
+    <div class="container-fluid px-4 px-xl-5">
+
+      <div class="ios-speaker-page__content">
+
+        <h2
+          id="speaker-social-links-heading"
+          class="h4 warm-dark mb-3"
+        >
+          {{ 'Social links'|t }}
+        </h2>
+
+        <div
+          class="warm-dark-bg rounded-pill mb-4"
+          style="width: 3rem; height: 0.2rem;"
+          aria-hidden="true"
+        ></div>
+
+        <div class="d-flex flex-wrap align-items-center gap-2">
+
+          {% for social_link in node.field_social_links %}
+
+            {% set link_uri = social_link.uri|default('') %}
+            {% set link_uri_lower = link_uri|lower %}
+
+            {% if link_uri starts with 'https://' or link_uri starts with 'http://' %}
+
+              {% set icon_class = 'fa-solid fa-globe' %}
+              {% set link_label = 'Website'|t %}
+
+              {% if 'facebook.com' in link_uri_lower %}
+                {% set icon_class = 'fa-brands fa-facebook-f' %}
+                {% set link_label = 'Facebook'|t %}
+
+              {% elseif 'instagram.com' in link_uri_lower %}
+                {% set icon_class = 'fa-brands fa-instagram' %}
+                {% set link_label = 'Instagram'|t %}
+
+              {% elseif 'twitter.com' in link_uri_lower or 'x.com' in link_uri_lower %}
+                {% set icon_class = 'fa-brands fa-x-twitter' %}
+                {% set link_label = 'X'|t %}
+
+              {% elseif 'linkedin.com' in link_uri_lower %}
+                {% set icon_class = 'fa-brands fa-linkedin-in' %}
+                {% set link_label = 'LinkedIn'|t %}
+
+              {% elseif 'youtube.com' in link_uri_lower or 'youtu.be' in link_uri_lower %}
+                {% set icon_class = 'fa-brands fa-youtube' %}
+                {% set link_label = 'YouTube'|t %}
+
+              {% endif %}
+
+              <a
+                href="{{ link_uri }}"
+                class="ios-social-links__link d-inline-flex align-items-center justify-content-center p-2 rounded text-decoration-none"
+                aria-label="{{ link_label }}"
+              >
+                <i
+                  class="{{ icon_class }}"
+                  aria-hidden="true"
+                ></i>
+              </a>
+
+            {% endif %}
+
+          {% endfor %}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+{% endif %}
 
 
   {# ========================================================

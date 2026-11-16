@@ -1,0 +1,168 @@
+{#
+/**
+ * @file
+ * Speaker Compact Card view mode.
+ *
+ * Content type:
+ *   Speaker
+ *
+ * View mode:
+ *   Speaker Compact Card
+ *
+ * Machine names:
+ *   Content type: speaker
+ *   View mode: speaker_compact_card
+ *
+ * This view mode is used for the stacked speaker list on Session pages.
+ * It uses the existing compact speaker-card classes already present in the
+ * IOS theme. No additional CSS is required.
+ */
+#}
+
+
+{# ==========================================================
+   SPEAKER IMAGE
+   ========================================================== #}
+
+{% set speaker_media =
+  node.field_featured_image.entity
+%}
+
+{% set speaker_image_item =
+  speaker_media
+  and speaker_media.field_media_image.0
+    ? speaker_media.field_media_image.0
+    : null
+%}
+
+{% set speaker_image_file =
+  speaker_image_item
+  and speaker_image_item.entity
+    ? speaker_image_item.entity
+    : null
+%}
+
+{% set speaker_image_uri =
+  speaker_image_file
+    ? speaker_image_file.uri.value
+    : null
+%}
+
+
+{# ==========================================================
+   SPEAKER TYPE
+   ========================================================== #}
+
+{% set speaker_type =
+  node.field_speaker_type.entity
+%}
+
+{% set speaker_type_key =
+  speaker_type
+  and speaker_type.field_speaker_type_key.value
+    ? speaker_type.field_speaker_type_key.value
+    : ''
+%}
+
+{% set speaker_type_class =
+  'ccsa-medium-accent-bg'
+%}
+
+{% if speaker_type_key == 'primary' %}
+
+  {% set speaker_type_class =
+    'ccsa-gold'
+  %}
+
+{% elseif speaker_type_key == 'secondary' %}
+
+  {% set speaker_type_class =
+    'ccsa-magenta'
+  %}
+
+{% elseif speaker_type_key == 'speaker' %}
+
+  {% set speaker_type_class =
+    'ccsa-blue'
+  %}
+
+{% endif %}
+
+
+{# ==========================================================
+   COMPACT SPEAKER CARD
+   ========================================================== #}
+
+<article{{ attributes.addClass('ios-speaker-card--compact') }}>
+
+  {% if speaker_image_uri %}
+
+    <img
+      class="ios-speaker-card__image"
+      src="{{ file_url(speaker_image_uri) }}"
+      alt=""
+    />
+
+  {% endif %}
+
+  <div class="ios-speaker-card__content">
+
+    {% if speaker_type %}
+
+      <div class="ios-tag mb-1">
+
+        <span
+          class="badge rounded-pill {{ speaker_type_class }}"
+        >
+          {{ speaker_type.label }}
+        </span>
+
+      </div>
+
+    {% endif %}
+
+    {{ title_prefix }}
+
+    <h3 class="ios-speaker-card__title cool-dark">
+      {{ label }}
+    </h3>
+
+    {{ title_suffix }}
+
+    {% if
+      not node.field_role.isEmpty
+      or not node.field_organization_role.isEmpty
+    %}
+
+      <div class="ios-speaker-card__meta">
+
+        {% if not node.field_role.isEmpty %}
+          <div>
+            {{ node.field_role.value }}
+          </div>
+        {% endif %}
+
+        {% if not node.field_organization_role.isEmpty %}
+          <div>
+            {{ node.field_organization_role.value }}
+          </div>
+        {% endif %}
+
+      </div>
+
+    {% endif %}
+
+    <a
+      class="btn btn-ios btn-ios-view-more btn-arrow cool-light-bg px-2 py-1 text-nowrap w-auto"
+      href="{{ url }}"
+    >
+      {{ 'View speaker'|t }}
+
+      <span class="visually-hidden">
+        : {{ label }}
+      </span>
+    </a>
+
+  </div>
+
+</article>

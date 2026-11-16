@@ -14,11 +14,11 @@
  *   View mode: session_card
  *
  * Fields used directly:
- *   body
  *   field_room
  *
  * Additional variables supplied by ios.theme:
  *   session_card_speaker_names
+ *   session_card_summary
  *   session_activity_type_label
  *   session_activity_type_class
  */
@@ -36,8 +36,8 @@
   node.field_room.value|default(null)
 %}
 
-{% set description_value =
-  node.body.value|default('')
+{% set summary_value =
+  session_card_summary|default('')
 %}
 
 {% set activity_type_label =
@@ -142,10 +142,10 @@
        DESCRIPTION
        ====================================================== #}
 
-    {% if description_value %}
+    {% if summary_value %}
 
       <div class="small text-body-secondary mb-3 ios-session-card__description">
-        {{ description_value|striptags }}
+        {{ summary_value }}
       </div>
 
     {% endif %}
